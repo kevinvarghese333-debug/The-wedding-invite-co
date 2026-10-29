@@ -120,9 +120,9 @@ export default function Home() {
       {/* Announcement */}
       <div className="bg-primary text-primary-foreground px-4 py-2.5 text-center text-[13px]">
         <a href="#pricing" className="inline-flex flex-wrap items-center justify-center gap-2">
-          <Badge className="bg-clay text-clay-foreground">Launch offer</Badge>
+          <Badge className="bg-clay text-clay-foreground">Now booking</Badge>
           <span>
-            The Story invitation at ₹8,490<span className="max-sm:hidden">, down from ₹9,999</span>
+            Weddings for 2026 and 2027<span className="max-sm:hidden">, designed for you and sent on WhatsApp</span>
           </span>
           <span className="inline-flex items-center gap-1 underline underline-offset-3">
             See packages <ArrowRight className="size-3.5" aria-hidden />
@@ -466,27 +466,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Founding couples */}
-        <section id="founding" aria-labelledby="founding-h" className="pb-[clamp(72px,9vw,120px)]">
+        {/* Start your journey */}
+        <section id="journey" aria-labelledby="journey-h" className="pb-[clamp(72px,9vw,120px)]">
           <div className={wrap}>
             <Card className="bg-primary text-primary-foreground border-primary relative flex-row flex-wrap items-center gap-[clamp(28px,5vw,56px)] overflow-hidden p-[clamp(26px,5vw,60px)]">
               <Sprig className="absolute -right-8 -bottom-10 h-[316px] w-[190px] opacity-30" stroke="#B9C2B3" />
               <div className="relative min-w-0 flex-[1_1_440px]">
-                <Badge className="bg-clay text-clay-foreground">Founding couples</Badge>
-                <h2 id="founding-h" className="heading mt-4 text-[clamp(38px,4.6vw,58px)] leading-[1.02]">
-                  Be one of our <em className="font-normal text-[#DDBFAA]">founding couples.</em>
+                <Badge className="bg-clay text-clay-foreground">Your invitation</Badge>
+                <h2 id="journey-h" className="heading mt-4 text-[clamp(38px,4.6vw,58px)] leading-[1.02]">
+                  Start your journey <em className="font-normal text-[#DDBFAA]">with us.</em>
                 </h2>
                 <p className="mt-4 max-w-[540px] text-[17px] leading-[1.7] text-[#D9D8C8]">
-                  We&apos;re opening {STUDIO} to a small group of couples first, with The Story at its launch price of ₹8,490. In return, we&apos;d love an honest review after your wedding, and it will go right here.
+                  Send us your dates, your venues and a little about the two of you. We write it, design it and set up every guest link, and you share one link on WhatsApp.
                 </p>
-                <EnquireButton variant="clay" size="lg" pkg="story" origin="founding" className="mt-6">
-                  Apply as a founding couple <ArrowRight />
+                <EnquireButton variant="clay" size="lg" origin="journey" className="mt-6">
+                  Start your invitation <ArrowRight />
                 </EnquireButton>
               </div>
               <Card className="relative max-w-[380px] min-w-0 flex-[1_1_300px] gap-0 p-6">
-                <p className="text-muted-foreground text-sm">Founding couples get</p>
+                <p className="text-muted-foreground text-sm">Every couple gets</p>
                 <ul className="mt-3 grid gap-0 text-sm">
-                  {["The Story at ₹8,490 instead of ₹9,999", "Planned with the founder, directly on WhatsApp", "Your invitation featured here, only if you'd like"].map((p, i) => (
+                  {["Planned with the founder, directly on WhatsApp", "Changes until the day, on the same link", "A private page with every RSVP and headcount"].map((p, i) => (
                     <li key={p} className={`flex gap-2.5 py-2.5 ${i ? "border-t" : ""}`}>
                       <Check className="text-sage mt-0.5 size-4 flex-none" strokeWidth={2.4} aria-hidden />
                       {p}

@@ -142,8 +142,8 @@ export function EnquiryForm({
         <div className="grid gap-2">
           <Label htmlFor={`${id}-pkg`}>Package</Label>
           <NativeSelect id={`${id}-pkg`} name="package" defaultValue={defaultPackage}>
-            <option value="classic">The Classic · ₹4,999</option>
-            <option value="story">The Story · ₹8,490</option>
+            <option value="classic">The Classic</option>
+            <option value="story">The Story</option>
             <option value="unsure">Not sure yet</option>
           </NativeSelect>
         </div>

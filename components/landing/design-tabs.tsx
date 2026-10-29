@@ -14,7 +14,6 @@ const DESIGNS = [
     id: "story" as const,
     tab: "The Story",
     badge: { text: "Our signature", variant: "clay" as const },
-    price: "₹8,490",
     title: "Your how-we-met, told as they scroll",
     body: "A cover that moves, then your story in watercolour chapters before guests reach the date and venues.",
     points: ["A cover like a waltz on sheet music", "Watercolour scenes of the places that matter to you", "Your first photo, developing like a polaroid", "Everything in The Classic"],
@@ -27,7 +26,6 @@ const DESIGNS = [
     id: "classic" as const,
     tab: "The Classic",
     badge: { text: "Elegant and quick", variant: "secondary" as const },
-    price: "₹4,999",
     title: "Floral, timeless and straight to the details",
     body: "A wax seal cover that opens onto your video or photo, with everything guests need laid out below.",
     points: ["Wax seal cover with falling petals", "Your video or photo behind your names", "Invitation wording from both families", "Countdown, functions, gallery and RSVP"],
@@ -57,7 +55,6 @@ export function DesignTabs() {
             <div className="max-w-[480px] min-w-0 flex-[1_1_320px]">
               <div className="flex flex-wrap gap-2">
                 <Badge variant={d.badge.variant}>{d.badge.text}</Badge>
-                <Badge variant="outline">{d.price}</Badge>
               </div>
               <h3 className="heading mt-3.5 text-[clamp(30px,3vw,40px)] leading-[1.08]">{d.title}</h3>
               <p className="text-muted-foreground mt-3 leading-relaxed">{d.body}</p>

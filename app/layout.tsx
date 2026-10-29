@@ -11,8 +11,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "The Wedding Invite Co. · More than an invitation.",
     description: "Wedding invitation websites with your story, every function, maps and RSVPs in one link.",
-    images: [{ url: "/media/real-hero.jpg", width: 900, height: 1200 }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "The Wedding Invite Co. More than an invitation." }],
     type: "website",
+    siteName: "The Wedding Invite Co.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Wedding Invite Co. · More than an invitation.",
+    description: "Wedding invitation websites with your story, every function, maps and RSVPs in one link.",
+    images: ["/og.jpg"],
   },
 };
 

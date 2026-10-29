@@ -197,7 +197,7 @@ export function PaperHero() {
           <EnquireButton size="lg" origin="hero" className="rounded-full">
             Plan your invitation <ArrowRight />
           </EnquireButton>
-          <a className="pc-ghost" href="#pricing">From ₹4,999</a>
+          <a className="pc-ghost" href="#samples">See samples</a>
         </div>
       </div>
 
@@ -210,7 +210,7 @@ export function PaperHero() {
           </div>
           <div className="pc-env-front" />
           <div className="pc-flap" />
-          <div className="pc-seal">W I</div>
+          <div className="pc-seal"><WaxSeal /></div>
         </div>
         <p className="pc-hint">Scroll to open</p>
       </div>
@@ -320,5 +320,53 @@ export function PaperSamples() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ---------- wax seal with the TWIC mark ---------- */
+
+export const SEAL_BLOB = "M94.1 43.7 Q95.4 50.0 94.3 56.3 Q93.1 62.6 91.1 68.9 Q89.1 75.1 85.2 80.6 Q81.3 86.1 75.6 89.9 Q69.9 93.6 63.2 94.3 Q56.5 95.1 50.1 94.6 Q43.7 94.1 37.3 93.0 Q30.9 91.9 25.9 87.8 Q20.8 83.6 14.8 80.1 Q8.8 76.5 7.1 69.8 Q5.5 63.1 5.4 56.5 Q5.3 50.0 5.7 43.6 Q6.1 37.1 8.3 30.8 Q10.4 24.6 15.5 20.4 Q20.7 16.1 25.3 11.1 Q29.9 6.1 36.5 4.2 Q43.1 2.3 49.9 2.7 Q56.8 3.1 63.0 5.5 Q69.2 7.9 75.6 10.5 Q82.0 13.1 86.0 18.7 Q90.0 24.3 91.4 30.9 Q92.7 37.4 94.1 43.7Z";
+const LEAF_PATHS = ["M12 22V5", "M12 17c-3.5-.5-5.5-2.6-6-5.5 3.2.2 5.4 2.2 6 5.5z", "M12 17c3.5-.5 5.5-2.6 6-5.5-3.2.2-5.4 2.2-6 5.5z", "M12 11c-2.6-.6-4-2.3-4.2-4.6 2.5.3 4 2 4.2 4.6z", "M12 11c2.6-.6 4-2.3 4.2-4.6-2.5.3-4 2-4.2 4.6z"];
+
+function Leaf({ stroke, dx = 0, dy = 0, opacity = 1 }: { stroke: string; dx?: number; dy?: number; opacity?: number }) {
+  return (
+    <g transform={`translate(${39.5 + dx} ${21 + dy}) scale(.875)`} fill="none" stroke={stroke} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" opacity={opacity}>
+      {LEAF_PATHS.map((d) => <path key={d} d={d} />)}
+    </g>
+  );
+}
+
+export function WaxSeal({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" className={className} role="img" aria-label="Wax seal with the TWIC mark of The Wedding Invite Co.">
+      <defs>
+        <radialGradient id="wx-wax" cx="36%" cy="30%" r="78%">
+          <stop offset="0" stopColor="#DE9F82" />
+          <stop offset=".45" stopColor="#C26E50" />
+          <stop offset="1" stopColor="#97492F" />
+        </radialGradient>
+        <radialGradient id="wx-disc" cx="50%" cy="56%" r="60%">
+          <stop offset="0" stopColor="#B4603F" />
+          <stop offset=".75" stopColor="#BC6A4C" />
+          <stop offset="1" stopColor="#CF8366" />
+        </radialGradient>
+        <path id="wx-arc" d="M50 18.5 a31.5 31.5 0 1 1 -0.01 0" />
+      </defs>
+      <path d={SEAL_BLOB} fill="url(#wx-wax)" />
+      <path d={SEAL_BLOB} fill="none" stroke="#7E3826" strokeOpacity=".35" strokeWidth="1" />
+      <ellipse cx="28" cy="20" rx="12" ry="4.5" transform="rotate(-32 28 20)" fill="#fff" opacity=".16" />
+      {/* pressed disc: dark rim top-left, light rim bottom-right */}
+      <circle cx="50" cy="50" r="35" fill="url(#wx-disc)" />
+      <circle cx="49.4" cy="49.4" r="35" fill="none" stroke="#7A3622" strokeOpacity=".55" strokeWidth="1.4" />
+      <circle cx="50.6" cy="50.6" r="35" fill="none" stroke="#EDB59A" strokeOpacity=".5" strokeWidth="1" />
+      <circle cx="50" cy="50" r="27.5" fill="none" stroke="#F0C3AC" strokeOpacity=".45" strokeWidth=".6" />
+      <text fontFamily="'DM Sans', sans-serif" fontSize="4.6" fontWeight="600" letterSpacing="1" fill="#F6DCCD" opacity=".85">
+        <textPath href="#wx-arc" textLength="190" lengthAdjust="spacing">THE WEDDING INVITE CO · MORE THAN AN INVITATION ·</textPath>
+      </text>
+      <Leaf stroke="#7A3622" dx={-0.5} dy={-0.5} opacity={0.6} />
+      <Leaf stroke="#F6DCCD" />
+      <text x="49.5" y="61.5" textAnchor="middle" fontFamily="'Cormorant Garamond', Georgia, serif" fontWeight="600" fontSize="13" letterSpacing="1.6" fill="#7A3622" opacity=".6">TWIC</text>
+      <text x="50" y="62" textAnchor="middle" fontFamily="'Cormorant Garamond', Georgia, serif" fontWeight="600" fontSize="13" letterSpacing="1.6" fill="#F6DCCD">TWIC</text>
+    </svg>
   );
 }
