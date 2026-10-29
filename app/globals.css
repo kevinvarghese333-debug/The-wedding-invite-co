@@ -196,8 +196,8 @@
 .pc-letter { position: absolute; left: 7%; right: 7%; top: 8%; height: 86%; background: var(--pc-paper); border-radius: 3px; z-index: 2; display: flex; flex-direction: column; align-items: center; padding-top: 10%; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 .pc-letter .s { font-family: var(--pc-script); font-size: clamp(26px, 2.4vw, 34px); color: #37463C; line-height: 1; }
 .pc-letter .t { margin-top: 8px; font-size: 9px; white-space: nowrap; letter-spacing: .14em; text-transform: uppercase; color: var(--pc-ink); }
-.pc-seal { position: absolute; z-index: 5; left: 29%; top: 29%; width: 42%; filter: drop-shadow(0 3px 4px rgba(80,40,30,.35)); }
-.pc-seal svg { display: block; width: 100%; height: auto; }
+.pc-seal { position: absolute; z-index: 5; left: 28%; top: 27%; width: 44%; filter: drop-shadow(0 3px 4px rgba(80,40,30,.3)); }
+.pc-seal img { display: block; width: 100%; height: auto; }
 .pc-hint { margin: 0; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--pc-ink); }
 
 .pc-wrap { max-width: 1180px; margin: 0 auto; padding: 0 max(16px, 4vw); }

@@ -210,7 +210,7 @@ export function PaperHero() {
           </div>
           <div className="pc-env-front" />
           <div className="pc-flap" />
-          <div className="pc-seal"><WaxSeal /></div>
+          <div className="pc-seal"><img src="/media/seal.webp" alt="" width={480} height={480} /></div>
         </div>
         <p className="pc-hint">Scroll to open</p>
       </div>
