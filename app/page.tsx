@@ -27,7 +27,7 @@ import { DesignPicker, GuestLinksDemo, RsvpDemo } from "@/components/landing/dem
 import { DesignTabs } from "@/components/landing/design-tabs";
 import { EnquireButton, EnquiryForm, EnquiryProvider } from "@/components/landing/enquiry";
 import { whatsappHref } from "@/lib/whatsapp";
-import { SampleInvite } from "@/components/landing/sample-invite";
+import { PaperHero, PaperSamples, PaperStory } from "@/components/landing/paper";
 import { publicWhatsApp, STUDIO } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
@@ -139,6 +139,7 @@ export default function Home() {
             </a>
             <div className="hidden items-center gap-1 lg:flex">
               {[
+                ["#samples", "Samples"],
                 ["#designs", "Designs"],
                 ["#features", "Features"],
                 ["#pricing", "Packages"],
@@ -164,98 +165,9 @@ export default function Home() {
       </header>
 
       <main>
-        {/* Hero */}
-        <section id="top" aria-labelledby="hero-h" className="relative overflow-hidden">
-          <div className={`${wrap} pt-[clamp(48px,7vw,88px)] text-center`}>
-            <a href="#pricing" className="rise bg-card inline-flex h-9 items-center gap-2.5 rounded-full border py-0 pr-3 pl-1 text-[13px] font-medium shadow-xs">
-              <Badge variant="secondary" className="rounded-full">New</Badge>
-              Packages from ₹4,999
-              <ArrowRight className="size-3.5" aria-hidden />
-            </a>
-            <h1 id="hero-h" className="rise d1 heading mx-auto mt-6 max-w-[980px] text-[clamp(54px,8.6vw,120px)] leading-[0.95] tracking-[-0.02em]">
-              More than an <em className="text-clay-ink font-normal">invitation.</em>
-            </h1>
-            <p className="rise d2 text-muted-foreground mx-auto mt-6 max-w-[580px] text-[clamp(16px,1.3vw,18px)] leading-relaxed">
-              Discover designs, create your invitation, and bring every wedding detail together. Your story, every function, maps and RSVPs in one link. We design it, you send it on WhatsApp.
-            </p>
-            <div className="rise d3 mt-8 flex flex-wrap justify-center gap-2.5">
-              <EnquireButton size="lg" origin="hero">
-                Plan your invitation <ArrowRight />
-              </EnquireButton>
-              <Button size="lg" variant="outline" asChild>
-                <a href="#designs">See the designs</a>
-              </Button>
-            </div>
-          </div>
-
-          <div className="arc" role="group" aria-label="Photos from a real invitation and a sample invitation to try">
-            {/* eslint-disable @next/next/no-img-element */}
-            <img className="arc-far h-[420px] w-[210px] rounded-[18px] border object-cover" style={{ transform: "perspective(1100px) rotateY(32deg)" }} src="/media/ph-g2.jpg" alt="" />
-            <img className="arc-mid h-[360px] w-[200px] rounded-[18px] border object-cover" style={{ transform: "perspective(1100px) rotateY(22deg)" }} src="/media/ph-p1.jpg" alt="" />
-            <img className="arc-near h-[310px] w-[190px] rounded-[18px] border object-cover" style={{ transform: "perspective(1100px) rotateY(12deg)" }} src="/media/ph-p5.jpg" alt="" />
-            <div className="flex flex-col items-center gap-3.5">
-              <SampleInvite />
-              <Badge variant="outline">Sample invitation · Tap the seal</Badge>
-            </div>
-            <img className="arc-near h-[310px] w-[190px] rounded-[18px] border object-cover" style={{ transform: "perspective(1100px) rotateY(-12deg)" }} src="/media/ph-p8.jpg" alt="" />
-            <img className="arc-mid h-[360px] w-[200px] rounded-[18px] border object-cover" style={{ transform: "perspective(1100px) rotateY(-22deg)" }} src="/media/ph-g3.jpg" alt="" />
-            <img className="arc-far h-[420px] w-[210px] rounded-[18px] border object-cover" style={{ transform: "perspective(1100px) rotateY(-32deg)" }} src="/media/ph-poster.jpg" alt="" />
-          </div>
-
-          <div className={`${wrap} pb-[clamp(64px,8vw,104px)]`}>
-            <div className="grid gap-4 md:grid-cols-3">
-              {[
-                [<Link2 key="i" />, "A link for every guest list", "Each family's guests see only the functions they're invited to."],
-                [<ClipboardCheck key="i" />, "Replies straight to you", "Headcounts for every function, ready to download to Excel."],
-                [<Sparkles key="i" />, "Designed for the two of you", "Tell us about your wedding. We write it, design it and set it all up."],
-              ].map(([icon, t, d]) => (
-                <Card key={t as string} className="flex-row items-start gap-3.5 p-5">
-                  <IconBox>{icon}</IconBox>
-                  <div>
-                    <h2 className="text-[15px] font-semibold">{t}</h2>
-                    <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">{d}</p>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Where it started */}
-        <section aria-labelledby="origin-h" className="bg-muted border-y py-[clamp(72px,9vw,120px)]">
-          <div className={`${wrap} flex flex-wrap items-center gap-[clamp(40px,6vw,80px)]`}>
-            <div className="relative mx-auto max-w-[460px] flex-[1_1_340px]">
-              <img src="/media/real-hero.jpg" alt="Keerthy and Rosheel holding hands on the beach at sunset" className="aspect-[3/4] w-full rounded-t-full rounded-b-2xl border object-cover" />
-              <img src="/media/sc-polaroid.jpg" alt="Polaroid of Keerthy and Rosheel's first photo together" className="absolute -right-[4%] -bottom-[6%] aspect-[4/5] w-[46%] rotate-[4deg] rounded-lg object-cover shadow-[0_20px_40px_rgba(55,70,60,0.22)]" />
-            </div>
-            <div className="min-w-0 flex-[1_1_460px]">
-              <Badge variant="outline">Where it started</Badge>
-              <h2 id="origin-h" className="heading mt-4 text-[clamp(38px,4.6vw,60px)] leading-[1.02]">
-                We made the first one for <em className="text-clay-ink font-normal">my sister&apos;s wedding.</em>
-              </h2>
-              <p className="text-muted-foreground mt-5 text-[17px] leading-[1.7]">
-                Keerthy and Rosheel had four functions across North Paravur and Nedumbassery, a bride&apos;s side and a groom&apos;s side, and guests invited to different days. A printed card couldn&apos;t hold all of that, and a PDF on WhatsApp felt like a circular.
-              </p>
-              <p className="text-muted-foreground mt-3.5 text-[17px] leading-[1.7]">
-                So we built one invitation with their story, every venue and a way to reply. Each family sent links that showed only the functions their guests were invited to. That invitation became {STUDIO}
-              </p>
-              <dl className="mt-8 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                {[
-                  ["Functions", "4"],
-                  ["Families", "2"],
-                  ["Guest links", "8"],
-                  ["RSVP list", "1"],
-                ].map(([k, v]) => (
-                  <Card key={k} className="gap-0 p-4">
-                    <dt className="text-muted-foreground text-[13px]">{k}</dt>
-                    <dd className="heading mt-1.5 text-[38px] leading-none font-semibold">{v}</dd>
-                  </Card>
-                ))}
-              </dl>
-              <p className="heading text-muted-foreground mt-5 text-[19px] italic">Kevin Varghese, founder</p>
-            </div>
-          </div>
-        </section>
+        <PaperHero />
+        <PaperStory studio={STUDIO} />
+        <PaperSamples />
 
         {/* Designs */}
         <section id="designs" aria-labelledby="designs-h" className="py-[clamp(72px,9vw,120px)]">
