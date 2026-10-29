@@ -1,0 +1,148 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* The Wedding Invite Co. · Botanical Romance theme for shadcn/ui.
+   Change these tokens to retheme every component at once. */
+:root {
+  --radius: 0.625rem;
+  --background: #f7f3ed; /* Linen */
+  --foreground: #37463c; /* Forest */
+  --card: #fffdf9;
+  --card-foreground: #37463c;
+  --popover: #fffdf9;
+  --popover-foreground: #37463c;
+  --primary: #37463c; /* Forest */
+  --primary-foreground: #f7f3ed;
+  --secondary: #d9d8c8; /* Sage mist */
+  --secondary-foreground: #37463c;
+  --muted: #eeebe2;
+  --muted-foreground: #4e5b49;
+  --accent: #e9e5db;
+  --accent-foreground: #37463c;
+  --destructive: #a63d2f;
+  --border: #e2dfd4;
+  --input: #d9d8c8;
+  --ring: #879581; /* Sage */
+  --sage: #879581;
+  --clay: #c5a18a; /* Clay */
+  --clay-foreground: #222b25;
+  --clay-soft: #ead9cc;
+  --clay-ink: #5e4433;
+  --forest-2: #3f4f44;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sage: var(--sage);
+  --color-clay: var(--clay);
+  --color-clay-foreground: var(--clay-foreground);
+  --color-clay-soft: var(--clay-soft);
+  --color-clay-ink: var(--clay-ink);
+  --color-forest-2: var(--forest-2);
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ---------- Landing page details ---------- */
+.heading {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+.seal {
+  position: relative;
+}
+.seal::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 253, 249, 0.6);
+  pointer-events: none;
+}
+@keyframes seal-pulse {
+  0%, 100% { box-shadow: 0 8px 20px rgba(55, 70, 60, 0.28), 0 0 0 0 rgba(197, 161, 138, 0.55); }
+  55% { box-shadow: 0 8px 20px rgba(55, 70, 60, 0.28), 0 0 0 16px rgba(197, 161, 138, 0); }
+}
+.pulse {
+  animation: seal-pulse 2.4s ease-in-out infinite;
+}
+@keyframes leaf-fall {
+  0% { transform: translate3d(0, -30px, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.95; }
+  100% { transform: translate3d(36px, 640px, 0) rotate(300deg); opacity: 0; }
+}
+.leaf {
+  position: absolute;
+  top: 0;
+  width: 12px;
+  height: 7px;
+  border-radius: 100% 0 100% 0;
+  background: #879581;
+  animation: leaf-fall 6.5s linear infinite;
+  pointer-events: none;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.9s cubic-bezier(0.22, 0.8, 0.24, 1) both; }
+.d1 { animation-delay: 0.12s; }
+.d2 { animation-delay: 0.24s; }
+.d3 { animation-delay: 0.36s; }
+
+.arc { display: flex; align-items: center; justify-content: center; gap: 18px; overflow: hidden; padding: 36px 0 40px; }
+.arc > * { flex: none; }
+.strip { scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #879581 transparent; }
+.strip > figure { scroll-snap-align: start; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (max-width: 1100px) { .arc-far { display: none !important; } }
+@media (max-width: 780px) { .arc-mid { display: none !important; } }
+@media (max-width: 560px) { .arc-near { display: none !important; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse, .rise { animation: none !important; }
+  .leaf { display: none; }
+  html { scroll-behavior: auto; }
+}

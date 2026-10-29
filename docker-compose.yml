@@ -1,0 +1,49 @@
+# The Wedding Invite Co. · runs as its own container behind the Traefik already on the VPS.
+services:
+  web:
+    build: .
+    image: wedding-invite-co:latest
+    container_name: wedding-invite-co
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - leads-data:/app/data          # SQLite lead database, survives rebuilds
+    ports:
+      - "127.0.0.1:3030:3000"         # local checks only; public traffic comes through Traefik
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik_default
+      - traefik.http.routers.weddinginviteco.rule=Host(`${DOMAIN:?Set DOMAIN in .env}`)
+      - traefik.http.routers.weddinginviteco.entrypoints=websecure
+      - traefik.http.routers.weddinginviteco.tls=true
+      - traefik.http.routers.weddinginviteco.tls.certresolver=letsencrypt
+      - traefik.http.services.weddinginviteco.loadbalancer.server.port=3000
+
+  # Optional: send WhatsApp alerts from your own number instead of CallMeBot.
+  # Start it with:  docker compose --profile whatsapp up -d
+  waha:
+    image: devlikeapro/waha:latest
+    profiles: ["whatsapp"]
+    container_name: wedding-invite-waha
+    restart: unless-stopped
+    environment:
+      WAHA_API_KEY: ${WAHA_API_KEY:-change-me}
+      WAHA_DASHBOARD_USERNAME: admin
+      WAHA_DASHBOARD_PASSWORD: ${WAHA_API_KEY:-change-me}
+      WHATSAPP_DEFAULT_ENGINE: NOWEB
+    volumes:
+      - waha-sessions:/app/.sessions
+    ports:
+      - "127.0.0.1:3031:3000"         # open the WAHA dashboard through an SSH tunnel to scan the QR code
+
+volumes:
+  leads-data:
+  waha-sessions:
+
+networks:
+  traefik:
+    external: true
+    name: traefik_default
