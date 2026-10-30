@@ -8,7 +8,6 @@ import { EnquireButton } from "@/components/landing/enquiry";
 /* ---------- paper cutout shapes (cream margin via paint-order stroke) ---------- */
 
 const LEAF = "M0 0 C8 -9 24 -10 34 0 C24 10 8 9 0 0Z";
-const FROND = "M0 0 C20 -16 70 -20 110 4 C70 -2 22 4 0 0Z";
 const STAR = "M0 -10 L2.4 -2.4 L10 0 L2.4 2.4 L0 10 L-2.4 2.4 L-10 0 L-2.4 -2.4Z";
 
 function Fern({ a, b }: { a: string; b: string }) {
@@ -31,33 +30,175 @@ function Fern({ a, b }: { a: string; b: string }) {
   );
 }
 
-function Palm() {
-  const fronds: [number, number, string][] = [
-    [-160, 1.05, "#37463C"], [-125, 1.1, "#4E6152"], [-95, 0.95, "#37463C"], [-60, 1.05, "#4E6152"], [-25, 1.1, "#37463C"], [10, 1, "#4E6152"],
-  ];
+/* jasmine and marigold strand, hung from the top like a thoranam */
+function Strand({ n, seed = 0 }: { n: number; seed?: number }) {
+  const h = n * 12 + 26;
+  const beads: React.ReactNode[] = [];
+  for (let i = 0; i < n; i++) {
+    const y = 8 + i * 12;
+    beads.push(
+      (i + seed) % 4 === 3 ? (
+        <g key={i}>
+          <circle className="pc-pp pc-thin" cx="12" cy={y} r="7" fill="#E39A2E" />
+          <circle cx="12" cy={y} r="3.4" fill="#C47A22" />
+        </g>
+      ) : (
+        <ellipse key={i} className="pc-pp pc-thin" cx="12" cy={y} rx="4.2" ry="5.6" fill="#FFFDF6" />
+      ),
+    );
+  }
+  const ty = 8 + n * 12;
   return (
-    <svg viewBox="0 0 220 330" aria-hidden>
-      <path className="pc-pp" fill="#A9826A" d="M100 328 C104 250 116 170 136 104 L146 107 C128 172 118 250 116 328Z" />
-      {fronds.map(([r, s, c], i) => (
-        <path key={i} className="pc-pp" d={FROND} fill={c} transform={`translate(140 100) rotate(${r}) scale(${s})`} />
-      ))}
-      {[[134, 110], [148, 112], [141, 120]].map(([x, y], i) => (
-        <circle key={i} className="pc-pp" cx={x} cy={y} r="7" fill="#8A6A52" />
-      ))}
+    <svg viewBox={`0 0 24 ${h}`} aria-hidden>
+      <rect x="11.4" y="0" width="1.2" height={ty} fill="#B9A57A" />
+      {beads}
+      <path className="pc-pp pc-thin" fill="#6E8A5E" d={`M12 ${ty - 2} C5 ${ty + 2} 3 ${ty + 9} 6 ${ty + 14} C9 ${ty + 9} 11 ${ty + 5} 12 ${ty - 2}Z`} />
+      <path className="pc-pp pc-thin" fill="#5E7A55" d={`M12 ${ty - 2} C19 ${ty + 2} 21 ${ty + 9} 18 ${ty + 14} C15 ${ty + 9} 13 ${ty + 5} 12 ${ty - 2}Z`} />
+      <circle className="pc-pp pc-thin" cx="12" cy={ty + 3} r="8.5" fill="#D9822B" />
+      <circle cx="12" cy={ty + 3} r="4" fill="#B5651D" />
     </svg>
   );
 }
 
-function Flower({ petal, mid }: { petal: string; mid: string }) {
+/* nilavilakku, the Kerala brass lamp */
+function Lamp() {
+  const flame = "M0 0 C-6 -8 -4 -18 0 -27 C4 -18 6 -8 0 0Z";
   return (
-    <svg viewBox="-30 -30 60 60" aria-hidden>
-      {[0, 72, 144, 216, 288].map((r) => (
-        <ellipse key={r} className="pc-pp" cx="0" cy="-13" rx="7.5" ry="12" fill={petal} transform={`rotate(${r})`} />
+    <svg viewBox="0 0 120 300" aria-hidden>
+      {[26, 60, 94].map((x) => (
+        <g key={x} transform={`translate(${x} 128)`}>
+          <path className="pc-pp pc-thin" d={flame} fill="#F0AE3C" />
+          <path d={flame} fill="#FBE29A" transform="translate(0 -2) scale(.5)" />
+        </g>
       ))}
-      <circle className="pc-pp" r="6" fill={mid} />
+      <path className="pc-pp" fill="#C9A24A" d="M60 62 C71 76 71 88 60 96 C49 88 49 76 60 62Z" />
+      <rect className="pc-pp" x="56" y="94" width="8" height="40" fill="#B38C3A" />
+      <path className="pc-pp" fill="#C9A24A" d="M16 130 Q60 172 104 130 Z" />
+      <ellipse className="pc-pp" cx="60" cy="130" rx="44" ry="7" fill="#E2C478" />
+      <path className="pc-pp" fill="#C9A24A" d="M54 156 L52 266 L68 266 L66 156Z" />
+      <ellipse className="pc-pp" cx="60" cy="170" rx="11" ry="6" fill="#B38C3A" />
+      <ellipse className="pc-pp" cx="60" cy="208" rx="13" ry="7" fill="#D4B05E" />
+      <ellipse className="pc-pp" cx="60" cy="246" rx="15" ry="7.5" fill="#B38C3A" />
+      <rect className="pc-pp" x="42" y="264" width="36" height="14" rx="5" fill="#B38C3A" />
+      <path className="pc-pp" fill="#C9A24A" d="M12 298 C12 286 38 278 60 278 C82 278 108 286 108 298 Z" />
+      <path d="M58 158 L57 262 L60 262 L61 158Z" fill="#E7CC87" opacity=".7" />
     </svg>
   );
 }
+
+/* banana leaf, as served at the wedding sadhya */
+function BananaLeaf() {
+  const blade = "M100 338 C40 280 18 160 58 70 C78 30 104 12 122 6 C142 60 170 150 162 240 C156 300 132 330 100 338Z";
+  const veins: React.ReactNode[] = [];
+  for (let i = 1; i < 16; i++) {
+    const t = i / 16;
+    const mx = 100 + 22 * t;
+    const my = 330 - 320 * t;
+    veins.push(<path key={`a${i}`} d={`M${mx} ${my} L${mx - 70} ${my - 36}`} />, <path key={`b${i}`} d={`M${mx} ${my} L${mx + 64} ${my - 30}`} />);
+  }
+  return (
+    <svg viewBox="0 0 200 350" aria-hidden>
+      <defs>
+        <clipPath id="pc-bl-clip"><path d={blade} /></clipPath>
+      </defs>
+      <path className="pc-pp" fill="#5E7A55" d={blade} />
+      <path fill="#4E6A48" d="M100 338 C112 240 120 120 122 6 C142 60 170 150 162 240 C156 300 132 330 100 338Z" />
+      <g clipPath="url(#pc-bl-clip)" stroke="#86A276" strokeWidth="1.1" opacity=".55">{veins}</g>
+      <path fill="#A9BE95" d="M99 348 C108 240 116 120 122 6 L124 7 C119 120 112 240 104 348Z" />
+    </svg>
+  );
+}
+
+/* layered lotus on its leaf */
+function Lotus() {
+  const P = "M0 0 C-16 -22 -14 -54 0 -76 C14 -54 16 -22 0 0Z";
+  const row = (rots: number[], sc: number, fill: string, dy = 10) =>
+    rots.map((r) => <path key={`${r}${fill}`} className="pc-pp pc-thin" d={P} fill={fill} transform={`translate(0 ${dy}) rotate(${r}) scale(${sc})`} />);
+  return (
+    <svg viewBox="-100 -90 200 125" aria-hidden>
+      <ellipse className="pc-pp" cx="0" cy="18" rx="92" ry="15" fill="#879581" />
+      <ellipse cx="0" cy="17" rx="64" ry="9" fill="#9FAA97" />
+      {row([-72, -36, 0, 36, 72], 0.95, "#F3D9CF")}
+      {row([-100, 100], 0.72, "#E2A691", 12)}
+      {row([-54, -18, 18, 54], 0.86, "#E8B4A3")}
+      {row([-30, 0, 30], 0.7, "#D9927E")}
+      <path d="M0 6 C-3 -14 -3 -30 0 -44 C3 -30 3 -14 0 6Z" fill="#F7E3DA" opacity=".55" />
+    </svg>
+  );
+}
+
+/* wedding bells tied with a ribbon */
+function Bells() {
+  const B = "M0 -26 C10 -26 16 -16 16 -4 C16 8 19 14 24 20 L-24 20 C-19 14 -16 8 -16 -4 C-16 -16 -10 -26 0 -26Z";
+  const bell = (x: number, r: number) => (
+    <g transform={`translate(${x} 78) rotate(${r})`}>
+      <circle className="pc-pp pc-thin" cx="0" cy="27" r="5" fill="#B8913F" />
+      <path className="pc-pp" d={B} fill="#D4AF5A" />
+      <rect x="-25" y="18" width="50" height="5" rx="2.5" fill="#B8913F" />
+      <path d="M-8 -18 C-12 -8 -12 6 -14 14 L-10 14 C-9 4 -8 -8 -5 -18Z" fill="#EBD08A" />
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 120 112" aria-hidden>
+      <path className="pc-pp pc-thin" fill="#B5674B" d="M58 22 C54 34 50 42 44 52 L49 51 L50 56 C55 44 59 33 61 22Z" />
+      <path className="pc-pp pc-thin" fill="#B5674B" d="M62 22 C66 34 70 42 76 52 L71 51 L70 56 C65 44 61 33 59 22Z" />
+      {bell(44, 12)}
+      {bell(76, -12)}
+      <path className="pc-pp" fill="#C9785A" d="M60 20 C44 4 26 8 30 20 C34 30 50 26 60 20Z" />
+      <path className="pc-pp" fill="#C9785A" d="M60 20 C76 4 94 8 90 20 C86 30 70 26 60 20Z" />
+      <circle className="pc-pp pc-thin" cx="60" cy="20" r="5.5" fill="#A95F44" />
+    </svg>
+  );
+}
+
+/* two wedding rings */
+function Rings() {
+  const ring = (cx: number, cy: number) => `M${cx - 36} ${cy} a36 36 0 1 0 72 0 a36 36 0 1 0 -72 0Z M${cx - 29} ${cy} a29 29 0 1 1 58 0 a29 29 0 1 1 -58 0Z`;
+  return (
+    <svg viewBox="0 0 150 112" aria-hidden>
+      <defs>
+        <clipPath id="pc-ring-clip"><rect x="78" y="62" width="30" height="50" /></clipPath>
+      </defs>
+      <path className="pc-pp" fillRule="evenodd" fill="#D4AF5A" d={ring(56, 68)} />
+      <path className="pc-pp" fillRule="evenodd" fill="#E2C277" d={ring(96, 62)} />
+      <path fillRule="evenodd" fill="#D4AF5A" d={ring(56, 68)} clipPath="url(#pc-ring-clip)" />
+      <rect className="pc-pp pc-thin" x="89" y="22" width="14" height="6" rx="2" fill="#C9A24A" />
+      <path className="pc-pp pc-thin" fill="#F7F4EE" d="M96 6 L106 16 L96 25 L86 16Z" />
+      <path d="M96 6 L100 16 L96 25Z" fill="#E4E7EC" />
+      <path d="M30 52 C34 42 42 36 50 34" stroke="#F1DC9C" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function Marigold() {
+  return (
+    <svg viewBox="-30 -30 60 60" aria-hidden>
+      {Array.from({ length: 12 }, (_, i) => (
+        <ellipse key={i} className="pc-pp pc-thin" cx="0" cy="-14" rx="5.5" ry="10" fill="#E8A33D" transform={`rotate(${i * 30})`} />
+      ))}
+      {Array.from({ length: 8 }, (_, i) => (
+        <ellipse key={`b${i}`} cx="0" cy="-8" rx="4.5" ry="7" fill="#D98A2B" transform={`rotate(${i * 45 + 20})`} />
+      ))}
+      <circle r="5" fill="#B5651D" />
+    </svg>
+  );
+}
+
+function Jasmine() {
+  return (
+    <svg viewBox="-30 -30 60 60" aria-hidden>
+      {[0, 72, 144, 216, 288].map((r) => (
+        <ellipse key={r} className="pc-pp pc-thin" cx="0" cy="-13" rx="5.5" ry="13" fill="#FFFDF7" transform={`rotate(${r})`} />
+      ))}
+      <circle r="3.5" fill="#E9D6A0" />
+    </svg>
+  );
+}
+
+const STRANDS: { x: string; n: number; side: "l" | "r"; m?: boolean }[] = [
+  { x: "1.5%", n: 13, side: "l" }, { x: "4.6%", n: 6, side: "l", m: true }, { x: "7.7%", n: 16, side: "l" }, { x: "10.8%", n: 9, side: "l", m: true }, { x: "13.9%", n: 4, side: "l" },
+  { x: "84.6%", n: 4, side: "r" }, { x: "87.7%", n: 9, side: "r", m: true }, { x: "90.8%", n: 16, side: "r" }, { x: "93.9%", n: 6, side: "r", m: true }, { x: "97%", n: 13, side: "r" },
+];
 
 /* ---------- hero: cutouts fly away, envelope opens ---------- */
 
@@ -82,17 +223,19 @@ export function PaperHero() {
         });
         tl.to(".pc-copy", { y: vh(-30), opacity: 0, duration: 0.35 }, 0)
           .to(".pc-hint", { opacity: 0, duration: 0.08 }, 0)
-          .to("#pc-moon", { x: vw(-45), y: vh(-30), rotation: -40, duration: 0.5 }, 0.02)
-          .to("#pc-sun", { x: vw(75), y: vh(-45), rotation: 30, duration: 0.5 }, 0)
-          .to("#pc-fly", { x: vw(-70), y: vh(-60), rotation: -60, duration: 0.45 }, 0.06)
+          .to(".pc-strand.l", { y: vh(-45), rotation: -8, duration: 0.4, stagger: 0.015 }, 0)
+          .to(".pc-strand.r", { y: vh(-45), rotation: 8, duration: 0.4, stagger: 0.015 }, 0)
+          .to("#pc-bells", { x: vw(-55), y: vh(-45), rotation: -45, duration: 0.5 }, 0.02)
+          .to("#pc-rings", { x: vw(60), y: vh(-45), rotation: 50, duration: 0.5 }, 0.02)
           .to("#pc-fl3", { x: vw(-40), y: vh(-70), rotation: -160, duration: 0.45 }, 0.04)
           .to("#pc-polA", { x: vw(-75), y: vh(5), rotation: -28, duration: 0.5 }, 0.08)
           .to("#pc-polB", { x: vw(75), y: vh(-8), rotation: 26, duration: 0.5 }, 0.1)
-          .to("#pc-fern", { x: vw(-50), y: vh(25), rotation: -35, duration: 0.5 }, 0.12)
-          .to("#pc-palm", { x: vw(50), y: vh(20), rotation: 18, duration: 0.5 }, 0.12)
+          .to("#pc-lamp", { x: vw(-60), y: vh(15), rotation: -22, duration: 0.5 }, 0.12)
+          .to("#pc-banana", { x: vw(55), y: vh(20), rotation: 20, duration: 0.5 }, 0.12)
+          .to("#pc-lotus", { x: vw(40), y: vh(45), rotation: 25, duration: 0.5 }, 0.15)
           .to("#pc-fl1", { x: vw(-60), y: vh(40), rotation: -200, duration: 0.5 }, 0.14)
           .to("#pc-fl2", { x: vw(60), y: vh(40), rotation: 220, duration: 0.5 }, 0.14)
-          .to("#pc-hills", { y: vh(30), duration: 0.45 }, 0.18)
+          .to("#pc-kasavu", { y: 80, duration: 0.3 }, 0.18)
           .to(
             ".pc-env-wrap",
             {
@@ -137,44 +280,21 @@ export function PaperHero() {
     <section id="top" ref={stage} aria-labelledby="hero-h" className="pc-stage">
       <div className="pc-grain" aria-hidden />
 
-      <div className="pc-cut" id="pc-hills" aria-hidden>
-        <svg viewBox="0 0 1000 160" preserveAspectRatio="none" style={{ height: "clamp(90px,17vh,170px)" }}>
-          <path className="pc-pp" vectorEffect="non-scaling-stroke" fill="#D9D8C8" d="M-20 170 C120 20 330 10 560 170Z" />
-          <path className="pc-pp" vectorEffect="non-scaling-stroke" fill="#879581" d="M340 170 C520 50 790 0 1020 90 L1020 170Z" />
-          <path className="pc-pp" vectorEffect="non-scaling-stroke" fill="#9FAA97" d="M-20 170 C60 110 180 90 300 170Z" />
-        </svg>
-      </div>
+      <div className="pc-kasavu" id="pc-kasavu" aria-hidden />
 
-      <div className="pc-cut" id="pc-moon" aria-hidden>
-        <svg viewBox="0 0 120 110">
-          <path className="pc-pp" fill="#E9D6A0" d="M58 8 A44 44 0 1 0 58 96 A36 36 0 1 1 58 8Z" />
-          <path className="pc-pp" d={STAR} fill="#E9D6A0" transform="translate(88 26) scale(1.1)" />
-          <path className="pc-pp" d={STAR} fill="#C5A18A" transform="translate(104 62) scale(.7)" />
-          <path className="pc-pp" d={STAR} fill="#E9D6A0" transform="translate(80 92) scale(.55)" />
-        </svg>
-      </div>
+      {STRANDS.map((st, i) => (
+        <div key={st.x} className={`pc-cut pc-strand ${st.side}${st.m ? "" : " m-hide"}`} style={{ left: st.x }} aria-hidden>
+          <Strand n={st.n} seed={i} />
+        </div>
+      ))}
 
-      <div className="pc-cut" id="pc-sun" aria-hidden>
-        <svg viewBox="0 0 100 100">
-          <circle className="pc-pp" cx="50" cy="50" r="47" fill="#C9785A" />
-          <circle className="pc-pp" cx="50" cy="50" r="30" fill="#D9906F" style={{ strokeWidth: 3 }} />
-        </svg>
-      </div>
-
-      <div className="pc-cut" id="pc-fly" aria-hidden>
-        <svg viewBox="0 0 60 50">
-          <path className="pc-pp" fill="#C5A18A" d="M30 26 C20 4 2 2 4 16 C6 26 18 28 30 26Z" />
-          <path className="pc-pp" fill="#C9785A" d="M30 26 C40 4 58 2 56 16 C54 26 42 28 30 26Z" />
-          <path className="pc-pp" fill="#A9826A" d="M30 27 C22 34 14 46 22 46 C28 46 30 36 30 27Z" />
-          <path className="pc-pp" fill="#C5A18A" d="M30 27 C38 34 46 46 38 46 C32 46 30 36 30 27Z" />
-        </svg>
-      </div>
-
-      <div className="pc-cut" id="pc-fl1" aria-hidden><Flower petal="#EBCDB8" mid="#C9785A" /></div>
-      <div className="pc-cut" id="pc-fl2" aria-hidden><Flower petal="#F2E6D2" mid="#879581" /></div>
-      <div className="pc-cut" id="pc-fl3" aria-hidden><Flower petal="#C5A18A" mid="#37463C" /></div>
-      <div className="pc-cut" id="pc-fern" aria-hidden><Fern a="#37463C" b="#4E6152" /></div>
-      <div className="pc-cut" id="pc-palm" aria-hidden><Palm /></div>
+      <div className="pc-cut" id="pc-bells" aria-hidden><Bells /></div>
+      <div className="pc-cut" id="pc-rings" aria-hidden><Rings /></div>
+      <div className="pc-cut" id="pc-fl1" aria-hidden><Marigold /></div>
+      <div className="pc-cut" id="pc-fl2" aria-hidden><Jasmine /></div>
+      <div className="pc-cut" id="pc-fl3" aria-hidden><Jasmine /></div>
+      <div className="pc-cut" id="pc-banana" aria-hidden><BananaLeaf /></div>
+      <div className="pc-cut" id="pc-lamp" aria-hidden><Lamp /></div>
 
       <figure className="pc-cut pc-polaroid" id="pc-polA">
         <span className="pc-tape" aria-hidden />
@@ -183,9 +303,11 @@ export function PaperHero() {
       </figure>
       <figure className="pc-cut pc-polaroid" id="pc-polB">
         <span className="pc-tape" aria-hidden />
-        <img src="/media/sc-polaroid.jpg" alt="Keerthy and Rosheel's first photo together" />
-        <figcaption>our first photo</figcaption>
+        <img src="/media/ph-p1.jpg" alt="Keerthy and Rosheel under fairy lights" />
+        <figcaption>under the lights</figcaption>
       </figure>
+
+      <div className="pc-cut" id="pc-lotus" aria-hidden><Lotus /></div>
 
       <div className="pc-copy">
         <p className="pc-eyebrow">Wedding invitation websites · Kerala</p>
