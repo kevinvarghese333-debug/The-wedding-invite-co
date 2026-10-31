@@ -469,8 +469,9 @@ export default function Home() {
         {/* Start your journey */}
         <section id="journey" aria-labelledby="journey-h" className="pb-[clamp(72px,9vw,120px)]">
           <div className={wrap}>
-            <Card className="bg-primary text-primary-foreground border-primary relative flex-row flex-wrap items-center gap-[clamp(28px,5vw,56px)] overflow-hidden p-[clamp(26px,5vw,60px)]">
-              <Sprig className="absolute -right-8 -bottom-10 h-[316px] w-[190px] opacity-30" stroke="#B9C2B3" />
+            <Card className="bg-primary text-primary-foreground border-primary relative flex-row flex-wrap items-center gap-[clamp(28px,5vw,56px)] p-[clamp(26px,5vw,60px)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/media/cut/tulips.webp" alt="" aria-hidden className="pointer-events-none absolute -top-14 right-[2%] w-[clamp(92px,11vw,140px)] rotate-[14deg] drop-shadow-[0_14px_18px_rgba(0,0,0,0.3)] max-sm:-top-10 max-sm:w-20" />
               <div className="relative min-w-0 flex-[1_1_440px]">
                 <Badge className="bg-clay text-clay-foreground">Your invitation</Badge>
                 <h2 id="journey-h" className="heading mt-4 text-[clamp(38px,4.6vw,58px)] leading-[1.02]">
@@ -571,6 +572,12 @@ export default function Home() {
               <a href={chat} target="_blank" rel="noopener">WhatsApp</a>
             </Button>
           </nav>
+          <div className="flex w-full flex-col items-center gap-1 pt-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/media/cut/cat.webp" alt="A cat making a heart with its paws" className="w-[104px] drop-shadow-[0_10px_14px_rgba(55,70,60,0.18)]" />
+            <p className="text-clay-ink text-[34px] leading-none" style={{ fontFamily: "'Mrs Saint Delafield', cursive" }}>Made with love</p>
+            <p className="text-muted-foreground text-[12px] tracking-[0.2em] uppercase">in Kerala</p>
+          </div>
           <Separator />
           <p className="text-muted-foreground text-[13px]">© {new Date().getFullYear()} {STUDIO} · More than an invitation. Wedding invitation websites, made in Kerala.</p>
         </div>
