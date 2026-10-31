@@ -27,27 +27,26 @@ import { DesignPicker, GuestLinksDemo, RsvpDemo } from "@/components/landing/dem
 import { DesignTabs } from "@/components/landing/design-tabs";
 import { EnquireButton, EnquiryForm, EnquiryProvider } from "@/components/landing/enquiry";
 import { whatsappHref } from "@/lib/whatsapp";
-import { PaperHero, PaperSamples, PaperStory } from "@/components/landing/paper";
+import { PaperFeel, PaperHero, PaperSamples } from "@/components/landing/paper";
 import { publicWhatsApp, STUDIO } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
 const CHAPTERS = [
   { img: "/media/sc-church.jpg", alt: "Watercolour of Don Bosco Church, North Paravur", text: "Every day, the bells rang at Don Bosco Church." },
-  { img: "/media/sc-altar.jpg", alt: "Watercolour of Rosheel standing in the aisle facing the altar", text: "He came for Mass, praying quietly before the altar." },
-  { img: "/media/sc-choir.jpg", alt: "Watercolour of Keerthy singing in the church choir", text: "And in the choir, she sang." },
+  { img: "/media/sc-altar.jpg", alt: "Watercolour of the groom standing in the aisle facing the altar", text: "He came for Mass, praying quietly before the altar." },
+  { img: "/media/sc-choir.jpg", alt: "Watercolour of the bride singing in the church choir", text: "And in the choir, she sang." },
   { img: "/media/sc-london.jpg", alt: "Illustration of London with Big Ben and the London Eye", text: "He flew to London, chasing his dreams." },
   { img: "/media/sc-ca.jpg", alt: "Illustration of a study desk with a Chartered Accountant certificate", text: "She became a Chartered Accountant." },
   { img: "/media/sc-cafe.jpg", alt: "Illustration of a coffee shop table with two coffees", text: "Years later, over two coffees, their paths finally crossed." },
-  { img: "/media/sc-polaroid.jpg", alt: "Polaroid of Keerthy and Rosheel's first photo together", text: "Their very first photo, developing as you watch." },
 ];
 
 const COLLAGE = [
-  [["ph-g1", "aspect-[3/4]"], ["ph-p6", "aspect-[3/4]"]],
-  [["ph-p3", "aspect-square"], ["ph-p11", "aspect-[3/4]"]],
-  [["ph-g4", "aspect-[3/4]"], ["ph-p2", "aspect-square"]],
-  [["ph-p12", "aspect-[3/4]"], ["ph-p9", "aspect-[3/4]"]],
-  [["ph-p4", "aspect-square"], ["ph-g5", "aspect-[3/4]"]],
+  [["sc-church", "aspect-[3/4]"], ["sc-cafe", "aspect-square"]],
+  [["ph-poster", "aspect-[3/4]"], ["sc-london", "aspect-square"]],
+  [["sc-choir", "aspect-[3/4]"], ["ph-g3", "aspect-[3/4]"]],
+  [["sc-ca", "aspect-square"], ["sc-altar", "aspect-[3/4]"]],
+  [["ph-p1", "aspect-[3/4]"], ["cover-floral", "aspect-[3/4]"]],
 ];
 
 const CLASSIC_POINTS = [
@@ -131,7 +130,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b bg-[#F7F3ED]/90 backdrop-blur-md backdrop-saturate-150">
+      <header className="sticky top-0 z-40 border-b bg-[#F8F1EA]/90 backdrop-blur-md backdrop-saturate-150">
         <nav aria-label="Main" className={`${wrap} flex h-16 items-center justify-between gap-4`}>
           <div className="flex items-center gap-7">
             <a href="#top" aria-label={`${STUDIO} home`}>
@@ -166,8 +165,8 @@ export default function Home() {
 
       <main>
         <PaperHero />
-        <PaperStory studio={STUDIO} />
         <PaperSamples />
+        <PaperFeel />
 
         {/* Designs */}
         <section id="designs" aria-labelledby="designs-h" className="py-[clamp(72px,9vw,120px)]">
@@ -177,7 +176,7 @@ export default function Home() {
               <h2 id="designs-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
                 Choose how it <em className="text-clay-ink font-normal">unfolds.</em>
               </h2>
-              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Both are screen recordings of Keerthy and Rosheel&apos;s real invitation.</p>
+              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Both are screen recordings of real invitations we made.</p>
             </div>
             <DesignTabs />
           </div>
@@ -187,24 +186,24 @@ export default function Home() {
         <section id="story" aria-labelledby="story-h" className="bg-primary text-primary-foreground py-[clamp(72px,9vw,120px)]">
           <div className={`${wrap} flex flex-wrap items-end justify-between gap-6`}>
             <div className="max-w-[700px] flex-[1_1_520px]">
-              <Badge className="border-[#f7f3ed33] bg-[#f7f3ed1a] text-[#F7F3ED]">The Story, chapter by chapter</Badge>
+              <Badge className="border-[#F8F1EA33] bg-[#F8F1EA1a] text-[#F8F1EA]">The Story, chapter by chapter</Badge>
               <h2 id="story-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
-                Your love story, <em className="font-normal text-[#DDBFAA]">in watercolour.</em>
+                Your love story, <em className="font-normal text-[#E9C29A]">in watercolour.</em>
               </h2>
-              <p className="mt-4 text-[17px] leading-[1.7] text-[#D9D8C8]">
-                Tell us how you met. We turn the church, the city, the coffee shop and the first photo into scenes your guests scroll through before they reach the date. These chapters are from Keerthy and Rosheel&apos;s invitation.
+              <p className="mt-4 text-[17px] leading-[1.7] text-[#EAD9CD]">
+                Tell us how you met. We turn the church, the city, the coffee shop and the first photo into scenes your guests scroll through before they reach the date. These chapters are from a real invitation we made.
               </p>
             </div>
-            <p className="flex items-center gap-2 text-[13px] font-medium text-[#B9C2B3]">
+            <p className="flex items-center gap-2 text-[13px] font-medium text-[#E3C9A8]">
               Scroll sideways <ArrowRight className="size-[18px]" aria-hidden />
             </p>
           </div>
           <div className="strip mt-11 flex gap-4 overflow-x-auto px-[max(16px,calc((100vw-1200px)/2+40px))] pt-1 pb-6">
             {CHAPTERS.map((c, i) => (
-              <figure key={c.img} className="bg-forest-2 m-0 w-[clamp(230px,24vw,288px)] flex-none rounded-2xl border border-[#f7f3ed1a] p-2">
+              <figure key={c.img} className="bg-forest-2 m-0 w-[clamp(230px,24vw,288px)] flex-none rounded-2xl border border-[#F8F1EA1a] p-2">
                 <img src={c.img} alt={c.alt} loading="lazy" className="aspect-[4/5] w-full rounded-[10px] object-cover" />
                 <figcaption className="px-2 pt-3.5 pb-2">
-                  <Badge className="bg-[#f7f3ed1a] text-[#DDBFAA]">{String(i + 1).padStart(2, "0")}</Badge>
+                  <Badge className="bg-[#F8F1EA1a] text-[#E9C29A]">{String(i + 1).padStart(2, "0")}</Badge>
                   <span className="heading mt-2.5 block text-xl leading-snug font-normal italic">{c.text}</span>
                 </figcaption>
               </figure>
@@ -291,7 +290,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex min-w-0 flex-[1_1_360px] justify-center">
-                <RouteMap className="h-auto w-full max-w-[440px] rounded-xl border bg-[#F7F3ED]" />
+                <RouteMap className="h-auto w-full max-w-[440px] rounded-xl border bg-[#F8F1EA]" />
               </div>
             </Card>
 
@@ -340,7 +339,7 @@ export default function Home() {
                   <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">Your names, date and cover show up in the chat preview, so guests see an invitation, not a bare link.</p>
                 </div>
                 <div className="bg-muted min-w-0 flex-[1_1_300px] rounded-xl border p-4">
-                  <div className="ml-auto max-w-[360px] rounded-[12px_4px_12px_12px] bg-[#FFFDF9] p-1.5 pb-2 shadow-[0_1px_2px_rgba(55,70,60,0.12)]">
+                  <div className="ml-auto max-w-[360px] rounded-[12px_4px_12px_12px] bg-[#FFFDF9] p-1.5 pb-2 shadow-[0_1px_2px_rgba(74,15,22,0.12)]">
                     <div className="flex gap-2.5 rounded-lg bg-[#F2EFE7] p-1.5">
                       <img src="/media/cover-floral.jpg" alt="" className="size-[72px] flex-none rounded-md object-cover object-[center_30%]" />
                       <div className="min-w-0">
@@ -423,7 +422,7 @@ export default function Home() {
                 <Separator className="mt-6 mb-5" />
                 <Checklist items={CLASSIC_POINTS} />
               </Card>
-              <Card className="border-primary gap-0 border-2 p-7 shadow-[0_24px_60px_rgba(55,70,60,0.16)]">
+              <Card className="border-primary gap-0 border-2 p-7 shadow-[0_24px_60px_rgba(74,15,22,0.16)]">
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg font-semibold">The Story</h3>
                   <Badge>Our signature</Badge>
@@ -475,9 +474,9 @@ export default function Home() {
               <div className="relative min-w-0 flex-[1_1_440px]">
                 <Badge className="bg-clay text-clay-foreground">Your invitation</Badge>
                 <h2 id="journey-h" className="heading mt-4 text-[clamp(38px,4.6vw,58px)] leading-[1.02]">
-                  Start your journey <em className="font-normal text-[#DDBFAA]">with us.</em>
+                  Start your journey <em className="font-normal text-[#E9C29A]">with us.</em>
                 </h2>
-                <p className="mt-4 max-w-[540px] text-[17px] leading-[1.7] text-[#D9D8C8]">
+                <p className="mt-4 max-w-[540px] text-[17px] leading-[1.7] text-[#EAD9CD]">
                   Send us your dates, your venues and a little about the two of you. We write it, design it and set up every guest link, and you share one link on WhatsApp.
                 </p>
                 <EnquireButton variant="clay" size="lg" origin="journey" className="mt-6">
@@ -574,7 +573,7 @@ export default function Home() {
           </nav>
           <div className="flex w-full flex-col items-center gap-1 pt-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/cut/cat.webp" alt="A cat making a heart with its paws" className="w-[104px] drop-shadow-[0_10px_14px_rgba(55,70,60,0.18)]" />
+            <img src="/media/cut/cat.webp" alt="A cat making a heart with its paws" className="w-[104px] drop-shadow-[0_10px_14px_rgba(74,15,22,0.18)]" />
             <p className="text-clay-ink text-[34px] leading-none" style={{ fontFamily: "'Mrs Saint Delafield', cursive" }}>Made with love</p>
             <p className="text-muted-foreground text-[12px] tracking-[0.2em] uppercase">in Kerala</p>
           </div>

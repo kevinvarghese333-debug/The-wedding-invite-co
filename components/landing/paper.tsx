@@ -172,7 +172,7 @@ export function PaperHero() {
           .to(".pc-hint", { opacity: 0, duration: 0.08 }, 0)
           .to(".pc-lights.l", { y: vh(-40), rotation: -10, duration: 0.4 }, 0)
           .to(".pc-lights.r", { y: vh(-40), rotation: 10, duration: 0.4 }, 0)
-          .to("#pc-lamp", { x: vw(-50), y: vh(-30), rotation: -25, duration: 0.5 }, 0.03)
+          .to("#pc-bride", { x: vw(-55), y: vh(-20), rotation: -18, duration: 0.5 }, 0.03)
           .to("#pc-lotus", { x: vw(50), y: vh(-35), rotation: 30, duration: 0.5 }, 0.03)
           .to("#pc-camera", { x: vw(-55), y: vh(30), rotation: -30, duration: 0.5 }, 0.07)
           .to("#pc-ringbox", { x: vw(55), y: vh(30), rotation: 25, duration: 0.5 }, 0.07)
@@ -196,14 +196,16 @@ export function PaperHero() {
           .to(".pc-dawn", { opacity: 1, duration: 0.3 }, 0.62)
           .to({}, { duration: 0.12 });
 
-        const st = (start: string, end: string) => ({ trigger: "#origin", start, end, scrub: 0.6 });
+        const st = (start: string, end: string) => ({ trigger: "#feel", start, end, scrub: 0.6 });
         gsap.from("#pc-s-photo", { x: -160, rotation: -14, opacity: 0, scrollTrigger: st("top 90%", "top 35%") });
         gsap.from("#pc-s-pol", { x: 180, y: 60, rotation: 24, opacity: 0, scrollTrigger: st("top 85%", "top 25%") });
         gsap.from("#pc-s-bouquet", { y: -140, rotation: 40, opacity: 0, scrollTrigger: st("top 85%", "top 30%") });
         gsap.from("#pc-s-player", { x: -120, y: 80, rotation: -18, opacity: 0, scrollTrigger: st("top 75%", "top 20%") });
         const cs = { trigger: "#pc-cards", start: "top 95%", end: "top 45%", scrub: 0.6 };
-        gsap.from("#pc-card1", { x: -220, rotation: -12, scrollTrigger: cs });
-        gsap.from("#pc-card2", { x: 220, rotation: 12, scrollTrigger: cs });
+        gsap.utils.toArray<HTMLElement>(".pc-card").forEach((el, i, all) => {
+          const side = all.length === 3 ? i - 1 : i ? 1 : -1;
+          gsap.from(el, { x: side * 220, y: side === 0 ? 120 : 0, rotation: side * 12, scrollTrigger: cs });
+        });
       });
       window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
     })();
@@ -219,7 +221,7 @@ export function PaperHero() {
 
       <img className="pc-cut pc-lights l" src="/media/cut/lights.webp" alt="" aria-hidden />
       <img className="pc-cut pc-lights r" src="/media/cut/lights.webp" alt="" aria-hidden />
-      <img className="pc-cut pc-float" id="pc-lamp" src="/media/cut/lamp.webp" alt="" aria-hidden />
+      <img className="pc-cut pc-float" id="pc-bride" src="/media/cut/bride.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/cut/lotus.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d3" id="pc-camera" src="/media/cut/camera.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/cut/ringbox.webp" alt="" aria-hidden />
@@ -243,7 +245,6 @@ export function PaperHero() {
           <div className="pc-env-back" />
           <div className="pc-letter">
             <span className="s">Tap. Open. Celebrate.</span>
-            <span className="t">One link · every guest</span>
           </div>
           <div className="pc-env-front" />
           <div className="pc-flap" />
@@ -255,44 +256,43 @@ export function PaperHero() {
   );
 }
 
-/* ---------- where it started ---------- */
+/* ---------- what guests feel ---------- */
 
-export function PaperStory({ studio }: { studio: string }) {
+export function PaperFeel() {
   return (
-    <section id="origin" aria-labelledby="origin-h" className="pc-section pc-origin">
+    <section id="feel" aria-labelledby="feel-h" className="pc-section pc-origin">
       <div className="pc-wrap pc-story-grid">
         <div className="pc-collage">
           <div className="pc-cut pc-photo" id="pc-s-photo">
-            <img src="/media/real-hero.jpg" alt="Keerthy and Rosheel holding hands on the beach at sunset" />
+            <img src="/media/ph-g3.jpg" alt="A couple on the beach at sunset" />
           </div>
           <img className="pc-cut" id="pc-s-bouquet" src="/media/cut/bouquet.webp" alt="" aria-hidden />
           <figure className="pc-cut pc-polaroid" id="pc-s-pol">
             <span className="pc-tape" aria-hidden />
-            <img src="/media/sc-polaroid.jpg" alt="Polaroid of Keerthy and Rosheel's first photo together" />
-            <figcaption>our first photo</figcaption>
+            <img src="/media/ph-poster.jpg" alt="A couple dancing at their reception" style={{ objectPosition: "50% 70%" }} />
+            <figcaption>the first dance</figcaption>
           </figure>
           <img className="pc-cut" id="pc-s-player" src="/media/cut/player.webp" alt="" aria-hidden />
         </div>
         <div className="pc-story">
-          <p className="pc-eyebrow">Where it started</p>
-          <h2 id="origin-h">
-            We made the first one for <em>my sister&apos;s wedding.</em>
+          <p className="pc-eyebrow">More than an invitation</p>
+          <h2 id="feel-h">
+            An invitation your guests <em>keep opening.</em>
           </h2>
           <p>
-            Keerthy and Rosheel had four functions across North Paravur and Nedumbassery, a bride&apos;s side and a groom&apos;s side, and guests invited to different days. A printed card couldn&apos;t hold all of that, and a PDF on WhatsApp felt like a circular.
+            Your story, your song, the places that matter to you, every venue with directions and a way to reply. Guests open it the day it arrives and again on the morning of the wedding.
           </p>
           <p>
-            So we built one invitation with their story, their song, every venue and a way to reply. Each family sent links that showed only the functions their guests were invited to. That invitation became {studio}
+            Each family gets its own links, so every guest sees only the functions they are invited to, and every reply lands in one list for you.
           </p>
           <div className="pc-note">
             <dl>
-              <dt>Functions</dt><dd>4</dd>
-              <dt>Families</dt><dd>2</dd>
-              <dt>Guest links</dt><dd>8</dd>
-              <dt>RSVP list</dt><dd>1</dd>
+              <dt>Link</dt><dd>1</dd>
+              <dt>Functions</dt><dd>All</dd>
+              <dt>Guest lists</dt><dd>Any</dd>
+              <dt>Apps to install</dt><dd>0</dd>
             </dl>
           </div>
-          <p className="pc-sign">Kevin</p>
         </div>
       </div>
     </section>
@@ -303,26 +303,29 @@ export function PaperStory({ studio }: { studio: string }) {
 
 const STAR = "M0 -10 L2.4 -2.4 L10 0 L2.4 2.4 L0 10 L-2.4 2.4 L-10 0 L-2.4 -2.4Z";
 
+// Third sample (the lotus / Thamara design). The card shows once its link is filled in.
+const THAMARA_URL = "";
+
 export function PaperSamples() {
   return (
     <section id="samples" aria-labelledby="samples-h" className="pc-section pc-samples">
       <div className="pc-wrap">
         <div className="pc-head">
-          <p className="pc-eyebrow">Two couples, two stories</p>
+          <p className="pc-eyebrow">Our work</p>
           <h2 id="samples-h">
             No two invitations <em>look the same.</em>
           </h2>
-          <p>A sunset beach for one couple, a New Year&apos;s midnight for another. Open them on your phone.</p>
+          <p>Every invitation is designed around the couple: their story, their colours, their functions. Open them on your phone.</p>
         </div>
-        <div className="pc-cards" id="pc-cards">
+        <div className={`pc-cards${THAMARA_URL ? " three" : ""}`} id="pc-cards">
           <a className="pc-card" id="pc-card1" href="https://kavitha.cloud/keerthyandrosheel" target="_blank" rel="noopener">
             <div className="art">
-              <img src="/media/real-hero.jpg" alt="Keerthy and Rosheel's invitation cover" style={{ objectPosition: "50% 35%" }} />
+              <img src="/media/sc-church.jpg" alt="Watercolour church from Keerthy and Rosheel's invitation" style={{ objectPosition: "50% 40%" }} />
             </div>
             <div className="meta">
               <div>
                 <h3>Keerthy &amp; Rosheel</h3>
-                <p className="sub">14 Nov 2026 · North Paravur</p>
+                <p className="sub">The Story · watercolour chapters</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -351,11 +354,26 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Nila &amp; Aaron</h3>
-                <p className="sub">1 Jan 2027 · Kochi</p>
+                <p className="sub">New Year&apos;s Eve · moon and midnight</p>
               </div>
               <span className="go">Open invite</span>
             </div>
           </a>
+          {THAMARA_URL ? (
+            <a className="pc-card" id="pc-card3" href={THAMARA_URL} target="_blank" rel="noopener">
+              <div className="art pc-lotus-art">
+                <img src="/media/cut/lotus.webp" alt="" aria-hidden />
+                <div className="lbl"><b>Thamara</b><span>Lotus</span></div>
+              </div>
+              <div className="meta">
+                <div>
+                  <h3>Thamara</h3>
+                  <p className="sub">Lotus and brass, in maroon</p>
+                </div>
+                <span className="go">Open invite</span>
+              </div>
+            </a>
+          ) : null}
         </div>
       </div>
     </section>

@@ -42,19 +42,19 @@ function emailHtml(lead: Lead) {
   const rows = leadLines(lead)
     .map(
       ([k, v]) =>
-        `<tr><td style="padding:8px 12px 8px 0;color:#4E5B49;font-size:14px;vertical-align:top;white-space:nowrap">${esc(k)}</td><td style="padding:8px 0;color:#37463C;font-size:14px;white-space:pre-wrap">${esc(v)}</td></tr>`
+        `<tr><td style="padding:8px 12px 8px 0;color:#6E4A47;font-size:14px;vertical-align:top;white-space:nowrap">${esc(k)}</td><td style="padding:8px 0;color:#4A0F16;font-size:14px;white-space:pre-wrap">${esc(v)}</td></tr>`
     )
     .join("");
   const btn = (href: string, label: string, primary: boolean) =>
     `<a href="${esc(href)}" style="display:inline-block;margin:0 8px 8px 0;padding:11px 18px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;${
-      primary ? "background:#37463C;color:#F7F3ED" : "background:#FFFDF9;color:#37463C;border:1px solid #D9D8C8"
+      primary ? "background:#4A0F16;color:#F8F1EA" : "background:#FFFDF9;color:#4A0F16;border:1px solid #EAD9CD"
     }">${esc(label)}</a>`;
-  return `<!doctype html><html><body style="margin:0;background:#F7F3ED;font-family:Arial,Helvetica,sans-serif">
+  return `<!doctype html><html><body style="margin:0;background:#F8F1EA;font-family:Arial,Helvetica,sans-serif">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
-    <p style="margin:0 0 12px;font-size:13px;color:#4E5B49">${esc(STUDIO)}</p>
+    <p style="margin:0 0 12px;font-size:13px;color:#6E4A47">${esc(STUDIO)}</p>
     <div style="background:#FFFDF9;border:1px solid #E2DFD4;border-radius:14px;padding:24px">
-      <h1 style="margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;font-size:26px;color:#37463C">New enquiry from ${esc(lead.name)}</h1>
-      <p style="margin:0 0 16px;font-size:14px;color:#4E5B49">${esc(packageLabel(lead.package))}${lead.wedding_date ? " · " + esc(prettyDate(lead.wedding_date)) : ""}</p>
+      <h1 style="margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;font-size:26px;color:#4A0F16">New enquiry from ${esc(lead.name)}</h1>
+      <p style="margin:0 0 16px;font-size:14px;color:#6E4A47">${esc(packageLabel(lead.package))}${lead.wedding_date ? " · " + esc(prettyDate(lead.wedding_date)) : ""}</p>
       <table style="border-collapse:collapse;width:100%">${rows}</table>
       <div style="margin-top:20px">${btn(replyLink(lead), "Reply on WhatsApp", true)}${btn(`${siteUrl()}/admin/leads/${lead.id}`, "Open in dashboard", false)}</div>
     </div>

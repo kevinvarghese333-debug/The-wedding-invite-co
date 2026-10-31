@@ -21,7 +21,7 @@ export function RsvpDemo() {
   const [replies, setReplies] = React.useState<Record<string, string>>({ eng: "yes", wed: "yes", rec: "no" });
   const going = Object.values(replies).some((v) => v === "yes");
   return (
-    <Card className="w-full max-w-[440px] gap-0 py-0 shadow-[0_20px_50px_rgba(55,70,60,0.12)]">
+    <Card className="w-full max-w-[440px] gap-0 py-0 shadow-[0_20px_50px_rgba(74,15,22,0.12)]">
       <div className="flex items-start justify-between gap-3 px-5 pt-5 pb-4">
         <div>
           <p className="font-semibold">The Thomas family</p>
@@ -80,7 +80,7 @@ export function GuestLinksDemo() {
     { icon: <Globe />, name: "Reception", link: "annaandjoel.in/reception", badge: <Badge variant="secondary">Everyone</Badge> },
   ];
   return (
-    <Card className="w-full max-w-[440px] gap-0 py-0 shadow-[0_20px_50px_rgba(55,70,60,0.12)]">
+    <Card className="w-full max-w-[440px] gap-0 py-0 shadow-[0_20px_50px_rgba(74,15,22,0.12)]">
       <div className="px-5 pt-5 pb-4">
         <p className="font-semibold">Guest links</p>
         <p className="text-muted-foreground mt-1 text-sm">Who sees which functions</p>
@@ -111,12 +111,12 @@ export function GuestLinksDemo() {
 }
 
 const SWATCHES = [
+  { hex: "#6B1420", label: "Maroon" },
+  { hex: "#B8893A", label: "Antique gold" },
+  { hex: "#D89A8E", label: "Rose" },
   { hex: "#879581", label: "Sage" },
-  { hex: "#37463C", label: "Forest" },
-  { hex: "#C5A18A", label: "Clay" },
-  { hex: "#C98F86", label: "Rose" },
   { hex: "#7F95AD", label: "Dusty blue" },
-  { hex: "#B8975A", label: "Antique gold" },
+  { hex: "#E6BF96", label: "Champagne" },
 ];
 const FONTS = [
   { id: "cormorant", label: "Cormorant Garamond", family: "'Cormorant Garamond', Georgia, serif", size: 38 },
@@ -145,7 +145,7 @@ export function DesignPicker() {
             >
               <span
                 className="block size-7 rounded-full"
-                style={{ background: s.hex, boxShadow: accent === s.hex ? "0 0 0 3px #FFFDF9, 0 0 0 5px #37463C" : "inset 0 0 0 1px rgba(55,70,60,.15)" }}
+                style={{ background: s.hex, boxShadow: accent === s.hex ? "0 0 0 3px #FFFDF9, 0 0 0 5px #4A0F16" : "inset 0 0 0 1px rgba(74,15,22,.15)" }}
               />
             </button>
           ))}
@@ -160,14 +160,14 @@ export function DesignPicker() {
         </ToggleGroup>
       </div>
       <div className="flex min-w-0 flex-[1_1_240px] justify-center">
-        <div role="img" aria-label="Sample invitation card for Anna and Joel" className="aspect-[4/5] w-full max-w-[260px] rotate-2 rounded-lg border bg-[#F7F3ED] p-3.5 shadow-[0_20px_44px_rgba(55,70,60,0.14)]">
+        <div role="img" aria-label="Sample invitation card for Anna and Joel" className="aspect-[4/5] w-full max-w-[260px] rotate-2 rounded-lg border bg-[#F8F1EA] p-3.5 shadow-[0_20px_44px_rgba(74,15,22,0.14)]">
           <div className="flex h-full flex-col items-center justify-center rounded-[4px] border-[1.5px] p-3.5 text-center" style={{ borderColor: accent }}>
             <LeafMark className="size-10" stroke={accent} strokeWidth={1.3} />
-            <p className="mt-2.5 text-[9px] font-medium tracking-[0.26em] text-[#4E5B49] uppercase">The wedding of</p>
+            <p className="mt-2.5 text-[9px] font-medium tracking-[0.26em] text-[#6E4A47] uppercase">The wedding of</p>
             <p className="mt-2 leading-[1.05]" style={{ fontFamily: f.family, fontSize: f.size }}>Anna</p>
             <p className="heading my-0.5 text-[22px] leading-none italic" style={{ color: accent }}>&amp;</p>
             <p className="leading-[1.05]" style={{ fontFamily: f.family, fontSize: f.size }}>Joel</p>
-            <p className="mt-2.5 text-[11px] tracking-[0.2em] text-[#4E5B49]">06 · 02 · 2027</p>
+            <p className="mt-2.5 text-[11px] tracking-[0.2em] text-[#6E4A47]">06 · 02 · 2027</p>
           </div>
         </div>
       </div>

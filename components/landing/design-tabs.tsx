@@ -49,7 +49,7 @@ export function DesignTabs() {
       {DESIGNS.map((d) => (
         <TabsContent key={d.id} value={d.id} className="w-full">
           <Card className="flex-row flex-wrap items-center justify-center gap-[clamp(28px,5vw,64px)] px-[clamp(20px,4vw,48px)] py-[clamp(20px,4vw,48px)]">
-            <div className="w-[252px] flex-none rounded-[40px] bg-[#26302A] p-2 shadow-[0_30px_60px_rgba(55,70,60,0.22)]">
+            <div className="w-[252px] flex-none rounded-[40px] bg-[#2A0A0E] p-2 shadow-[0_30px_60px_rgba(74,15,22,0.22)]">
               <AutoVideo src={d.video} poster={d.poster} aria-label={d.label} className="h-[510px] w-[236px] rounded-[32px] bg-[#1E140E] object-cover" />
             </div>
             <div className="max-w-[480px] min-w-0 flex-[1_1_320px]">
