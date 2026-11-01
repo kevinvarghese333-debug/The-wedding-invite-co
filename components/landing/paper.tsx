@@ -147,6 +147,36 @@ function DotHeadline() {
   );
 }
 
+/* ---------- simple fairy lights: a thin wire with small warm bulbs ---------- */
+
+function FairyLights({ className }: { className: string }) {
+  const W = 600, H = 120, n = 19;
+  const p0 = [0, 6], c = [300, 150], p1 = [600, 14];
+  const pt = (t: number) => [
+    (1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * c[0] + t * t * p1[0],
+    (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * c[1] + t * t * p1[1],
+  ];
+  const bulbs = Array.from({ length: n }, (_, i) => pt((i + 0.5) / n));
+  return (
+    <svg className={className} viewBox={`0 0 ${W} ${H}`} aria-hidden>
+      <path d={`M${p0} Q${c} ${p1}`} fill="none" stroke="#2A0A0E" strokeWidth="1.4" opacity=".7" />
+      {bulbs.map(([x, y], i) => (
+        <g key={i} className="pc-bulb" style={{ animationDelay: `${-((i * 0.37) % 2.6)}s` }}>
+          <line x1={x} y1={y} x2={x} y2={y + 7} stroke="#2A0A0E" strokeWidth="1" opacity=".7" />
+          <circle cx={x} cy={y + 12} r="11" fill="url(#pc-glow)" />
+          <circle cx={x} cy={y + 11} r="3.6" fill="#FFE6B0" />
+        </g>
+      ))}
+      <defs>
+        <radialGradient id="pc-glow">
+          <stop offset="0" stopColor="#FFD58A" stopOpacity=".75" />
+          <stop offset="1" stopColor="#FFB45C" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </svg>
+  );
+}
+
 /* ---------- hero: maroon stage, cutouts in the corners, envelope opens on scroll ---------- */
 
 export function PaperHero() {
@@ -196,7 +226,7 @@ export function PaperHero() {
           .to(".pc-dawn", { opacity: 1, duration: 0.3 }, 0.62)
           .to({}, { duration: 0.12 });
 
-        const st = (start: string, end: string) => ({ trigger: "#feel", start, end, scrub: 0.6 });
+        const st = (start: string, end: string) => ({ trigger: "#origin", start, end, scrub: 0.6 });
         gsap.from("#pc-s-photo", { x: -160, rotation: -14, opacity: 0, scrollTrigger: st("top 90%", "top 35%") });
         gsap.from("#pc-s-pol", { x: 180, y: 60, rotation: 24, opacity: 0, scrollTrigger: st("top 85%", "top 25%") });
         gsap.from("#pc-s-bouquet", { y: -140, rotation: 40, opacity: 0, scrollTrigger: st("top 85%", "top 30%") });
@@ -219,8 +249,8 @@ export function PaperHero() {
     <section id="top" ref={stage} aria-labelledby="hero-h" className="pc-stage">
       <div className="pc-velvet" aria-hidden />
 
-      <img className="pc-cut pc-lights l" src="/media/cut/lights.webp" alt="" aria-hidden />
-      <img className="pc-cut pc-lights r" src="/media/cut/lights.webp" alt="" aria-hidden />
+      <FairyLights className="pc-cut pc-lights l" />
+      <FairyLights className="pc-cut pc-lights r" />
       <img className="pc-cut pc-float" id="pc-bride" src="/media/cut/bride.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/cut/lotus.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d3" id="pc-camera" src="/media/cut/camera.webp" alt="" aria-hidden />
@@ -233,9 +263,9 @@ export function PaperHero() {
         <p className="pc-lede">One link that invites, informs and counts your guests. Designed for the two of you, sent on WhatsApp.</p>
         <div className="pc-cta">
           <EnquireButton size="lg" origin="hero" variant="clay" className="rounded-full">
-            Plan your invitation <ArrowRight />
+            Check my date <ArrowRight />
           </EnquireButton>
-          <a className="pc-ghost" href="#samples">See samples</a>
+          <a className="pc-ghost" href="#samples">See real invitations</a>
         </div>
       </div>
 
@@ -256,43 +286,44 @@ export function PaperHero() {
   );
 }
 
-/* ---------- what guests feel ---------- */
+/* ---------- where it started ---------- */
 
-export function PaperFeel() {
+export function PaperOrigin({ studio }: { studio: string }) {
   return (
-    <section id="feel" aria-labelledby="feel-h" className="pc-section pc-origin">
+    <section id="origin" aria-labelledby="origin-h" className="pc-section pc-origin">
       <div className="pc-wrap pc-story-grid">
         <div className="pc-collage">
           <div className="pc-cut pc-photo" id="pc-s-photo">
-            <img src="/media/ph-g3.jpg" alt="A couple on the beach at sunset" />
+            <img src="/media/sc-altar.jpg" alt="Watercolour of a church aisle from the first invitation we made" />
           </div>
           <img className="pc-cut" id="pc-s-bouquet" src="/media/cut/bouquet.webp" alt="" aria-hidden />
           <figure className="pc-cut pc-polaroid" id="pc-s-pol">
             <span className="pc-tape" aria-hidden />
-            <img src="/media/ph-poster.jpg" alt="A couple dancing at their reception" style={{ objectPosition: "50% 70%" }} />
+            <img src="/media/ph-poster.jpg" alt="A couple dancing at their reception, seen from behind" style={{ objectPosition: "50% 70%" }} />
             <figcaption>the first dance</figcaption>
           </figure>
           <img className="pc-cut" id="pc-s-player" src="/media/cut/player.webp" alt="" aria-hidden />
         </div>
         <div className="pc-story">
-          <p className="pc-eyebrow">More than an invitation</p>
-          <h2 id="feel-h">
-            An invitation your guests <em>keep opening.</em>
+          <p className="pc-eyebrow">Where it started</p>
+          <h2 id="origin-h">
+            We made the first one for <em>our sister&apos;s wedding.</em>
           </h2>
           <p>
-            Your story, your song, the places that matter to you, every venue with directions and a way to reply. Guests open it the day it arrives and again on the morning of the wedding.
+            Four functions across two towns, a bride&apos;s side and a groom&apos;s side, and guests invited to different days. A printed card couldn&apos;t hold all of that, and a PDF on WhatsApp felt like a circular.
           </p>
           <p>
-            Each family gets its own links, so every guest sees only the functions they are invited to, and every reply lands in one list for you.
+            So we built one invitation with their story, their song, every venue and a way to reply. Each family sent links that showed only the functions their guests were invited to. Guests kept opening it right up to the wedding day. That invitation became {studio}
           </p>
           <div className="pc-note">
             <dl>
-              <dt>Link</dt><dd>1</dd>
-              <dt>Functions</dt><dd>All</dd>
-              <dt>Guest lists</dt><dd>Any</dd>
-              <dt>Apps to install</dt><dd>0</dd>
+              <dt>Functions</dt><dd>4</dd>
+              <dt>Families</dt><dd>2</dd>
+              <dt>Guest links</dt><dd>8</dd>
+              <dt>RSVP list</dt><dd>1</dd>
             </dl>
           </div>
+          <p className="pc-sign">Kevin</p>
         </div>
       </div>
     </section>
@@ -303,8 +334,8 @@ export function PaperFeel() {
 
 const STAR = "M0 -10 L2.4 -2.4 L10 0 L2.4 2.4 L0 10 L-2.4 2.4 L-10 0 L-2.4 -2.4Z";
 
-// Third sample (the lotus / Thamara design). The card shows once its link is filled in.
-const THAMARA_URL = "";
+// Third sample: Malavika & Hari, the lotus (Thamara) design.
+const THAMARA_URL = "https://malavika-hari.vercel.app/";
 
 export function PaperSamples() {
   return (
@@ -315,7 +346,7 @@ export function PaperSamples() {
           <h2 id="samples-h">
             No two invitations <em>look the same.</em>
           </h2>
-          <p>Every invitation is designed around the couple: their story, their colours, their functions. Open them on your phone.</p>
+          <p>Every invitation is designed around the couple: their story, their colours, their functions. These are live. Open them on your phone.</p>
         </div>
         <div className={`pc-cards${THAMARA_URL ? " three" : ""}`} id="pc-cards">
           <a className="pc-card" id="pc-card1" href="https://kavitha.cloud/keerthyandrosheel" target="_blank" rel="noopener">
@@ -325,7 +356,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Keerthy &amp; Rosheel</h3>
-                <p className="sub">The Story · watercolour chapters</p>
+                <p className="sub">The Signature Invitation · story in chapters</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -354,7 +385,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Nila &amp; Aaron</h3>
-                <p className="sub">New Year&apos;s Eve · moon and midnight</p>
+                <p className="sub">The Signature Invitation · New Year&apos;s Eve</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -363,12 +394,12 @@ export function PaperSamples() {
             <a className="pc-card" id="pc-card3" href={THAMARA_URL} target="_blank" rel="noopener">
               <div className="art pc-lotus-art">
                 <img src="/media/cut/lotus.webp" alt="" aria-hidden />
-                <div className="lbl"><b>Thamara</b><span>Lotus</span></div>
+                <div className="lbl"><b>Malavika &amp; Hari</b><span>Some things open slowly</span></div>
               </div>
               <div className="meta">
                 <div>
-                  <h3>Thamara</h3>
-                  <p className="sub">Lotus and brass, in maroon</p>
+                  <h3>Malavika &amp; Hari</h3>
+                  <p className="sub">The Signature Invitation · Thamara</p>
                 </div>
                 <span className="go">Open invite</span>
               </div>

@@ -10,8 +10,8 @@ export function publicWhatsApp() {
 }
 
 export const PACKAGES = {
-  classic: { label: "The Classic", price: "₹4,999" },
-  story: { label: "The Story", price: "₹8,490" },
+  classic: { label: "The Classic Invitation", price: "₹4,999" },
+  story: { label: "The Signature Invitation", price: "₹8,490" },
   unsure: { label: "Not sure yet", price: "" },
 } as const;
 

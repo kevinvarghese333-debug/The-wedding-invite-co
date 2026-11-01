@@ -175,10 +175,12 @@
 
 /* cutouts (positions); GSAP moves `transform`, the idle float uses `translate` so they never fight */
 .pc-stage .pc-cut { z-index: 10; filter: drop-shadow(0 18px 22px rgba(20,0,4,.45)); }
-.pc-lights { top: -5%; width: clamp(170px, 18vw, 290px); transform-origin: 50% 0; }
-.pc-lights.l { left: -3%; rotate: 3deg; }
-.pc-lights.r { right: -3%; scale: -1 1; rotate: 3deg; }
-.pc-stage .pc-lights { filter: drop-shadow(0 0 16px rgba(255,190,110,.55)) drop-shadow(0 10px 14px rgba(20,0,4,.35)); animation: pc-sway 7s ease-in-out infinite; }
+.pc-lights { top: -1%; width: clamp(240px, 34vw, 540px); height: auto; transform-origin: 50% 0; overflow: visible; }
+.pc-lights.l { left: -1%; }
+.pc-lights.r { right: -1%; scale: -1 1; }
+.pc-stage .pc-lights { filter: none; animation: pc-sway 7s ease-in-out infinite; }
+.pc-bulb { animation: pc-twinkle 2.6s ease-in-out infinite; }
+@keyframes pc-twinkle { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
 .pc-lights.r { animation-delay: -3s; }
 #pc-bride { left: 3%; top: 33%; width: clamp(170px, 16vw, 260px); }
 #pc-lotus { right: 6%; top: 30%; width: clamp(120px, 12vw, 190px); }
@@ -208,8 +210,8 @@
   .pc-dots { margin-top: 14px; }
   .pc-lede { font-size: 15px; margin-top: 14px; }
   .pc-cta { margin-top: 18px; gap: 16px; }
-  .pc-lights { width: 34vw; top: -4%; }
-  .pc-lights.l { left: -8%; } .pc-lights.r { right: -8%; }
+  .pc-lights { width: 52vw; top: -1%; }
+  .pc-lights.l { left: -2%; } .pc-lights.r { right: -2%; }
   #pc-lotus { right: 3%; top: auto; bottom: 21%; width: 104px; }
   #pc-camera { left: 2%; bottom: 2%; width: 82px; }
   #pc-ringbox { right: 3%; bottom: 2%; width: 70px; }
@@ -248,9 +250,9 @@
 .pc-head > p:last-child { margin-top: 14px; color: var(--pc-ink); font-size: 17px; line-height: 1.6; }
 .pc-cards { margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
 .pc-cards.three { grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.pc-lotus-art { background: radial-gradient(ellipse at 50% 45%, #7C1A24, #4A0C12); display: grid; place-items: center; }
+.pc-lotus-art { background: radial-gradient(ellipse at 50% 70%, #123532, #061716 70%); display: grid; place-items: center; }
 .pc-card .art.pc-lotus-art img { position: absolute; width: 46%; height: auto; left: 27%; bottom: 10%; object-fit: contain; filter: drop-shadow(0 12px 16px rgba(20,0,4,.45)); }
-.pc-lotus-art .lbl { position: absolute; left: 0; right: 0; top: 12%; text-align: center; color: #F4E3C9; font-family: var(--pc-display); }
+.pc-lotus-art .lbl { position: absolute; left: 0; right: 0; top: 12%; text-align: center; color: #F6DCE3; font-family: var(--pc-display); }
 .pc-lotus-art .lbl b { display: block; font-weight: 500; font-size: clamp(30px, 3.2vw, 44px); line-height: 1; }
 .pc-lotus-art .lbl span { display: block; margin-top: 6px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; opacity: .8; }
 @media (max-width: 1000px) { .pc-cards.three { grid-template-columns: 1fr 1fr; } }
@@ -270,11 +272,11 @@
 
 @media (max-width: 700px) {
   .pc-polaroid figcaption { font-size: 18px; }
-  .pc-story-grid, .pc-cards { grid-template-columns: 1fr; }
+  .pc-story-grid, .pc-cards, .pc-cards.three { grid-template-columns: 1fr; }
   .pc-collage { min-height: 440px; }
   .pc-origin { padding: 80px 0 60px; }
   .pc-note dl { grid-template-columns: repeat(2, auto); }
   .pc-note dt, .pc-note dd { grid-row: auto; }
   .pc-card h3 { font-size: 28px; }
 }
-@media (prefers-reduced-motion: reduce) { .pc-float, .pc-stage .pc-lights { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .pc-float, .pc-stage .pc-lights, .pc-bulb { animation: none; } }

@@ -27,7 +27,8 @@ import { DesignPicker, GuestLinksDemo, RsvpDemo } from "@/components/landing/dem
 import { DesignTabs } from "@/components/landing/design-tabs";
 import { EnquireButton, EnquiryForm, EnquiryProvider } from "@/components/landing/enquiry";
 import { whatsappHref } from "@/lib/whatsapp";
-import { PaperFeel, PaperHero, PaperSamples } from "@/components/landing/paper";
+import { PaperHero, PaperOrigin, PaperSamples } from "@/components/landing/paper";
+import { StickyCta, TrustStrip, InlineCta } from "@/components/landing/funnel";
 import { publicWhatsApp, STUDIO } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
@@ -50,7 +51,7 @@ const COLLAGE = [
 ];
 
 const CLASSIC_POINTS = [
-  "Wax seal cover with falling petals",
+  "An elegant animated opening",
   "Your photos, video and song",
   "Every function with maps, calendar and timings",
   "Live countdown to the day",
@@ -60,13 +61,13 @@ const CLASSIC_POINTS = [
   "WhatsApp preview with your names",
 ];
 const STORY_POINTS = [
-  "A moving cover designed for you",
-  "Watercolour chapters of how you met",
-  "Polaroid reveal of your first photo",
+  "An opening designed only for you",
+  "Your story in chapters, in the style you choose",
+  "Custom moments, like a photo that develops as guests watch",
   "Bride's side and groom's side versions",
   "Save-the-date and thank-you pages",
 ];
-const ADDONS = ["Your own web address", "Malayalam or bilingual wording", "Extra story chapters", "Save-the-date and thank-you pages for The Classic"];
+const ADDONS = ["Your own web address", "Malayalam or bilingual wording", "Extra story chapters", "Save-the-date and thank-you pages for The Classic Invitation"];
 
 const FAQ = [
   ["Do our guests need to download anything?", "No. It opens in the browser on any phone, straight from WhatsApp. Grandparents included."],
@@ -75,7 +76,7 @@ const FAQ = [
   ["We're printing cards too. Can they link to it?", "Yes. You get a QR code to print on your cards. Guests scan it and land on the invitation with maps and RSVP."],
   ["How do the RSVPs reach us?", "On a private page only you can open. See headcounts, read guests' notes and answers, filter by link and download everything to Excel for the caterer."],
   ["What if something changes after we send it?", "Tell us and we update it. Guests keep the same link, so they always see the latest time and venue."],
-  ["What do you need from us?", "Your names and your parents' names, each function with its time and venue, your photos or a video, and the song you love. For The Story, a few lines on how you met."],
+  ["What do you need from us?", "Your names and your parents' names, each function with its time and venue, your photos or a video, and the song you love. For The Signature Invitation, a few lines on how you met."],
   ["How early should we start?", "As soon as your dates and venues are fixed. Message us your first function date and we'll tell you honestly what we can do in that time."],
 ];
 
@@ -166,17 +167,19 @@ export default function Home() {
       <main>
         <PaperHero />
         <PaperSamples />
-        <PaperFeel />
+        <TrustStrip />
+        <PaperOrigin studio={STUDIO} />
+        <InlineCta origin="after-origin" text="Every invitation starts with a date." />
 
         {/* Designs */}
         <section id="designs" aria-labelledby="designs-h" className="py-[clamp(72px,9vw,120px)]">
           <div className={wrap}>
             <div className="mx-auto max-w-[700px] text-center">
-              <Badge variant="outline">Two designs</Badge>
+              <Badge variant="outline">Two invitations</Badge>
               <h2 id="designs-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
                 Choose how it <em className="text-clay-ink font-normal">unfolds.</em>
               </h2>
-              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Both are screen recordings of real invitations we made.</p>
+              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Both are screen recordings of real invitations we made. Every detail, from the first tap to the last reply, is designed with care.</p>
             </div>
             <DesignTabs />
           </div>
@@ -186,12 +189,12 @@ export default function Home() {
         <section id="story" aria-labelledby="story-h" className="bg-primary text-primary-foreground py-[clamp(72px,9vw,120px)]">
           <div className={`${wrap} flex flex-wrap items-end justify-between gap-6`}>
             <div className="max-w-[700px] flex-[1_1_520px]">
-              <Badge className="border-[#F8F1EA33] bg-[#F8F1EA1a] text-[#F8F1EA]">The Story, chapter by chapter</Badge>
+              <Badge className="border-[#F8F1EA33] bg-[#F8F1EA1a] text-[#F8F1EA]">The Signature Invitation</Badge>
               <h2 id="story-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
-                Your love story, <em className="font-normal text-[#E9C29A]">in watercolour.</em>
+                Your story, <em className="font-normal text-[#E9C29A]">the way you want to tell it.</em>
               </h2>
               <p className="mt-4 text-[17px] leading-[1.7] text-[#EAD9CD]">
-                Tell us how you met. We turn the church, the city, the coffee shop and the first photo into scenes your guests scroll through before they reach the date. These chapters are from a real invitation we made.
+                Watercolour, illustration, photographs or film. Tell us how you met and we turn the places and moments that matter into chapters your guests scroll through before they reach the date. These are from a real invitation we made.
               </p>
             </div>
             <p className="flex items-center gap-2 text-[13px] font-medium text-[#E3C9A8]">
@@ -372,13 +375,15 @@ export default function Home() {
           </div>
         </section>
 
+        <InlineCta origin="after-features" text="Imagine this with your names on it." />
+
         {/* How it works */}
         <section id="how" aria-labelledby="how-h" className="bg-muted border-y py-[clamp(72px,9vw,120px)]">
           <div className={wrap}>
-            <SectionHead badge="How it works" title="From your first message to" accent="their first reply." />
+            <SectionHead badge="How it works" title="You share the details." accent="We take care of the rest." />
             <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                ["Message us", "Send your names, functions, venues and a few photos. For The Story, tell us how you met."],
+                ["Message us", "Send your names, functions, venues and a few photos, plus how you met if you would like your story told."],
                 ["We design it", "We write the wording, build your invitation and send you a private preview to open on your phone."],
                 ["Make it yours", "Change the words, photos, music or colours until it feels like the two of you."],
                 ["Send and relax", "Share your links on WhatsApp or print the QR code, then watch replies come in."],
@@ -403,12 +408,12 @@ export default function Home() {
               <h2 id="pricing-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
                 Simple, one-time <em className="text-clay-ink font-normal">pricing.</em>
               </h2>
-              <p className="text-muted-foreground mt-4 text-[17px]">Pay once. We design it, you share it.</p>
+              <p className="text-muted-foreground mt-4 text-[17px]">Pay once. We design it, you share it. No subscriptions, no hidden costs.</p>
             </div>
             <div className="mx-auto mt-12 grid max-w-[920px] gap-5 md:grid-cols-2">
               <Card className="gap-0 p-7">
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">The Classic</h3>
+                  <h3 className="text-lg font-semibold">The Classic Invitation</h3>
                   <Badge variant="secondary">Elegant and quick</Badge>
                 </div>
                 <p className="text-muted-foreground mt-1.5 text-sm">Everything guests need, beautifully laid out.</p>
@@ -417,17 +422,17 @@ export default function Home() {
                   <span className="text-muted-foreground text-sm">one-time</span>
                 </p>
                 <EnquireButton variant="outline" pkg="classic" origin="pricing-classic" className="mt-6 w-full">
-                  Choose The Classic
+                  Check my date
                 </EnquireButton>
                 <Separator className="mt-6 mb-5" />
                 <Checklist items={CLASSIC_POINTS} />
               </Card>
               <Card className="border-primary gap-0 border-2 p-7 shadow-[0_24px_60px_rgba(74,15,22,0.16)]">
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">The Story</h3>
-                  <Badge>Our signature</Badge>
+                  <h3 className="text-lg font-semibold">The Signature Invitation</h3>
+                  <Badge>Recommended</Badge>
                 </div>
-                <p className="text-muted-foreground mt-1.5 text-sm">Everything in The Classic, plus your story.</p>
+                <p className="text-muted-foreground mt-1.5 text-sm">Everything in The Classic Invitation, plus your story.</p>
                 <div className="mt-6 flex flex-wrap items-baseline gap-x-2.5 gap-y-1.5">
                   <span className="heading text-[52px] leading-none font-semibold">₹8,490</span>
                   <s className="text-muted-foreground text-lg">
@@ -437,7 +442,7 @@ export default function Home() {
                 </div>
                 <Badge variant="clay" className="mt-2.5">Launch offer · Save ₹1,509</Badge>
                 <EnquireButton pkg="story" origin="pricing-story" className="mt-4 w-full">
-                  Choose The Story <ArrowRight />
+                  Check my date <ArrowRight />
                 </EnquireButton>
                 <Separator className="mt-6 mb-5" />
                 <Checklist
@@ -446,7 +451,7 @@ export default function Home() {
                     <li className="flex gap-2.5">
                       <Check className="text-sage mt-0.5 size-4 flex-none" strokeWidth={2.4} aria-hidden />
                       <span>
-                        Everything in <strong className="font-semibold">The Classic</strong>
+                        Everything in <strong className="font-semibold">The Classic Invitation</strong>
                       </span>
                     </li>
                   }
@@ -462,6 +467,14 @@ export default function Home() {
                 </div>
               ))}
             </Card>
+            <ul className="text-muted-foreground mx-auto mt-6 flex max-w-[920px] flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
+              {["See a private preview before guests do", "Changes until the wedding day, same link", "Reply within the day on WhatsApp"].map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <Check className="text-sage size-4" strokeWidth={2.4} aria-hidden />
+                  {t}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
@@ -534,9 +547,9 @@ export default function Home() {
             <div className="mx-auto max-w-[620px] text-center">
               <Badge variant="outline">More than an invitation</Badge>
               <h2 id="cta-h" className="heading mt-4 text-[clamp(48px,7vw,92px)] leading-[0.98] tracking-[-0.02em]">
-                Tell us your <em className="text-clay-ink font-normal">date.</em>
+                Is your date <em className="text-clay-ink font-normal">free?</em>
               </h2>
-              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Send this and we&apos;ll reply on WhatsApp with what&apos;s possible and how your invitation could look.</p>
+              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Send your name, number and date. We&apos;ll confirm on WhatsApp and share ideas for your invitation. No payment, no obligation.</p>
             </div>
             <Card className="mx-auto mt-10 max-w-[720px] gap-0 p-[clamp(20px,4vw,36px)]">
               <EnquiryForm origin="enquire-section" whatsapp={wa} />
@@ -550,6 +563,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <StickyCta whatsapp={chat} />
 
       <footer className="bg-card border-t">
         <div className={`${wrap} flex flex-wrap items-center justify-between gap-x-8 gap-y-4 py-8 text-sm`}>
@@ -575,7 +589,6 @@ export default function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/media/cut/cat.webp" alt="A cat making a heart with its paws" className="w-[104px] drop-shadow-[0_10px_14px_rgba(74,15,22,0.18)]" />
             <p className="text-clay-ink text-[34px] leading-none" style={{ fontFamily: "'Mrs Saint Delafield', cursive" }}>Made with love</p>
-            <p className="text-muted-foreground text-[12px] tracking-[0.2em] uppercase">in Kerala</p>
           </div>
           <Separator />
           <p className="text-muted-foreground text-[13px]">© {new Date().getFullYear()} {STUDIO} · More than an invitation. Wedding invitation websites, made in Kerala.</p>

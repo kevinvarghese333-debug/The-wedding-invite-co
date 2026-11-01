@@ -10,6 +10,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { whatsappHref } from "@/lib/whatsapp";
+import { track } from "@/lib/track";
 
 type Pkg = "classic" | "story" | "unsure";
 type Ctx = { open: (pkg?: Pkg, origin?: string) => void; whatsapp: string };
@@ -18,15 +19,18 @@ export const useEnquiry = () => React.useContext(EnquiryContext);
 
 export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; children: React.ReactNode }) {
   const [state, setState] = React.useState<{ open: boolean; pkg: Pkg; origin: string }>({ open: false, pkg: "unsure", origin: "" });
-  const open = React.useCallback((pkg: Pkg = "unsure", origin = "") => setState({ open: true, pkg, origin }), []);
+  const open = React.useCallback((pkg: Pkg = "unsure", origin = "") => {
+    setState({ open: true, pkg, origin });
+    track("InitiateCheckout", { content_name: pkg, origin });
+  }, []);
   return (
     <EnquiryContext.Provider value={{ open, whatsapp }}>
       {children}
       <Dialog open={state.open} onOpenChange={(o) => setState((s) => ({ ...s, open: o }))}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="heading text-3xl font-medium">Plan your invitation</DialogTitle>
-            <DialogDescription>Tell us a little about your wedding and we will reply on WhatsApp.</DialogDescription>
+            <DialogTitle className="heading text-3xl font-medium">Check your date</DialogTitle>
+            <DialogDescription>Three quick details. We reply on WhatsApp with availability and ideas. No payment, no obligation.</DialogDescription>
           </DialogHeader>
           <EnquiryForm key={`${state.pkg}-${state.origin}-${state.open}`} defaultPackage={state.pkg} origin={state.origin} whatsapp={whatsapp} compact />
         </DialogContent>
@@ -82,6 +86,7 @@ export function EnquiryForm({
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.ok) {
         setFirstName((data.name || "").split(/[\s&,]+/)[0]);
+        track("Lead", { content_name: data.package || "unsure", origin });
         setStatus("done");
         return;
       }
@@ -99,11 +104,11 @@ export function EnquiryForm({
         <div>
           <p className="heading text-3xl">Thank you{firstName ? `, ${firstName}` : ""}!</p>
           <p className="text-muted-foreground mt-2 max-w-sm text-sm leading-relaxed">
-            We have your enquiry and will reply on WhatsApp soon. Want to start the conversation now?
+            We have your date and will reply on WhatsApp soon. Want to start the conversation now?
           </p>
         </div>
         <Button asChild size="lg">
-          <a href={whatsappHref(whatsapp, `Hi! I just sent an enquiry on your website${firstName ? ` (${firstName})` : ""}.`)} target="_blank" rel="noopener">
+          <a href={whatsappHref(whatsapp, `Hi! I just sent an enquiry on your website${firstName ? ` (${firstName})` : ""}.`)} target="_blank" rel="noopener" onClick={() => track("Contact", { method: "whatsapp", origin: "after-enquiry" })}>
             <MessageCircle /> Chat on WhatsApp
           </a>
         </Button>
@@ -142,44 +147,52 @@ export function EnquiryForm({
         <div className="grid gap-2">
           <Label htmlFor={`${id}-pkg`}>Package</Label>
           <NativeSelect id={`${id}-pkg`} name="package" defaultValue={defaultPackage}>
-            <option value="classic">The Classic</option>
-            <option value="story">The Story</option>
+            <option value="classic">The Classic Invitation</option>
+            <option value="story">The Signature Invitation</option>
             <option value="unsure">Not sure yet</option>
           </NativeSelect>
         </div>
       </div>
+      <details className="group rounded-lg border border-dashed px-4 py-3 open:pb-4">
+        <summary className="text-muted-foreground cursor-pointer list-none text-sm font-medium select-none [&::-webkit-details-marker]:hidden">
+          <span className="group-open:hidden">+ Add more details (optional)</span>
+          <span className="hidden group-open:inline">More details (optional)</span>
+        </summary>
+        <div className="mt-4 grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="grid gap-2">
-          <Label htmlFor={`${id}-fn`}>Number of functions</Label>
-          <NativeSelect id={`${id}-fn`} name="functions" defaultValue="">
-            <option value="">Choose</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5 or more</option>
-          </NativeSelect>
+            <div className="grid gap-2">
+              <Label htmlFor={`${id}-fn`}>Number of functions</Label>
+              <NativeSelect id={`${id}-fn`} name="functions" defaultValue="">
+                <option value="">Choose</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5 or more</option>
+              </NativeSelect>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor={`${id}-email`}>
+                Email <span className="text-muted-foreground font-normal">(optional)</span>
+              </Label>
+              <Input id={`${id}-email`} name="email" type="email" autoComplete="email" placeholder="you@example.com" {...field("email")} />
+              {err("email")}
+            </div>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor={`${id}-loc`}>
+              City or venue <span className="text-muted-foreground font-normal">(optional)</span>
+            </Label>
+            <Input id={`${id}-loc`} name="location" placeholder="Kochi" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor={`${id}-msg`}>
+              Anything else? <span className="text-muted-foreground font-normal">(optional)</span>
+            </Label>
+            <Textarea id={`${id}-msg`} name="message" rows={3} placeholder="How you met, the look you like, questions for us" />
+          </div>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor={`${id}-email`}>
-            Email <span className="text-muted-foreground font-normal">(optional)</span>
-          </Label>
-          <Input id={`${id}-email`} name="email" type="email" autoComplete="email" placeholder="you@example.com" {...field("email")} />
-          {err("email")}
-        </div>
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor={`${id}-loc`}>
-          City or venue <span className="text-muted-foreground font-normal">(optional)</span>
-        </Label>
-        <Input id={`${id}-loc`} name="location" placeholder="Kochi" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor={`${id}-msg`}>
-          Anything else? <span className="text-muted-foreground font-normal">(optional)</span>
-        </Label>
-        <Textarea id={`${id}-msg`} name="message" rows={3} placeholder="How you met, the look you like, questions for us" />
-      </div>
+      </details>
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
           Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
@@ -193,9 +206,9 @@ export function EnquiryForm({
       <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
         <Button type="submit" size="lg" disabled={status === "sending"} className="sm:min-w-48">
           {status === "sending" ? <Loader2 className="animate-spin" /> : null}
-          {status === "sending" ? "Sending" : "Send enquiry"}
+          {status === "sending" ? "Sending" : "Check my date"}
         </Button>
-        <p className="text-muted-foreground text-xs leading-relaxed">We only use your details to reply about your invitation.</p>
+        <p className="text-muted-foreground text-xs leading-relaxed">No payment, no obligation. We only use your details to reply about your invitation.</p>
       </div>
     </form>
   );
