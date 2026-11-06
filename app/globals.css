@@ -182,7 +182,7 @@
 .pc-bulb { animation: pc-twinkle 2.6s ease-in-out infinite; }
 @keyframes pc-twinkle { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
 .pc-lights.r { animation-delay: -3s; }
-#pc-bride { left: 3%; top: 33%; width: clamp(170px, 16vw, 260px); }
+#pc-couple { left: 4%; top: 30%; width: clamp(150px, 14vw, 230px); }
 #pc-lotus { right: 6%; top: 30%; width: clamp(120px, 12vw, 190px); }
 #pc-camera { left: 6%; bottom: 8%; width: clamp(120px, 11.5vw, 180px); rotate: -8deg; }
 #pc-ringbox { right: 6.5%; bottom: 7%; width: clamp(108px, 10vw, 160px); rotate: 7deg; }
@@ -218,7 +218,7 @@
   .pc-env-wrap { --peek: 52px; }
   .pc-env { width: 168px; }
 }
-@media (max-width: 640px) { #pc-bride, #pc-lotus { display: none; } }
+@media (max-width: 640px) { #pc-couple, #pc-lotus { display: none; } }
 
 /* ---------- where it started ---------- */
 .pc-polaroid { margin: 0; background: var(--pc-paper); padding: 9px 9px 34px; border-radius: 2px; }
@@ -280,3 +280,19 @@
   .pc-card h3 { font-size: 28px; }
 }
 @media (prefers-reduced-motion: reduce) { .pc-float, .pc-stage .pc-lights, .pc-bulb { animation: none; } }
+
+/* five samples: three on top, two centred below */
+.pc-cards.many { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; }
+.pc-cards.many .pc-card { flex: 0 1 calc((100% - 64px) / 3); }
+@media (max-width: 1000px) { .pc-cards.many .pc-card { flex-basis: calc((100% - 32px) / 2); } }
+@media (max-width: 700px) { .pc-cards.many .pc-card { flex-basis: 100%; } }
+#pc-card3, #pc-card5 { transform: rotate(1.5deg); } #pc-card4 { transform: rotate(-1.5deg); }
+.pc-temple-art { background: radial-gradient(ellipse at 50% 60%, #4A1020, #2E0813 70%); }
+.pc-temple-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pc-bloom-art { background: radial-gradient(ellipse at 50% 60%, #F8E4DC, #F1D2C8 70%); }
+.pc-card .art.pc-bloom-art img { position: absolute; width: 26%; height: auto; left: 37%; bottom: 5%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(74,15,22,.25)); }
+.pc-temple-art .lbl, .pc-bloom-art .lbl { position: absolute; left: 0; right: 0; top: 12%; text-align: center; font-family: var(--pc-display); }
+.pc-temple-art .lbl { top: 40%; color: #F4E3C9; }
+.pc-bloom-art .lbl { top: 9%; color: #6B1420; }
+.pc-temple-art .lbl b, .pc-bloom-art .lbl b { display: block; font-weight: 500; font-size: clamp(28px, 3vw, 40px); line-height: 1; }
+.pc-temple-art .lbl span, .pc-bloom-art .lbl span { display: block; margin-top: 6px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; opacity: .8; }

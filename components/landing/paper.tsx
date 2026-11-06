@@ -202,7 +202,7 @@ export function PaperHero() {
           .to(".pc-hint", { opacity: 0, duration: 0.08 }, 0)
           .to(".pc-lights.l", { y: vh(-40), rotation: -10, duration: 0.4 }, 0)
           .to(".pc-lights.r", { y: vh(-40), rotation: 10, duration: 0.4 }, 0)
-          .to("#pc-bride", { x: vw(-55), y: vh(-20), rotation: -18, duration: 0.5 }, 0.03)
+          .to("#pc-couple", { x: vw(-55), y: vh(-20), rotation: -18, duration: 0.5 }, 0.03)
           .to("#pc-lotus", { x: vw(50), y: vh(-35), rotation: 30, duration: 0.5 }, 0.03)
           .to("#pc-camera", { x: vw(-55), y: vh(30), rotation: -30, duration: 0.5 }, 0.07)
           .to("#pc-ringbox", { x: vw(55), y: vh(30), rotation: 25, duration: 0.5 }, 0.07)
@@ -233,7 +233,7 @@ export function PaperHero() {
         gsap.from("#pc-s-player", { x: -120, y: 80, rotation: -18, opacity: 0, scrollTrigger: st("top 75%", "top 20%") });
         const cs = { trigger: "#pc-cards", start: "top 95%", end: "top 45%", scrub: 0.6 };
         gsap.utils.toArray<HTMLElement>(".pc-card").forEach((el, i, all) => {
-          const side = all.length === 3 ? i - 1 : i ? 1 : -1;
+          const side = (i % 3) - 1;
           gsap.from(el, { x: side * 220, y: side === 0 ? 120 : 0, rotation: side * 12, scrollTrigger: cs });
         });
       });
@@ -251,7 +251,7 @@ export function PaperHero() {
 
       <FairyLights className="pc-cut pc-lights l" />
       <FairyLights className="pc-cut pc-lights r" />
-      <img className="pc-cut pc-float" id="pc-bride" src="/media/cut/bride.webp" alt="" aria-hidden />
+      <img className="pc-cut pc-float" id="pc-couple" src="/media/cut/couple.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/cut/lotus.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d3" id="pc-camera" src="/media/cut/camera.webp" alt="" aria-hidden />
       <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/cut/ringbox.webp" alt="" aria-hidden />
@@ -348,7 +348,7 @@ export function PaperSamples() {
           </h2>
           <p>Every invitation is designed around the couple: their story, their colours, their functions. These are live. Open them on your phone.</p>
         </div>
-        <div className={`pc-cards${THAMARA_URL ? " three" : ""}`} id="pc-cards">
+        <div className="pc-cards many" id="pc-cards">
           <a className="pc-card" id="pc-card1" href="https://kavitha.cloud/keerthyandrosheel" target="_blank" rel="noopener">
             <div className="art">
               <img src="/media/sc-church.jpg" alt="Watercolour church from Keerthy and Rosheel's invitation" style={{ objectPosition: "50% 40%" }} />
@@ -390,21 +390,52 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
-          {THAMARA_URL ? (
-            <a className="pc-card" id="pc-card3" href={THAMARA_URL} target="_blank" rel="noopener">
-              <div className="art pc-lotus-art">
-                <img src="/media/cut/lotus.webp" alt="" aria-hidden />
-                <div className="lbl"><b>Malavika &amp; Hari</b><span>Some things open slowly</span></div>
+          <a className="pc-card" id="pc-card3" href={THAMARA_URL} target="_blank" rel="noopener">
+            <div className="art pc-lotus-art">
+              <img src="/media/cut/lotus.webp" alt="" aria-hidden />
+              <div className="lbl"><b>Malavika &amp; Hari</b><span>Some things open slowly</span></div>
+            </div>
+            <div className="meta">
+              <div>
+                <h3>Malavika &amp; Hari</h3>
+                <p className="sub">The Signature Invitation · Thamara</p>
               </div>
-              <div className="meta">
-                <div>
-                  <h3>Malavika &amp; Hari</h3>
-                  <p className="sub">The Signature Invitation · Thamara</p>
-                </div>
-                <span className="go">Open invite</span>
+              <span className="go">Open invite</span>
+            </div>
+          </a>
+          <a className="pc-card" id="pc-card4" href="https://ishani-rudra.vercel.app/" target="_blank" rel="noopener">
+            <div className="art pc-temple-art">
+              <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden>
+                <path d="M110 300 V170 Q110 92 200 70 Q290 92 290 170 V300" fill="none" stroke="#D9B26A" strokeWidth="3" />
+                <path d="M128 300 V176 Q128 108 200 90 Q272 108 272 176 V300" fill="none" stroke="#D9B26A" strokeWidth="1.2" opacity=".6" />
+                <path d="M200 52 l8 14 h-16z" fill="#D9B26A" />
+                {[[70, 60], [330, 60], [60, 210], [340, 210]].map(([x, y], i) => (
+                  <circle key={i} cx={x} cy={y} r="2.2" fill="#D9B26A" opacity=".7" />
+                ))}
+              </svg>
+              <div className="lbl"><b>Ishani &amp; Rudra</b><span>You are invited</span></div>
+            </div>
+            <div className="meta">
+              <div>
+                <h3>Ishani &amp; Rudra</h3>
+                <p className="sub">The Signature Invitation · temple in the mountains</p>
               </div>
-            </a>
-          ) : null}
+              <span className="go">Open invite</span>
+            </div>
+          </a>
+          <a className="pc-card" id="pc-card5" href="https://ross-and-rachel.vercel.app/" target="_blank" rel="noopener">
+            <div className="art pc-bloom-art">
+              <img src="/media/cut/tulips.webp" alt="" aria-hidden />
+              <div className="lbl"><b>Ross &amp; Rachel</b><span>You are invited</span></div>
+            </div>
+            <div className="meta">
+              <div>
+                <h3>Ross &amp; Rachel</h3>
+                <p className="sub">The Classic Invitation · peonies and roses</p>
+              </div>
+              <span className="go">Open invite</span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
