@@ -30,6 +30,7 @@ import { whatsappHref } from "@/lib/whatsapp";
 import { PaperHero, PaperOrigin, PaperSamples } from "@/components/landing/paper";
 import { StickyCta, TrustStrip, InlineCta } from "@/components/landing/funnel";
 import { WhatsAppMoment } from "@/components/landing/whatsapp-chat";
+import { CoupleWords } from "@/components/landing/couple-words";
 import { publicWhatsApp, STUDIO } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
@@ -170,6 +171,7 @@ export default function Home() {
         <PaperSamples />
         <TrustStrip />
         <WhatsAppMoment />
+        <CoupleWords />
         <PaperOrigin studio={STUDIO} />
         <InlineCta origin="after-origin" text="Every invitation starts with a date." />
 

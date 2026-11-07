@@ -231,11 +231,13 @@ export function PaperHero() {
         gsap.from("#pc-s-pol", { x: 180, y: 60, rotation: 24, opacity: 0, scrollTrigger: st("top 85%", "top 25%") });
         gsap.from("#pc-s-bouquet", { y: -140, rotation: 40, opacity: 0, scrollTrigger: st("top 85%", "top 30%") });
         gsap.from("#pc-s-player", { x: -120, y: 80, rotation: -18, opacity: 0, scrollTrigger: st("top 75%", "top 20%") });
-        const cs = { trigger: "#pc-cards", start: "top 95%", end: "top 45%", scrub: 0.6 };
-        gsap.utils.toArray<HTMLElement>(".pc-card").forEach((el, i, all) => {
-          const side = (i % 3) - 1;
-          gsap.from(el, { x: side * 220, y: side === 0 ? 120 : 0, rotation: side * 12, scrollTrigger: cs });
-        });
+        // cards slide in row by row on wider screens; phones get a swipeable row instead
+        if (window.innerWidth > 700) {
+          gsap.utils.toArray<HTMLElement>(".pc-card").forEach((el, i) => {
+            const side = (i % 3) - 1;
+            gsap.from(el, { x: side * 200, y: side === 0 ? 110 : 0, rotation: side * 10, scrollTrigger: { trigger: el, start: "top 100%", end: "top 62%", scrub: 0.6 } });
+          });
+        }
       });
       window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
     })();
@@ -337,6 +339,65 @@ const STAR = "M0 -10 L2.4 -2.4 L10 0 L2.4 2.4 L0 10 L-2.4 2.4 L-10 0 L-2.4 -2.4Z
 // Third sample: Malavika & Hari, the lotus (Thamara) design.
 const THAMARA_URL = "https://malavika-hari.vercel.app/";
 
+
+type MotifKind = "bell" | "bow" | "lantern" | "palace";
+const MORE: { names: string; url: string; line: string; sub: string; motif: MotifKind; bg: string; bg2: string; ink: string }[] = [
+  { names: "Tara & Advait", url: "https://tara-advait.vercel.app/", line: "Ring the bell to enter", sub: "Temple bells in the hills · Rishikesh", motif: "bell", bg: "#1B0B24", bg2: "#3A1A4A", ink: "#E3C47E" },
+  { names: "Tara & Kabir", url: "https://tara-kabir.vercel.app/", line: "Untie the bow", sub: "Playful and understated · Goa", motif: "bow", bg: "#D6CDBA", bg2: "#ECE6D8", ink: "#7A1E2A" },
+  { names: "Joel & Anna", url: "https://abhishek-kanika.vercel.app/", line: "Light the lantern", sub: "Lantern by the sea · moonlit", motif: "lantern", bg: "#0E0C2E", bg2: "#24215A", ink: "#F2C46D" },
+  { names: "Veer & Naina", url: "https://veer-naina.vercel.app/", line: "Take the drive", sub: "A palace at dusk · cinematic scroll", motif: "palace", bg: "#162252", bg2: "#2E4290", ink: "#E9C98A" },
+];
+
+function Motif({ kind, ink }: { kind: MotifKind; ink: string }) {
+  const line = { fill: "none", stroke: ink, strokeWidth: 2.4, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (kind === "bell")
+    return (
+      <g>
+        <path d="M200 120 V150" {...line} />
+        <path d="M200 150 C228 150 240 174 240 204 C240 226 246 238 258 248 H142 C154 238 160 226 160 204 C160 174 172 150 200 150Z" {...line} fill={ink} fillOpacity=".12" />
+        <circle cx="200" cy="260" r="7" fill={ink} />
+        {[[110, 120], [300, 110], [90, 230], [318, 236]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="2" fill={ink} opacity=".6" />)}
+      </g>
+    );
+  if (kind === "bow")
+    return (
+      <g>
+        <path d="M200 206 C172 172 128 172 134 202 C140 230 178 222 200 206Z" {...line} fill={ink} fillOpacity=".1" />
+        <path d="M200 206 C228 172 272 172 266 202 C260 230 222 222 200 206Z" {...line} fill={ink} fillOpacity=".1" />
+        <path d="M194 212 L172 266 M206 212 L228 266" {...line} />
+        <circle cx="200" cy="207" r="8" fill={ink} />
+      </g>
+    );
+  if (kind === "lantern")
+    return (
+      <g>
+        <circle cx="200" cy="200" r="60" fill="url(#pc-lglow)" />
+        <defs>
+          <radialGradient id="pc-lglow"><stop offset="0" stopColor={ink} stopOpacity=".45" /><stop offset="1" stopColor={ink} stopOpacity="0" /></radialGradient>
+        </defs>
+        <path d="M184 150 Q200 128 216 150" {...line} />
+        <rect x="176" y="156" width="48" height="10" rx="3" fill={ink} />
+        <rect x="180" y="166" width="40" height="58" rx="10" {...line} fill={ink} fillOpacity=".18" />
+        <path d="M200 182 C194 192 196 200 200 204 C204 200 206 192 200 182Z" fill={ink} />
+        <rect x="176" y="224" width="48" height="8" rx="3" fill={ink} />
+        <circle cx="322" cy="150" r="14" fill={ink} opacity=".85" />
+        <path d="M60 270 Q90 262 120 270 T180 270 T240 270 T300 270 T360 270" {...line} strokeWidth="1.6" opacity=".6" />
+      </g>
+    );
+  return (
+    <g>
+      <path d="M120 262 V226 H280 V262" {...line} fill={ink} fillOpacity=".12" />
+      <path d="M170 226 Q170 176 200 164 Q230 176 230 226" {...line} fill={ink} fillOpacity=".16" />
+      <path d="M200 164 V146" {...line} />
+      <path d="M128 226 Q128 204 142 198 Q156 204 156 226 M244 226 Q244 204 258 198 Q272 204 272 226" {...line} />
+      <path d="M108 262 V196 M292 262 V196" {...line} />
+      <circle cx="108" cy="192" r="4" fill={ink} /><circle cx="292" cy="192" r="4" fill={ink} />
+      <path d="M188 262 V240 Q200 230 212 240 V262" {...line} />
+      {[[80, 110], [320, 100], [150, 90], [260, 80]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="2" fill={ink} opacity=".6" />)}
+    </g>
+  );
+}
+
 export function PaperSamples() {
   return (
     <section id="samples" aria-labelledby="samples-h" className="pc-section pc-samples">
@@ -436,7 +497,25 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
+          {MORE.map((c) => (
+            <a key={c.url} className="pc-card" href={c.url} target="_blank" rel="noopener">
+              <div className="art pc-motif-art" style={{ background: `radial-gradient(ellipse at 50% 62%, ${c.bg2}, ${c.bg} 72%)`, color: c.ink }}>
+                <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden>
+                  <Motif kind={c.motif} ink={c.ink} />
+                </svg>
+                <div className="lbl"><b>{c.names}</b><span>{c.line}</span></div>
+              </div>
+              <div className="meta">
+                <div>
+                  <h3>{c.names}</h3>
+                  <p className="sub">{c.sub}</p>
+                </div>
+                <span className="go">Open invite</span>
+              </div>
+            </a>
+          ))}
         </div>
+        <p className="pc-swipe" aria-hidden>Swipe to see all {5 + MORE.length} →</p>
       </div>
     </section>
   );

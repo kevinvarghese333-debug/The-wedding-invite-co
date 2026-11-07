@@ -5,12 +5,14 @@ import { Logo } from "@/components/landing/art";
 import { requireAdmin } from "@/lib/auth";
 import { STUDIO } from "@/lib/config";
 import { logout } from "@/app/admin/actions";
+import { countPending } from "@/lib/couples";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: `Leads · ${STUDIO}`, robots: { index: false } };
 
 export default async function DashLayout({ children }: { children: React.ReactNode }) {
   await requireAdmin();
+  const pending = countPending();
   return (
     <div className="bg-muted min-h-dvh">
       <header className="bg-card sticky top-0 z-30 border-b">
@@ -19,6 +21,14 @@ export default async function DashLayout({ children }: { children: React.ReactNo
             <Logo name={STUDIO} />
           </Link>
           <div className="flex items-center gap-1.5">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin">Leads</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin/couples">
+                Couples{pending ? <span className="bg-clay text-clay-foreground ml-1 rounded-full px-1.5 text-xs">{pending}</span> : null}
+              </Link>
+            </Button>
             <Button variant="ghost" size="sm" asChild className="max-sm:hidden">
               <a href="/" target="_blank" rel="noopener">
                 <ExternalLink /> View site
