@@ -260,7 +260,7 @@ export function PaperHero({ chat }: { chat: string }) {
       <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/cut/ringbox.webp" alt="" aria-hidden />
 
       <div className="pc-copy">
-        <h1 id="hero-h" className="pc-eyebrow">Wedding invitation websites in Kerala<span className="max-sm:sr-only"> · the future of wedding invitations</span></h1>
+        <h1 id="hero-h" className="pc-eyebrow"><span className="sr-only">Wedding invitation websites in Kerala: </span>The future of wedding invitations</h1>
         <p className="sr-only">{HEADLINE}</p>
         <DotHeadline />
         <p className="pc-lede">One link that invites, informs and counts your guests. Designed for the two of you, sent on WhatsApp.</p>

@@ -131,6 +131,7 @@ export default function Home() {
   const wrap = "mx-auto w-full max-w-[1200px] px-[clamp(16px,5vw,40px)]";
   const st = getSettings();
   const offer = offerActive(st);
+  const founderLabel = /&| and /i.test(st.founder_name || "") ? "Founders" : "Founder";
   const goodToKnow = ([["Turnaround", st.turnaround], ["Payment", st.payment_terms], ["Changes", st.revisions], ["If it's not right", st.refund_policy]] as [string, string | undefined][]).filter(([, v]) => v);
   const faqLd = {
     "@context": "https://schema.org",
@@ -225,12 +226,14 @@ export default function Home() {
         <PaperOrigin
           studio={STUDIO}
           founder={
-            <div className="mt-6 flex items-center gap-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={st.founder_photo ? `/api/photos/${st.founder_photo}` : "/media/seal.webp"} alt={st.founder_photo ? `${st.founder_name}, founder of ${STUDIO}` : ""} className="size-16 flex-none rounded-full object-cover" />
+            <div className="mt-8 flex items-center gap-4 border-t border-[#EAD9CD] pt-5">
+              {st.founder_photo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={`/api/photos/${st.founder_photo}`} alt={`${st.founder_name}, ${founderLabel.toLowerCase()} of ${STUDIO}`} className="size-14 flex-none rounded-full object-cover" />
+              ) : null}
               <div>
-                <p className="heading text-xl leading-tight">{st.founder_name}</p>
-                <p className="text-muted-foreground text-sm">Founder, {STUDIO}</p>
+                <span className="heading block text-[22px] leading-tight font-normal text-[#4A0F16] italic">{st.founder_name}</span>
+                <span className="mt-1 block text-[10.5px] tracking-[0.28em] text-[#9A6A2C] uppercase">{founderLabel}</span>
               </div>
             </div>
           }
@@ -611,7 +614,7 @@ export default function Home() {
               <Card className="relative max-w-[380px] min-w-0 flex-[1_1_300px] gap-0 p-6">
                 <p className="text-muted-foreground text-sm">Every couple gets</p>
                 <ul className="mt-3 grid gap-0 text-sm">
-                  {["Planned with the founder, directly on WhatsApp", "Changes until the day, on the same link", "A private page with every RSVP and headcount"].map((p, i) => (
+                  {["Planned with the founders, directly on WhatsApp", "Changes until the day, on the same link", "A private page with every RSVP and headcount"].map((p, i) => (
                     <li key={p} className={`flex gap-2.5 py-2.5 ${i ? "border-t" : ""}`}>
                       <Check className="text-sage mt-0.5 size-4 flex-none" strokeWidth={2.4} aria-hidden />
                       {p}
@@ -698,10 +701,13 @@ export default function Home() {
             </Button>
           </nav>
           <div className="flex w-full flex-col items-center gap-2 pt-2 text-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={st.founder_photo ? `/api/photos/${st.founder_photo}` : "/media/seal.webp"} alt={st.founder_photo ? `${st.founder_name}, founder` : ""} className="size-20 rounded-full object-cover drop-shadow-[0_8px_12px_rgba(74,15,22,0.18)]" />
+            {st.founder_photo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={`/api/photos/${st.founder_photo}`} alt={`${st.founder_name}, ${founderLabel.toLowerCase()}`} className="size-16 rounded-full object-cover" />
+            ) : null}
             <p className="text-clay-ink text-[34px] leading-none" style={{ fontFamily: "'Mrs Saint Delafield', cursive" }}>Made with love</p>
-            <p className="text-muted-foreground text-sm">by {st.founder_name}, founder</p>
+            <p className="heading text-[19px] leading-tight font-normal text-[#4A0F16] italic">{st.founder_name}</p>
+            <p className="-mt-1 text-[10.5px] tracking-[0.28em] text-[#9A6A2C] uppercase">{founderLabel}</p>
             {st.instagram_url ? (
               <a href={st.instagram_url} target="_blank" rel="noopener" className="text-foreground mt-1 inline-flex items-center gap-1.5 text-sm font-medium underline underline-offset-4">
                 <Instagram className="size-4" aria-hidden /> Follow our invitations on Instagram

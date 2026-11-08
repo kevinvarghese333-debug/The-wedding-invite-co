@@ -16,7 +16,7 @@ export const SETTING_FIELDS = [
   { key: "revisions", label: "Changes and revisions", type: "text", help: "For example: Unlimited text changes until the wedding day, 2 rounds of design changes." },
   { key: "refund_policy", label: "Refund or no-obligation policy", type: "text", help: "For example: The preview is free. Pay only if you love it." },
   { key: "instagram_url", label: "Instagram link", type: "url", help: "For example https://instagram.com/theweddinginviteco" },
-  { key: "founder_name", label: "Founder name", type: "text" },
+  { key: "founder_name", label: "Founder names", type: "text", help: "Shown as the sign-off, for example Kevin Varghese & Greeny Saju." },
   { key: "founder_story", label: "Founder note (2 or 3 lines)", type: "textarea" },
   { key: "autoreply", label: "Instant reply to new enquiries", type: "toggle", help: "Sends the couple a thank-you right after they enquire: by WhatsApp when WAHA is set up, otherwise by email if they gave one." },
 ] as const;
@@ -25,8 +25,8 @@ export type SettingKey = (typeof SETTING_FIELDS)[number]["key"] | "founder_photo
 export type Settings = Partial<Record<SettingKey, string>>;
 
 const DEFAULTS: Settings = {
-  founder_name: "Kevin Varghese",
-  founder_story: "I built the first one for our sister's wedding, because a PDF couldn't hold four functions and two families. Every invitation since is planned with me, directly on WhatsApp.",
+  founder_name: "Kevin Varghese & Greeny Saju",
+  founder_story: "We built the first one for our sister's wedding, because a PDF couldn't hold four functions and two families. Every invitation since is planned with us, directly on WhatsApp.",
   autoreply: "on",
 };
 
