@@ -6,20 +6,25 @@ const siteUrl = process.env.SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "The Wedding Invite Co. · More than an invitation.",
+  title: {
+    default: "Wedding Invitation Website in Kerala | WhatsApp Invites with RSVP · The Wedding Invite Co.",
+    template: "%s · The Wedding Invite Co.",
+  },
   description:
-    "Wedding invitation websites from Kerala. Your story, every function, maps, a live countdown and RSVPs in one link, designed for you and sent on WhatsApp.",
+    "Custom wedding invitation websites from Kerala, sent on WhatsApp. RSVP for every function, maps, your story and photos in one link. From ₹4,999, designed for you.",
+  alternates: { canonical: siteUrl },
   openGraph: {
-    title: "The Wedding Invite Co. · More than an invitation.",
-    description: "Wedding invitation websites with your story, every function, maps and RSVPs in one link.",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "The Wedding Invite Co. More than an invitation." }],
+    title: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",
+    description: "Custom wedding invitation websites sent on WhatsApp: every function, maps and RSVP in one link. From ₹4,999.",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "The Wedding Invite Co. wedding invitation website on a phone, sealed with the TWIC wax seal" }],
     type: "website",
     siteName: "The Wedding Invite Co.",
+    locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Wedding Invite Co. · More than an invitation.",
-    description: "Wedding invitation websites with your story, every function, maps and RSVPs in one link.",
+    title: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",
+    description: "Custom wedding invitation websites sent on WhatsApp: every function, maps and RSVP in one link. From ₹4,999.",
     images: ["/og.jpg"],
   },
 };

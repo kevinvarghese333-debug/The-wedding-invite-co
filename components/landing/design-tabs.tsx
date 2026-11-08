@@ -1,4 +1,5 @@
 "use client";
+import { CtaText } from "@/components/landing/cta";
 
 import { ArrowRight, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +14,7 @@ const DESIGNS = [
   {
     id: "story" as const,
     tab: "The Signature Invitation",
-    badge: { text: "Recommended", variant: "clay" as const },
+    badge: { text: "Most personal", variant: "clay" as const },
     title: "Your story, told the way you want it",
     body: "An opening made only for the two of you, then your story in chapters before guests reach the date and venues. Every screen flows into the next.",
     points: ["An opening designed around the two of you", "Your story, in the style you choose", "A seamless flow from the first tap to the RSVP", "Small, thoughtful touches your guests will notice"],
@@ -69,7 +70,7 @@ export function DesignTabs() {
               </ul>
               <div className="mt-6 flex flex-wrap gap-2.5">
                 <EnquireButton pkg={d.id} origin={`designs-${d.id}`}>
-                  Check my date <ArrowRight />
+                  <CtaText /> <ArrowRight />
                 </EnquireButton>
                 <Button variant="outline" asChild>
                   <a href={d.secondary.href}>{d.secondary.text}</a>

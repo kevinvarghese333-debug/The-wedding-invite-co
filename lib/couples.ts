@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { getDb } from "@/lib/db";
+import { getSettings, setSetting } from "@/lib/settings";
 
 export type CoupleWord = {
   id: number;
@@ -42,6 +43,16 @@ function db() {
       CREATE INDEX IF NOT EXISTS idx_couple_words_status ON couple_words(status);
     `);
     ready = true;
+    // First words on the site: from the couple whose invitation started it all. Added once; deleting it in admin keeps it gone.
+    if (!getSettings().seed_keerthy) {
+      d.prepare("INSERT INTO couple_words (names, place, wedding_month, quote, status, source) VALUES (?, ?, ?, ?, 'published', 'admin')").run(
+        "Keerthy & Rosheel",
+        "North Paravur",
+        "2026-11",
+        "Best ever experience for us. Would absolutely recommend this to everyone who gets married.",
+      );
+      setSetting("seed_keerthy", "1");
+    }
   }
   return d;
 }

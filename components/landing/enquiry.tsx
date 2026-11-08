@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { whatsappHref } from "@/lib/whatsapp";
 import { track } from "@/lib/track";
+import { CtaText, getCtaVariant } from "@/components/landing/cta";
 
 type Pkg = "classic" | "story" | "unsure";
 type Ctx = { open: (pkg?: Pkg, origin?: string) => void; whatsapp: string };
@@ -29,8 +30,8 @@ export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; chil
       <Dialog open={state.open} onOpenChange={(o) => setState((s) => ({ ...s, open: o }))}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="heading text-3xl font-medium">Check your date</DialogTitle>
-            <DialogDescription>Three quick details. We reply on WhatsApp with availability and ideas. No payment, no obligation.</DialogDescription>
+            <DialogTitle className="heading text-3xl font-medium">Your free preview</DialogTitle>
+            <DialogDescription>Just your names and WhatsApp number. We reply with ideas and a preview of your invitation. No payment, no obligation.</DialogDescription>
           </DialogHeader>
           <EnquiryForm key={`${state.pkg}-${state.origin}-${state.open}`} defaultPackage={state.pkg} origin={state.origin} whatsapp={whatsapp} compact />
         </DialogContent>
@@ -78,7 +79,7 @@ export function EnquiryForm({
     const data = Object.fromEntries(form.entries()) as Record<string, string>;
     const params = new URLSearchParams(window.location.search);
     const utm = ["utm_source", "utm_medium", "utm_campaign"].map((k) => params.get(k)).filter(Boolean).join(" / ");
-    data.source = [origin, utm, document.referrer ? `from ${document.referrer}` : ""].filter(Boolean).join(" · ");
+    data.source = [origin, `cta-${getCtaVariant()}`, utm, document.referrer ? `from ${document.referrer}` : ""].filter(Boolean).join(" · ");
     setStatus("sending");
     setErrors({});
     try {
@@ -104,7 +105,7 @@ export function EnquiryForm({
         <div>
           <p className="heading text-3xl">Thank you{firstName ? `, ${firstName}` : ""}!</p>
           <p className="text-muted-foreground mt-2 max-w-sm text-sm leading-relaxed">
-            We have your date and will reply on WhatsApp soon. Want to start the conversation now?
+            We have your details and will reply on WhatsApp soon. Want to start the conversation now?
           </p>
         </div>
         <Button asChild size="lg">
@@ -138,9 +139,15 @@ export function EnquiryForm({
           {err("phone")}
         </div>
       </div>
+      <details className="group rounded-lg border border-dashed px-4 py-3 open:pb-4">
+        <summary className="text-muted-foreground cursor-pointer list-none text-sm font-medium select-none [&::-webkit-details-marker]:hidden">
+          <span className="group-open:hidden">+ Add your date and more (optional)</span>
+          <span className="hidden group-open:inline">Your date and more (optional)</span>
+        </summary>
+        <div className="mt-4 grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-2">
-          <Label htmlFor={`${id}-date`}>Wedding date</Label>
+          <Label htmlFor={`${id}-date`}>Wedding date <span className="text-muted-foreground font-normal">(optional)</span></Label>
           <Input id={`${id}-date`} name="wedding_date" type="date" {...field("wedding_date")} />
           {err("wedding_date")}
         </div>
@@ -153,12 +160,6 @@ export function EnquiryForm({
           </NativeSelect>
         </div>
       </div>
-      <details className="group rounded-lg border border-dashed px-4 py-3 open:pb-4">
-        <summary className="text-muted-foreground cursor-pointer list-none text-sm font-medium select-none [&::-webkit-details-marker]:hidden">
-          <span className="group-open:hidden">+ Add more details (optional)</span>
-          <span className="hidden group-open:inline">More details (optional)</span>
-        </summary>
-        <div className="mt-4 grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
               <Label htmlFor={`${id}-fn`}>Number of functions</Label>
@@ -206,9 +207,9 @@ export function EnquiryForm({
       <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
         <Button type="submit" size="lg" disabled={status === "sending"} className="sm:min-w-48">
           {status === "sending" ? <Loader2 className="animate-spin" /> : null}
-          {status === "sending" ? "Sending" : "Check my date"}
+          {status === "sending" ? "Sending" : <CtaText />}
         </Button>
-        <p className="text-muted-foreground text-xs leading-relaxed">No payment, no obligation. We only use your details to reply about your invitation.</p>
+        <p className="text-muted-foreground text-xs leading-relaxed">No payment, no obligation. We only use your details to reply about your invitation. <a href="/privacy" className="underline underline-offset-2">Privacy</a></p>
       </div>
     </form>
   );

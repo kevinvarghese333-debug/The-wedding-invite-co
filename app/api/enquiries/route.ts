@@ -1,6 +1,6 @@
 import { after } from "next/server";
 import { createLead, setNotifyStatus } from "@/lib/db";
-import { notifyNewLead } from "@/lib/notify";
+import { autoReplyToCouple, notifyNewLead } from "@/lib/notify";
 import { rateLimited } from "@/lib/auth";
 import { PACKAGES } from "@/lib/config";
 
@@ -61,8 +61,9 @@ export async function POST(req: Request) {
 
   // Notify after the response is sent, so the couple never waits on email or WhatsApp.
   after(async () => {
-    const r = await notifyNewLead(lead);
+    const [r, reply] = await Promise.all([notifyNewLead(lead), autoReplyToCouple(lead)]);
     setNotifyStatus(lead.id, r.email, r.whatsapp);
+    if (!reply.startsWith("sent")) console.info(`[auto-reply] lead ${lead.id}: ${reply}`);
   });
 
   return Response.json({ ok: true, id: lead.id });

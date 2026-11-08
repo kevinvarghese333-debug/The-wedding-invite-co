@@ -29,6 +29,9 @@ export default async function DashLayout({ children }: { children: React.ReactNo
                 Couples{pending ? <span className="bg-clay text-clay-foreground ml-1 rounded-full px-1.5 text-xs">{pending}</span> : null}
               </Link>
             </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin/settings">Settings</Link>
+            </Button>
             <Button variant="ghost" size="sm" asChild className="max-sm:hidden">
               <a href="/" target="_blank" rel="noopener">
                 <ExternalLink /> View site

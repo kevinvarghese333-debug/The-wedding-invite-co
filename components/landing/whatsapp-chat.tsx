@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { ArrowRight, CheckCheck } from "lucide-react";
 import { EnquireButton } from "@/components/landing/enquiry";
+import { CtaText } from "@/components/landing/cta";
 
 type Msg =
   | { from: "in" | "out"; text: string; time: string; react?: string }
   | { from: "out"; link: "malavika" | "ishani" | "nila"; time: string };
 
 const LINKS = {
-  malavika: { title: "Malavika & Hari", sub: "21 · 02 · 2027 · Guruvayur", url: "malavika-hari.vercel.app", art: "pc-lotus-art", img: "/media/cut/lotus.webp" },
-  ishani: { title: "Ishani & Rudra", sub: "24 · 04 · 2027 · Rudraprayag", url: "ishani-rudra.vercel.app", art: "pc-temple-art", img: "" },
-  nila: { title: "Nila & Aaron", sub: "New Year's Eve · Kochi", url: "nila-aaron.vercel.app", art: "pc-night", img: "" },
+  malavika: { title: "Malavika & Hari", sub: "21 · 02 · 2027 · Guruvayur", url: "theweddinginviteco.theinsiderfinds.com", art: "pc-lotus-art", img: "/media/cut/lotus.webp" },
+  ishani: { title: "Ishani & Rudra", sub: "24 · 04 · 2027 · Rudraprayag", url: "theweddinginviteco.theinsiderfinds.com", art: "pc-temple-art", img: "" },
+  nila: { title: "Nila & Aaron", sub: "New Year's Eve · Kochi", url: "theweddinginviteco.theinsiderfinds.com", art: "pc-night", img: "" },
 };
 
 const CHATS: { name: string; status: string; msgs: Msg[] }[] = [
@@ -107,7 +108,7 @@ export function WhatsAppMoment() {
         </div>
         <div className="mt-12 flex justify-center">
           <EnquireButton size="lg" origin="whatsapp-moment" className="rounded-full">
-            Check my date <ArrowRight />
+            <CtaText /> <ArrowRight />
           </EnquireButton>
         </div>
       </div>

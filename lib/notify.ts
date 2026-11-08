@@ -142,3 +142,49 @@ export async function notifyNewLead(lead: Lead) {
   if (!result.email.startsWith("sent") || !result.whatsapp.startsWith("sent")) console.warn(`[notify] lead ${lead.id}`, result);
   return result;
 }
+
+/* Instant reply to the couple, so they hear from us within seconds.
+   WhatsApp when WAHA (our own number) is set up; otherwise email, if they gave one. Never throws. */
+export async function autoReplyToCouple(lead: Lead): Promise<string> {
+  try {
+    const { getSettings } = await import("@/lib/settings");
+    if (getSettings().autoreply === "off") return "skipped (turned off in Settings)";
+    const first = (lead.name || "").split(/[\s&,]+/)[0] || "there";
+    const text = `Hi ${first}! Thank you for reaching out to ${STUDIO} 💌\n\nWe've got your details and will message you here shortly with ideas for your invitation.\n\nIn the meantime, tap through a few real invitations: ${siteUrl()}/#try`;
+    const phone = digits(lead.phone);
+    if ((process.env.WHATSAPP_PROVIDER || "").toLowerCase() === "waha" && phone.length >= 10) {
+      const base = (process.env.WAHA_URL || "http://waha:3000").replace(/\/$/, "");
+      const res = await fetch(`${base}/api/sendText`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(process.env.WAHA_API_KEY ? { "X-Api-Key": process.env.WAHA_API_KEY } : {}) },
+        body: JSON.stringify({ session: process.env.WAHA_SESSION || "default", chatId: `${phone}@c.us`, text }),
+        signal: AbortSignal.timeout(12_000),
+      });
+      if (!res.ok) throw new Error(`WAHA ${res.status}`);
+      return "sent on WhatsApp";
+    }
+    if (lead.email && process.env.SMTP_HOST) {
+      const port = Number(process.env.SMTP_PORT || 587);
+      const user = process.env.SMTP_USER;
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port,
+        secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === "true" : port === 465,
+        auth: user ? { user, pass: process.env.SMTP_PASS || "" } : undefined,
+        connectionTimeout: 10_000,
+        socketTimeout: 15_000,
+      });
+      await transporter.sendMail({
+        from: process.env.MAIL_FROM || `${STUDIO} <${user}>`,
+        to: lead.email,
+        replyTo: process.env.NOTIFY_EMAIL || undefined,
+        subject: `Thank you, ${first}! Your invitation preview is on its way`,
+        text,
+      });
+      return "sent by email";
+    }
+    return "skipped (no WAHA and no email)";
+  } catch (e) {
+    return `failed: ${e instanceof Error ? e.message : String(e)}`;
+  }
+}

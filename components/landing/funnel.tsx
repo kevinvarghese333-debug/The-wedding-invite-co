@@ -3,11 +3,12 @@
 import * as React from "react";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { EnquireButton } from "@/components/landing/enquiry";
+import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { track } from "@/lib/track";
 
 /* Short reasons to trust us, right after the live samples. */
 export function TrustStrip() {
-  const items = ["Designed for you, never a template", "One link for every function", "Opens on any phone, nothing to install", "Every RSVP in one list"];
+  const items = ["Custom designed, not a drag-and-drop template", "One link for every function", "Opens on any phone, nothing to install", "Every RSVP in one list"];
   return (
     <div className="border-y bg-[#FFFAF5]">
       <ul className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-center gap-x-8 gap-y-2 px-4 py-4 text-[13px] font-medium text-[#6E4A47]">
@@ -23,13 +24,18 @@ export function TrustStrip() {
 }
 
 /* A soft call to action between sections. */
-export function InlineCta({ text, origin }: { text: string; origin: string }) {
+export function InlineCta({ text, origin, chat }: { text: string; origin: string; chat: string }) {
   return (
     <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-4 px-4 py-12 text-center sm:flex-row sm:justify-center sm:gap-6">
       <p className="heading text-[clamp(24px,2.6vw,32px)] leading-tight">{text}</p>
-      <EnquireButton size="lg" origin={origin} className="rounded-full">
-        Check my date <ArrowRight />
-      </EnquireButton>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <WhatsAppButton href={chat} origin={origin} size="lg" className="rounded-full">
+          Chat on WhatsApp
+        </WhatsAppButton>
+        <EnquireButton size="lg" variant="outline" origin={origin} className="rounded-full">
+          <CtaText /> <ArrowRight />
+        </EnquireButton>
+      </div>
     </div>
   );
 }
@@ -63,12 +69,12 @@ export function StickyCta({ whatsapp }: { whatsapp: string }) {
             rel="noopener"
             tabIndex={show ? 0 : -1}
             onClick={() => track("Contact", { method: "whatsapp", origin: "sticky-bar" })}
-            className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full border border-[#6B1420]/30 text-[15px] font-medium text-[#4A0F16]"
+            className="flex h-12 flex-[1.5] items-center justify-center gap-2 rounded-full bg-[#6B1420] text-[15px] font-semibold text-[#FBEFE6]"
           >
-            <MessageCircle className="size-[18px]" aria-hidden /> WhatsApp
+            <MessageCircle className="size-[18px]" aria-hidden /> Chat on WhatsApp
           </a>
-          <EnquireButton origin="sticky-bar" tabIndex={show ? 0 : -1} className="h-11 flex-[1.4] rounded-full text-[15px]">
-            Check my date <ArrowRight />
+          <EnquireButton origin="sticky-bar" variant="outline" tabIndex={show ? 0 : -1} className="h-12 flex-1 rounded-full border-[#6B1420]/30 text-[14px]">
+            <CtaText />
           </EnquireButton>
         </div>
       </div>

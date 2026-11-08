@@ -4,6 +4,7 @@
 import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { EnquireButton } from "@/components/landing/enquiry";
+import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 
 const HEADLINE = "People don't remember boring invitation cards. They remember experiences.";
 const LINES_WIDE = ["PEOPLE DON'T REMEMBER", "BORING INVITATION CARDS.", "THEY REMEMBER", "EXPERIENCES."];
@@ -179,7 +180,7 @@ function FairyLights({ className }: { className: string }) {
 
 /* ---------- hero: maroon stage, cutouts in the corners, envelope opens on scroll ---------- */
 
-export function PaperHero() {
+export function PaperHero({ chat }: { chat: string }) {
   const stage = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -259,15 +260,17 @@ export function PaperHero() {
       <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/cut/ringbox.webp" alt="" aria-hidden />
 
       <div className="pc-copy">
-        <p className="pc-eyebrow">Wedding invitation websites · Kerala</p>
-        <h1 id="hero-h" className="sr-only">{HEADLINE}</h1>
+        <h1 id="hero-h" className="pc-eyebrow">Wedding invitation websites in Kerala<span className="max-sm:sr-only"> · the future of wedding invitations</span></h1>
+        <p className="sr-only">{HEADLINE}</p>
         <DotHeadline />
         <p className="pc-lede">One link that invites, informs and counts your guests. Designed for the two of you, sent on WhatsApp.</p>
         <div className="pc-cta">
-          <EnquireButton size="lg" origin="hero" variant="clay" className="rounded-full">
-            Check my date <ArrowRight />
+          <WhatsAppButton href={chat} origin="hero" size="lg" variant="clay" className="rounded-full">
+            Get a free preview on WhatsApp
+          </WhatsAppButton>
+          <EnquireButton origin="hero" variant="link" className="pc-ghost h-auto p-0">
+            or send your names here
           </EnquireButton>
-          <a className="pc-ghost" href="#samples">See real invitations</a>
         </div>
       </div>
 
@@ -290,18 +293,18 @@ export function PaperHero() {
 
 /* ---------- where it started ---------- */
 
-export function PaperOrigin({ studio }: { studio: string }) {
+export function PaperOrigin({ studio, founder }: { studio: string; founder?: React.ReactNode }) {
   return (
     <section id="origin" aria-labelledby="origin-h" className="pc-section pc-origin">
       <div className="pc-wrap pc-story-grid">
         <div className="pc-collage">
           <div className="pc-cut pc-photo" id="pc-s-photo">
-            <img src="/media/sc-altar.jpg" alt="Watercolour of a church aisle from the first invitation we made" />
+            <img src="/media/sc-altar.jpg" alt="Watercolour church aisle from a Kerala wedding invitation website" />
           </div>
           <img className="pc-cut" id="pc-s-bouquet" src="/media/cut/bouquet.webp" alt="" aria-hidden />
           <figure className="pc-cut pc-polaroid" id="pc-s-pol">
             <span className="pc-tape" aria-hidden />
-            <img src="/media/ph-poster.jpg" alt="A couple dancing at their reception, seen from behind" style={{ objectPosition: "50% 70%" }} />
+            <img src="/media/ph-poster.jpg" alt="Couple dancing at their Kerala wedding reception" style={{ objectPosition: "50% 70%" }} />
             <figcaption>the first dance</figcaption>
           </figure>
           <img className="pc-cut" id="pc-s-player" src="/media/cut/player.webp" alt="" aria-hidden />
@@ -325,7 +328,7 @@ export function PaperOrigin({ studio }: { studio: string }) {
               <dt>RSVP list</dt><dd>1</dd>
             </dl>
           </div>
-          <p className="pc-sign">Kevin</p>
+          {founder}
         </div>
       </div>
     </section>
@@ -336,16 +339,14 @@ export function PaperOrigin({ studio }: { studio: string }) {
 
 const STAR = "M0 -10 L2.4 -2.4 L10 0 L2.4 2.4 L0 10 L-2.4 2.4 L-10 0 L-2.4 -2.4Z";
 
-// Third sample: Malavika & Hari, the lotus (Thamara) design.
-const THAMARA_URL = "https://malavika-hari.vercel.app/";
 
 
 type MotifKind = "bell" | "bow" | "lantern" | "palace";
 const MORE: { names: string; url: string; line: string; sub: string; motif: MotifKind; bg: string; bg2: string; ink: string }[] = [
-  { names: "Tara & Advait", url: "https://tara-advait.vercel.app/", line: "Ring the bell to enter", sub: "Temple bells in the hills · Rishikesh", motif: "bell", bg: "#1B0B24", bg2: "#3A1A4A", ink: "#E3C47E" },
-  { names: "Tara & Kabir", url: "https://tara-kabir.vercel.app/", line: "Untie the bow", sub: "Playful and understated · Goa", motif: "bow", bg: "#D6CDBA", bg2: "#ECE6D8", ink: "#7A1E2A" },
-  { names: "Joel & Anna", url: "https://abhishek-kanika.vercel.app/", line: "Light the lantern", sub: "Lantern by the sea · moonlit", motif: "lantern", bg: "#0E0C2E", bg2: "#24215A", ink: "#F2C46D" },
-  { names: "Veer & Naina", url: "https://veer-naina.vercel.app/", line: "Take the drive", sub: "A palace at dusk · cinematic scroll", motif: "palace", bg: "#162252", bg2: "#2E4290", ink: "#E9C98A" },
+  { names: "Tara & Advait", url: "/i/tara-advait", line: "Ring the bell to enter", sub: "Temple bells in the hills · Rishikesh", motif: "bell", bg: "#1B0B24", bg2: "#3A1A4A", ink: "#E3C47E" },
+  { names: "Tara & Kabir", url: "/i/tara-kabir", line: "Untie the bow", sub: "Playful and understated · Goa", motif: "bow", bg: "#D6CDBA", bg2: "#ECE6D8", ink: "#7A1E2A" },
+  { names: "Joel & Anna", url: "/i/joel-anna", line: "Light the lantern", sub: "Lantern by the sea · moonlit", motif: "lantern", bg: "#0E0C2E", bg2: "#24215A", ink: "#F2C46D" },
+  { names: "Veer & Naina", url: "/i/veer-naina", line: "Take the drive", sub: "A palace at dusk · cinematic scroll", motif: "palace", bg: "#162252", bg2: "#2E4290", ink: "#E9C98A" },
 ];
 
 function Motif({ kind, ink }: { kind: MotifKind; ink: string }) {
@@ -410,9 +411,9 @@ export function PaperSamples() {
           <p>Every invitation is designed around the couple: their story, their colours, their functions. These are live. Open them on your phone.</p>
         </div>
         <div className="pc-cards many" id="pc-cards">
-          <a className="pc-card" id="pc-card1" href="https://kavitha.cloud/keerthyandrosheel" target="_blank" rel="noopener">
+          <a className="pc-card" id="pc-card1" href="/i/keerthy-rosheel" target="_blank" rel="noopener">
             <div className="art">
-              <img src="/media/sc-church.jpg" alt="Watercolour church from Keerthy and Rosheel's invitation" style={{ objectPosition: "50% 40%" }} />
+              <img src="/media/sc-church.jpg" alt="Kerala Christian wedding invitation website with a watercolour church cover" style={{ objectPosition: "50% 40%" }} />
             </div>
             <div className="meta">
               <div>
@@ -422,7 +423,7 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
-          <a className="pc-card" id="pc-card2" href="https://nila-aaron.vercel.app/" target="_blank" rel="noopener">
+          <a className="pc-card" id="pc-card2" href="/i/nila-aaron" target="_blank" rel="noopener">
             <div className="art pc-night">
               <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden>
                 <g fill="#F4E9C9">
@@ -451,7 +452,7 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
-          <a className="pc-card" id="pc-card3" href={THAMARA_URL} target="_blank" rel="noopener">
+          <a className="pc-card" id="pc-card3" href="/i/malavika-hari" target="_blank" rel="noopener">
             <div className="art pc-lotus-art">
               <img src="/media/cut/lotus.webp" alt="" aria-hidden />
               <div className="lbl"><b>Malavika &amp; Hari</b><span>Some things open slowly</span></div>
@@ -464,7 +465,7 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
-          <a className="pc-card" id="pc-card4" href="https://ishani-rudra.vercel.app/" target="_blank" rel="noopener">
+          <a className="pc-card" id="pc-card4" href="/i/ishani-rudra" target="_blank" rel="noopener">
             <div className="art pc-temple-art">
               <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden>
                 <path d="M110 300 V170 Q110 92 200 70 Q290 92 290 170 V300" fill="none" stroke="#D9B26A" strokeWidth="3" />
@@ -484,7 +485,7 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
-          <a className="pc-card" id="pc-card5" href="https://ross-and-rachel.vercel.app/" target="_blank" rel="noopener">
+          <a className="pc-card" id="pc-card5" href="/i/ross-rachel" target="_blank" rel="noopener">
             <div className="art pc-bloom-art">
               <img src="/media/cut/tulips.webp" alt="" aria-hidden />
               <div className="lbl"><b>Ross &amp; Rachel</b><span>You are invited</span></div>
