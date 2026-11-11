@@ -10,6 +10,7 @@ export type CoupleWord = {
   id: number;
   created_at: string;
   names: string;
+  title: string | null; // a short headline, shown above their words
   place: string | null;
   wedding_month: string | null; // YYYY-MM
   quote: string;
@@ -43,6 +44,8 @@ function db() {
       CREATE INDEX IF NOT EXISTS idx_couple_words_status ON couple_words(status);
     `);
     ready = true;
+    const cols = (d.prepare("PRAGMA table_info(couple_words)").all() as { name: string }[]).map((c) => c.name);
+    if (!cols.includes("title")) d.exec("ALTER TABLE couple_words ADD COLUMN title TEXT");
     // First words on the site: from the couple whose invitation started it all. Added once; deleting it in admin keeps it gone.
     if (!getSettings().seed_keerthy) {
       d.prepare("INSERT INTO couple_words (names, place, wedding_month, quote, status, source) VALUES (?, ?, ?, ?, 'published', 'admin')").run(
@@ -52,6 +55,14 @@ function db() {
         "Best ever experience for us. Would absolutely recommend this to everyone who gets married.",
       );
       setSetting("seed_keerthy", "1");
+    }
+    // Their words, with the grammar tidied and a headline added.
+    if (!getSettings().seed_keerthy2) {
+      d.prepare("UPDATE couple_words SET title = ?, quote = ? WHERE names = 'Keerthy & Rosheel' AND source = 'admin'").run(
+        "The best experience we could have asked for.",
+        "It was the best experience ever for us. We would absolutely recommend it to every couple getting married.",
+      );
+      setSetting("seed_keerthy2", "1");
     }
   }
   return d;
@@ -105,14 +116,14 @@ export function countPending() {
   return (db().prepare("SELECT COUNT(*) AS n FROM couple_words WHERE status = 'pending'").get() as { n: number }).n;
 }
 
-export function createCoupleWord(w: Pick<CoupleWord, "names" | "quote" | "status" | "source"> & Partial<Pick<CoupleWord, "place" | "wedding_month" | "photo" | "contact">>) {
+export function createCoupleWord(w: Pick<CoupleWord, "names" | "quote" | "status" | "source"> & Partial<Pick<CoupleWord, "title" | "place" | "wedding_month" | "photo" | "contact">>) {
   const r = db()
-    .prepare("INSERT INTO couple_words (names, place, wedding_month, quote, photo, status, source, contact) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
-    .run(w.names, w.place || null, w.wedding_month || null, w.quote, w.photo || null, w.status, w.source, w.contact || null);
+    .prepare("INSERT INTO couple_words (names, title, place, wedding_month, quote, photo, status, source, contact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    .run(w.names, w.title || null, w.place || null, w.wedding_month || null, w.quote, w.photo || null, w.status, w.source, w.contact || null);
   return Number(r.lastInsertRowid);
 }
 
-export function updateCoupleWord(id: number, w: Partial<Pick<CoupleWord, "names" | "place" | "wedding_month" | "quote" | "photo" | "status" | "sort">>) {
+export function updateCoupleWord(id: number, w: Partial<Pick<CoupleWord, "names" | "title" | "place" | "wedding_month" | "quote" | "photo" | "status" | "sort">>) {
   const keys = Object.keys(w).filter((k) => (w as Record<string, unknown>)[k] !== undefined);
   if (!keys.length) return;
   db()

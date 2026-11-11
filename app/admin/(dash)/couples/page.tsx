@@ -37,6 +37,10 @@ function Fields({ w }: { w?: CoupleWord }) {
         </div>
       </div>
       <div className="grid gap-2">
+        <Label htmlFor={`${k}-title`}>Headline (optional)</Label>
+        <Input id={`${k}-title`} name="title" defaultValue={w?.title ?? ""} placeholder="Dad sent it to everyone. Twice." />
+      </div>
+      <div className="grid gap-2">
         <Label htmlFor={`${k}-quote`}>What they said</Label>
         <Textarea id={`${k}-quote`} name="quote" rows={4} defaultValue={w?.quote} placeholder="Paste their message here" required />
       </div>
@@ -124,7 +128,8 @@ export default async function CouplesPage({ searchParams }: { searchParams: Prom
                   {[w.place, monthLabel(w.wedding_month)].filter(Boolean).join(" · ") || "No place or date"} · received {fmtDate(w.created_at)}
                   {w.contact ? ` · ${w.contact}` : ""}
                 </p>
-                <p className="mt-3 leading-relaxed whitespace-pre-line">&ldquo;{w.quote}&rdquo;</p>
+                {w.title ? <p className="mt-3 font-semibold">{w.title}</p> : null}
+                <p className="mt-1 leading-relaxed whitespace-pre-line">&ldquo;{w.quote}&rdquo;</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">

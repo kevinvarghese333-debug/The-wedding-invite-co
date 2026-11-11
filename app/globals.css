@@ -309,3 +309,16 @@
   .pc-cards.many .pc-card { flex: 0 0 82%; scroll-snap-align: center; transform: none !important; }
   .pc-swipe { display: block; margin-top: 6px; text-align: center; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--pc-ink); }
 }
+
+/* "What our happily married couples say": a slow, endless drift to the left */
+.pc-marquee { overflow: hidden; padding: 6px 0 18px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
+.pc-marquee-track { display: flex; width: max-content; animation: pc-drift linear infinite; }
+.pc-marquee:hover .pc-marquee-track, .pc-marquee:focus-within .pc-marquee-track { animation-play-state: paused; }
+@keyframes pc-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .pc-marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .pc-marquee-track { animation: none; }
+  .pc-marquee-track > ul[aria-hidden] { display: none; }
+}

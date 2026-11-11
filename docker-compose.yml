@@ -21,6 +21,16 @@ services:
       - traefik.http.routers.weddinginviteco.tls=true
       - traefik.http.routers.weddinginviteco.tls.certresolver=letsencrypt
       - traefik.http.services.weddinginviteco.loadbalancer.server.port=3000
+      # Old address → new address, same page, permanent (301/308) redirect
+      - traefik.http.routers.weddinginviteco-old.rule=Host(`${OLD_DOMAIN:-theweddinginviteco.theinsiderfinds.com}`)
+      - traefik.http.routers.weddinginviteco-old.entrypoints=websecure
+      - traefik.http.routers.weddinginviteco-old.tls=true
+      - traefik.http.routers.weddinginviteco-old.tls.certresolver=letsencrypt
+      - traefik.http.routers.weddinginviteco-old.service=weddinginviteco
+      - traefik.http.routers.weddinginviteco-old.middlewares=weddinginviteco-moved
+      - traefik.http.middlewares.weddinginviteco-moved.redirectregex.regex=^https?://[^/]+/?(.*)
+      - traefik.http.middlewares.weddinginviteco-moved.redirectregex.replacement=https://${DOMAIN}/$${1}
+      - traefik.http.middlewares.weddinginviteco-moved.redirectregex.permanent=true
 
   # Optional: send WhatsApp alerts from your own number instead of CallMeBot.
   # Start it with:  docker compose --profile whatsapp up -d

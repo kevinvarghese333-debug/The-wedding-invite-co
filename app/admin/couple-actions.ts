@@ -30,6 +30,7 @@ export async function addCoupleWord(fd: FormData) {
   createCoupleWord({
     names,
     quote,
+    title: str(fd, "title", 120) || null,
     place: str(fd, "place", 80),
     wedding_month: month(str(fd, "wedding_month", 7)),
     photo,
@@ -46,6 +47,7 @@ export async function editCoupleWord(fd: FormData) {
   if (!w) back();
   const patch: Partial<CoupleWord> = {
     names: str(fd, "names", 80) || w!.names,
+    title: str(fd, "title", 120) || null,
     quote: str(fd, "quote", 900) || w!.quote,
     place: str(fd, "place", 80) || null,
     wedding_month: month(str(fd, "wedding_month", 7)),
