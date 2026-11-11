@@ -89,13 +89,15 @@ export function CoupleWords() {
           {rowB.length ? <Row words={rowB} seconds={rowB.length * 13} offset /> : null}
         </div>
       ) : (
-        <ul className="pc-wrap mt-12 flex flex-wrap justify-center gap-6">
-          {words.map((w) => (
-            <li key={w.id} className="flex">
-              <Card w={w} />
-            </li>
-          ))}
-        </ul>
+        <div className="pc-wrap">
+          <ul className="mt-12 flex flex-wrap justify-center gap-6">
+            {words.map((w) => (
+              <li key={w.id} className="flex">
+                <Card w={w} />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </section>
   );
