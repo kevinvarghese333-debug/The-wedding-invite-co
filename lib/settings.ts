@@ -21,7 +21,7 @@ export const SETTING_FIELDS = [
   { key: "autoreply", label: "Instant reply to new enquiries", type: "toggle", help: "Sends the couple a thank-you right after they enquire: by WhatsApp when WAHA is set up, otherwise by email if they gave one." },
 ] as const;
 
-export type SettingKey = (typeof SETTING_FIELDS)[number]["key"] | "founder_photo" | "seed_keerthy" | "seed_keerthy2";
+export type SettingKey = (typeof SETTING_FIELDS)[number]["key"] | "founder_photo" | "seed_keerthy" | "seed_keerthy2" | "seed_twelve";
 export type Settings = Partial<Record<SettingKey, string>>;
 
 const DEFAULTS: Settings = {

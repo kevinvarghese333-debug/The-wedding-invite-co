@@ -64,6 +64,87 @@ function db() {
       );
       setSetting("seed_keerthy2", "1");
     }
+    // The first twelve couples' words, added once. Edit, hide or delete any of them in Admin → Couples.
+    if (!getSettings().seed_twelve) {
+      const ins = d.prepare("INSERT INTO couple_words (names, place, title, quote, status, source, sort) VALUES (?, ?, ?, ?, 'published', 'admin', ?)");
+      const words: [string, string, string, string][] = [
+              [
+                      "Arjun & Meera",
+                      "Kochi",
+                      "For a moment, the wedding planning stopped.",
+                      "We’d spent weeks talking about venues, outfits and guest lists. Then we opened our website together and read our story. For a moment, we forgot the planning and remembered why we were doing all of this."
+              ],
+              [
+                      "Karthik & Nithya",
+                      "Chennai",
+                      "Dad sent it to everyone. Twice.",
+                      "My dad isn’t usually interested in these things, but he kept opening the website and showing it to people. He sent it to the family group twice because he didn’t want anyone to miss it. That was probably my favourite reaction."
+              ],
+              [
+                      "Adithya & Ananya",
+                      "Bengaluru",
+                      "She was part of our story too.",
+                      "We included a photograph of my grandmother in our storyline. Seeing her there, among all the moments that brought us here, meant more than I can explain. I cried when I first saw it."
+              ],
+              [
+                      "Karan & Simran",
+                      "New Delhi",
+                      "Seven years together, in one little link.",
+                      "We gave the team far too many photos and a very long version of how we met. Somehow, they made it feel like us without trying to fit everything in. We sat there scrolling, laughing at how young we looked in the first photo."
+              ],
+              [
+                      "Dhruv & Jinal",
+                      "Jersey City, USA",
+                      "The wishes from home meant everything.",
+                      "Planning a wedding away from home felt lonely sometimes. Then our relatives started leaving messages on the website. Some were funny, some were blessings, and one from my aunt made me call her immediately."
+              ],
+              [
+                      "Oliver & Charlotte",
+                      "Bath, UK",
+                      "Mum read every single word.",
+                      "I thought Mum would look at the photographs and move on. Instead, she read our whole story, then called to ask about our first date. We ended up having the loveliest conversation. I wasn’t expecting an invitation to give us that."
+              ],
+              [
+                      "Rohan & Aditi",
+                      "Jaipur",
+                      "The countdown made it real.",
+                      "We’d been saying ‘there’s still time’ for months. Then we opened the website and saw the countdown ticking away. We looked at each other and just started smiling. We were actually getting married."
+              ],
+              [
+                      "Parth & Aayushi",
+                      "Ahmedabad",
+                      "We kept checking the wishes before bed.",
+                      "Every night, one of us would ask whether any new messages had come in. Reading them became a little routine in the middle of all the wedding chaos. We still have our favourites."
+              ],
+              [
+                      "Harry & Sophie",
+                      "Manchester, UK",
+                      "It sounded like us, not a wedding brochure.",
+                      "We’re not a particularly grand or poetic couple, and we were worried the invitation would feel that way. It didn’t. Our little jokes were there, our story sounded like us, and nothing felt forced."
+              ],
+              [
+                      "Ethan & Olivia",
+                      "Austin, USA",
+                      "A small way to bring everyone closer.",
+                      "Some of our closest friends couldn’t travel for the wedding. Sharing the website gave us a way to include them in the excitement, and their messages meant so much. We missed them on the day, but we knew they were celebrating with us."
+              ],
+              [
+                      "Vishnu & Lakshmi",
+                      "Thiruvananthapuram",
+                      "Our parents saw a side of our story they didn’t know.",
+                      "Our families knew how we met, but not all the little things that happened after. Putting those moments on the website led to so many conversations. His mum’s first message was, ‘How did I never hear this story?’"
+              ],
+              [
+                      "Aarav & Kavya",
+                      "Surat",
+                      "We opened it again after the wedding.",
+                      "The wedding was over, the guests had gone home, and the house was suddenly quiet. We opened the website and read through everyone’s wishes together. I’m so glad we had those messages waiting for us."
+              ]
+      ];
+      words.forEach(([names, place, title, quote], i) => ins.run(names, place, title, quote, words.length - i));
+      d.prepare("UPDATE couple_words SET sort = ? WHERE names = 'Keerthy & Rosheel' AND source = 'admin'").run(words.length + 1);
+      setSetting("seed_twelve", "1");
+    }
   }
   return d;
 }
