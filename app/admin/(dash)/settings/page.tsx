@@ -10,6 +10,7 @@ import { saveSettings } from "@/app/admin/settings-actions";
 export const dynamic = "force-dynamic";
 
 const GROUPS: [string, string[]][] = [
+  ["Builder payments", ["builder_price", "upi_id", "upi_name"]],
   ["Prices", ["offer_ends", "addon_domain", "addon_language", "addon_chapters", "addon_pages", "bundle_price", "bundle_note"]],
   ["Good to know (shown under the packages)", ["turnaround", "payment_terms", "revisions", "refund_policy"]],
   ["Numbers", ["stats_invites", "stats_guests"]],

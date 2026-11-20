@@ -188,3 +188,51 @@ export async function autoReplyToCouple(lead: Lead): Promise<string> {
     return `failed: ${e instanceof Error ? e.message : String(e)}`;
   }
 }
+
+function transport() {
+  const port = Number(process.env.SMTP_PORT || 587);
+  const user = process.env.SMTP_USER;
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port,
+    secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === "true" : port === 465,
+    auth: user ? { user, pass: process.env.SMTP_PASS || "" } : undefined,
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 15_000,
+  });
+}
+
+/** Emails anyone (a couple, for their edit link or receipt). Returns "sent", "skipped (…)" or "failed: …". Never throws. */
+export async function sendMailTo(to: string, subject: string, text: string, html?: string): Promise<string> {
+  if (!process.env.SMTP_HOST) return "skipped (email not set up)";
+  try {
+    await transport().sendMail({
+      from: process.env.MAIL_FROM || `${STUDIO} <${process.env.SMTP_USER}>`,
+      to,
+      replyTo: process.env.NOTIFY_EMAIL || undefined,
+      subject,
+      text,
+      html,
+    });
+    return "sent";
+  } catch (e) {
+    return `failed: ${e instanceof Error ? e.message : String(e)}`;
+  }
+}
+
+/** A short alert to the studio by email and WhatsApp, e.g. "a couple just paid". Never throws. */
+export async function notifyStudio(subject: string, text: string) {
+  const to = process.env.NOTIFY_EMAIL;
+  const [email, whatsapp] = await Promise.allSettled([to ? sendMailTo(to, subject, text) : Promise.resolve("skipped (NOTIFY_EMAIL is empty)"), sendWhatsApp(`${subject}\n\n${text}`)]);
+  return { email: outcome(email), whatsapp: outcome(whatsapp) };
+}
+
+/** A simple branded email body with one button. */
+export function simpleEmail(title: string, lines: string[], button?: { href: string; label: string }) {
+  const body = lines.map((l) => `<p style="margin:0 0 12px;font-size:15px;line-height:1.55;color:#4A0F16">${esc(l)}</p>`).join("");
+  const btn = button
+    ? `<p style="margin:20px 0 6px"><a href="${esc(button.href)}" style="display:inline-block;padding:12px 20px;border-radius:8px;background:#4A0F16;color:#F8F1EA;text-decoration:none;font-weight:600;font-size:15px">${esc(button.label)}</a></p><p style="margin:10px 0 0;font-size:12px;color:#6E4A47;word-break:break-all">${esc(button.href)}</p>`
+    : "";
+  return `<!doctype html><html><body style="margin:0;background:#F8F1EA;font-family:Arial,Helvetica,sans-serif"><div style="max-width:560px;margin:0 auto;padding:24px 16px"><p style="margin:0 0 12px;font-size:13px;color:#6E4A47">${esc(STUDIO)}</p><div style="background:#FFFDF9;border:1px solid #E2DFD4;border-radius:14px;padding:24px"><h1 style="margin:0 0 14px;font-family:Georgia,serif;font-weight:normal;font-size:26px;color:#4A0F16">${esc(title)}</h1>${body}${btn}</div></div></body></html>`;
+}

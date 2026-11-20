@@ -12,10 +12,16 @@ export function publicWhatsApp() {
 export const PACKAGES = {
   classic: { label: "The Classic Invitation", price: "₹4,999" },
   story: { label: "The Signature Invitation", price: "₹8,490" },
+  diy: { label: "Do-it-yourself (builder)", price: "" },
   unsure: { label: "Not sure yet", price: "" },
 } as const;
 
 export type PackageId = keyof typeof PACKAGES;
+
+/** Where couples design their own invitation. On its own subdomain when BUILDER_URL is set, else SITE_URL/build. */
+export function builderUrl() {
+  return (process.env.BUILDER_URL || `${siteUrl()}/build`).replace(/\/$/, "");
+}
 
 export function packageLabel(id?: string | null) {
   if (!id) return "Not sure yet";

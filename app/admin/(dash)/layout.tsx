@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/auth";
 import { STUDIO } from "@/lib/config";
 import { logout } from "@/app/admin/actions";
 import { countPending } from "@/lib/couples";
+import { siteStats } from "@/lib/builder/sites";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: `Leads · ${STUDIO}`, robots: { index: false } };
@@ -13,14 +14,15 @@ export const metadata = { title: `Leads · ${STUDIO}`, robots: { index: false } 
 export default async function DashLayout({ children }: { children: React.ReactNode }) {
   await requireAdmin();
   const pending = countPending();
+  const requested = siteStats().requested;
   return (
     <div className="bg-muted min-h-dvh">
       <header className="bg-card sticky top-0 z-30 border-b">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-          <Link href="/admin" aria-label="Leads home">
+          <Link href="/admin" aria-label="Leads home" className="flex-none max-sm:[&_.heading]:hidden">
             <Logo name={STUDIO} />
           </Link>
-          <div className="flex items-center gap-1.5">
+          <div className="flex min-w-0 items-center gap-1.5 overflow-x-auto [scrollbar-width:none]">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/admin">Leads</Link>
             </Button>
@@ -28,6 +30,14 @@ export default async function DashLayout({ children }: { children: React.ReactNo
               <Link href="/admin/couples">
                 Couples{pending ? <span className="bg-clay text-clay-foreground ml-1 rounded-full px-1.5 text-xs">{pending}</span> : null}
               </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin/sites">
+                Builder{requested ? <span className="bg-clay text-clay-foreground ml-1 rounded-full px-1.5 text-xs">{requested}</span> : null}
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="max-sm:hidden">
+              <Link href="/admin/music">Music</Link>
             </Button>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/admin/settings">Settings</Link>
@@ -45,7 +55,7 @@ export default async function DashLayout({ children }: { children: React.ReactNo
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 [&>.grid>*]:min-w-0">{children}</main>
     </div>
   );
 }

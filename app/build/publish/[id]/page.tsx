@@ -1,0 +1,44 @@
+import { redirect } from "next/navigation";
+import { BuilderHeader } from "@/components/builder/header";
+import { PublishFlow } from "@/components/builder/publish-flow";
+import { getSite, siteData, suggestSlug } from "@/lib/builder/sites";
+import { builderPrice, canEdit, getBase, liveUrl } from "@/lib/builder/server";
+import { coupleNames } from "@/lib/builder/render";
+import { publicWhatsApp, siteUrl } from "@/lib/config";
+import { razorpayReady } from "@/lib/builder/razorpay";
+import { upiPayment } from "@/lib/builder/upi";
+
+export const metadata = { title: "Publish your invitation", robots: { index: false } };
+
+export default async function PublishPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const base = await getBase();
+  const site = getSite(id);
+  if (!site || !(await canEdit(site))) redirect(`${base}/edit/${id}`);
+  const d = siteData(site);
+  const slug = site.slug || suggestSlug(d, site.id);
+  const price = builderPrice();
+  const rzp = razorpayReady();
+  const upi = rzp ? null : await upiPayment(price, site.id);
+  return (
+    <div className="bg-muted min-h-dvh">
+      <BuilderHeader base={base} />
+      <PublishFlow
+        siteId={site.id}
+        names={coupleNames(d)}
+        price={price}
+        host={`${siteUrl().replace(/^https?:\/\//, "")}/i/`}
+        initialSlug={slug}
+        contact={{ name: site.contact_name || "", email: site.email || "", phone: site.phone || "" }}
+        paid={!!site.paid_at}
+        liveUrl={liveUrl(slug)}
+        requested={!site.paid_at && !!site.publish_requested_at}
+        whatsapp={publicWhatsApp()}
+        previewSrc={`${base}/preview/${site.id}?thumb=1`}
+        razorpay={rzp}
+        upi={upi}
+        claimRef={site.claim_ref || ""}
+      />
+    </div>
+  );
+}
