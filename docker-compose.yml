@@ -21,6 +21,13 @@ services:
       - traefik.http.routers.weddinginviteco.tls=true
       - traefik.http.routers.weddinginviteco.tls.certresolver=letsencrypt
       - traefik.http.services.weddinginviteco.loadbalancer.server.port=3000
+      # The invitation builder on its own subdomain (same container; it lives at /build in the app).
+      # Its own router, so its certificate is separate and a missing DNS record can't affect the main site.
+      - traefik.http.routers.weddinginviteco-build.rule=Host(`${BUILDER_DOMAIN:-build.theweddinginviteco.xyz}`)
+      - traefik.http.routers.weddinginviteco-build.entrypoints=websecure
+      - traefik.http.routers.weddinginviteco-build.tls=true
+      - traefik.http.routers.weddinginviteco-build.tls.certresolver=letsencrypt
+      - traefik.http.routers.weddinginviteco-build.service=weddinginviteco
       # Old address → new address, same page, permanent (301/308) redirect
       - traefik.http.routers.weddinginviteco-old.rule=Host(`${OLD_DOMAIN:-theweddinginviteco.theinsiderfinds.com}`)
       - traefik.http.routers.weddinginviteco-old.entrypoints=websecure

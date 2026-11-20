@@ -33,11 +33,14 @@ import { PaperHero, PaperOrigin, PaperSamples } from "@/components/landing/paper
 import { StickyCta, TrustStrip, InlineCta } from "@/components/landing/funnel";
 import { WhatsAppMoment } from "@/components/landing/whatsapp-chat";
 import { CoupleWords } from "@/components/landing/couple-words";
-import { publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
+import { builderUrl, publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
+import { builderPrice } from "@/lib/builder/server";
 import { fmtLongDate, getSettings, offerActive } from "@/lib/settings";
 import { LivePreview } from "@/components/landing/live-preview";
 import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { AUDIENCES } from "@/lib/audiences";
+
+const rupeesPlain = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 export const dynamic = "force-dynamic";
 
@@ -186,6 +189,7 @@ export default function Home() {
                 ["#features", "Features"],
                 ["#pricing", "Packages"],
                 ["#faq", "FAQ"],
+                [builderUrl(), "Make it yourself"],
               ].map(([href, label]) => (
                 <Button key={href} variant="ghost" size="sm" asChild className="text-muted-foreground">
                   <a href={href}>{label}</a>
@@ -557,6 +561,17 @@ export default function Home() {
                 </Card>
               ) : null}
             </div>
+            <Card className="bg-clay-soft/60 mx-auto mt-5 max-w-[920px] flex-row flex-wrap items-center justify-between gap-4 px-6 py-5">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold">Prefer to make it yourself?</p>
+                <p className="text-muted-foreground text-sm">Pick one of our designs, type your details and see it change as you go. Free to design, {rupeesPlain(builderPrice())} to publish.</p>
+              </div>
+              <Button variant="outline" asChild>
+                <a href={builderUrl()}>
+                  Open the builder <ArrowRight />
+                </a>
+              </Button>
+            </Card>
             <Card className="mx-auto mt-5 max-w-[920px] gap-0 px-6 py-2">
               <p className="mt-3.5 mb-1.5 text-sm font-semibold">Add-ons</p>
               {ADDONS.map(([a, k]) => (
@@ -691,6 +706,7 @@ export default function Home() {
               ["#features", "Features"],
               ["#pricing", "Packages"],
               ["#faq", "FAQ"],
+              [builderUrl(), "Make it yourself"],
             ].map(([href, label]) => (
               <Button key={href} variant="ghost" size="sm" asChild className="text-muted-foreground">
                 <a href={href}>{label}</a>
