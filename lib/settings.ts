@@ -19,6 +19,8 @@ export const SETTING_FIELDS = [
   { key: "founder_name", label: "Founder names", type: "text", help: "Shown as the sign-off, for example Kevin Varghese & Greeny Saju." },
   { key: "founder_story", label: "Founder note (2 or 3 lines)", type: "textarea" },
   { key: "builder_price", label: "Do-it-yourself builder: price in rupees", type: "text", help: "What couples pay to publish an invitation they made themselves in the builder. Numbers only, for example 1999. Empty means ₹1,999." },
+  { key: "upi_id", label: "UPI ID for builder payments", type: "text", help: "For example yourname@okbank. Couples see a QR code with the amount filled in, then tell us their transaction ID. Only used while Razorpay keys aren't set." },
+  { key: "upi_name", label: "Name on the UPI account", type: "text", help: "Shown to couples next to the QR code, for example Kevin Varghese." },
   { key: "autoreply", label: "Instant reply to new enquiries", type: "toggle", help: "Sends the couple a thank-you right after they enquire: by WhatsApp when WAHA is set up, otherwise by email if they gave one." },
 ] as const;
 

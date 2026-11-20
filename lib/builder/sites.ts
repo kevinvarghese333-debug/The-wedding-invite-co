@@ -28,6 +28,8 @@ export type Site = {
   published_at: string | null;
   lead_id: number | null;
   views: number;
+  claim_ref: string | null; // UPI transaction id the couple gave us
+  claimed_at: string | null;
 };
 
 export type Rsvp = {
@@ -105,6 +107,9 @@ function db() {
       );
     `);
     ready = true;
+    const cols = (d.prepare("PRAGMA table_info(sites)").all() as { name: string }[]).map((c) => c.name);
+    if (!cols.includes("claim_ref")) d.exec("ALTER TABLE sites ADD COLUMN claim_ref TEXT");
+    if (!cols.includes("claimed_at")) d.exec("ALTER TABLE sites ADD COLUMN claimed_at TEXT");
   }
   return d;
 }
@@ -211,6 +216,11 @@ export function requestPublish(id: string) {
   db().prepare("UPDATE sites SET publish_requested_at = COALESCE(publish_requested_at, ?) WHERE id = ?").run(now(), id);
 }
 
+/** The couple says they paid by UPI; we check the bank and publish from Admin. */
+export function claimPayment(id: string, ref: string) {
+  db().prepare("UPDATE sites SET claim_ref = ?, claimed_at = ?, publish_requested_at = COALESCE(publish_requested_at, ?) WHERE id = ?").run(ref, now(), now(), id);
+}
+
 /** Marks the site paid and puts the current design live. Safe to call twice. */
 export function markPaid(id: string, p: { amount: number; ref: string; method: "razorpay" | "manual" | "free" }) {
   const s = getSite(id);
@@ -283,6 +293,7 @@ export function siteStats() {
     total: one("SELECT COUNT(*) n FROM sites"),
     live: one("SELECT COUNT(*) n FROM sites WHERE paid_at IS NOT NULL"),
     requested: one("SELECT COUNT(*) n FROM sites WHERE paid_at IS NULL AND publish_requested_at IS NOT NULL"),
+    claimed: one("SELECT COUNT(*) n FROM sites WHERE paid_at IS NULL AND claim_ref IS NOT NULL"),
     revenue: one("SELECT SUM(amount) n FROM sites WHERE paid_at IS NOT NULL"),
     thisWeek: one(`SELECT COUNT(*) n FROM sites WHERE created_at >= '${new Date(Date.now() - 7 * 86_400_000).toISOString()}'`),
   };

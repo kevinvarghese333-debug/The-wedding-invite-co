@@ -130,9 +130,17 @@ Couples design their own invitation from our templates, for a lower price than a
 3. `docker compose up -d`. Try a test payment with Razorpay's test card or UPI `success@razorpay`,
    then switch to live keys.
 
-**Without Razorpay** (keys empty), "Pay and publish" asks the couple to pay by UPI on WhatsApp and alerts you
-by email and WhatsApp. Open **Admin → Builder**, find them under "Wants to publish", and press
-**Mark paid and publish** (or publish free). They get an email with their link.
+**Without Razorpay** (keys empty), couples pay you directly by UPI:
+
+1. In **Admin → Settings → Builder payments**, enter your UPI ID (for example `name@kotakbank`) and the
+   name on the account.
+2. On "Publish", the couple sees a UPI QR code with the amount already filled in (and a "Pay with a UPI app"
+   button on phones), pays from any UPI app, and enters the transaction ID (UTR) under "I've paid".
+3. You get an email and WhatsApp alert with that transaction ID. Check it in your bank app, then open
+   **Admin → Builder**, find them ("Says paid · check UPI") and press **Mark paid and publish**.
+   They get an email with their live link.
+
+If no UPI ID is set, couples are asked to message you on WhatsApp for payment details instead.
 
 **Admin → Builder** lists every design with its status (draft, wants to publish, live, paused), contact
 details, opens and RSVP counts. On each one you can preview, edit as the studio, mark paid, publish the

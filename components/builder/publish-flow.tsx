@@ -22,6 +22,9 @@ type Props = {
   requested: boolean;
   whatsapp: string;
   previewSrc: string;
+  razorpay: boolean;
+  upi: { id: string; name: string; uri: string; qr: string; note: string } | null;
+  claimRef: string;
 };
 
 type RzpResponse = { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string };
@@ -175,28 +178,32 @@ export function PublishFlow(p: Props) {
             <p className="text-muted-foreground text-sm">We&apos;ve emailed you the link and a receipt.</p>
           </Card>
         ) : stage === "manual" ? (
-          <Card className="gap-5 p-7">
-            <div>
-              <h1 className="heading text-4xl">Almost there.</h1>
-              <p className="text-muted-foreground mt-2">
-                Pay {rupee(p.price)} by UPI or bank transfer and send us the screenshot on WhatsApp. We publish it as soon as it arrives, usually within the hour, and email you when it&apos;s live.
-              </p>
-            </div>
-            <div className="bg-muted rounded-lg border p-4 text-sm">
-              <p className="font-medium">Your link will be</p>
-              <p className="mt-1 break-all">{url.replace(/^https?:\/\//, "")}</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button asChild>
-                <a href={askUs} target="_blank" rel="noopener">
-                  <MessageCircle /> Pay on WhatsApp
-                </a>
-              </Button>
-              <Button variant="outline" onClick={() => setStage("form")}>
-                Change the link
-              </Button>
-            </div>
-          </Card>
+          p.upi ? (
+            <UpiPay siteId={p.siteId} price={p.price} url={url} upi={p.upi} email={f.email} claimRef={p.claimRef} askUs={askUs} onChangeLink={() => setStage("form")} />
+          ) : (
+            <Card className="gap-5 p-7">
+              <div>
+                <h1 className="heading text-4xl">Almost there.</h1>
+                <p className="text-muted-foreground mt-2">
+                  Message us on WhatsApp and we&apos;ll send you the payment details for {rupee(p.price)}. We publish it as soon as the payment arrives, usually within the hour, and email you when it&apos;s live.
+                </p>
+              </div>
+              <div className="bg-muted rounded-lg border p-4 text-sm">
+                <p className="font-medium">Your link will be</p>
+                <p className="mt-1 break-all">{url.replace(/^https?:\/\//, "")}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button asChild>
+                  <a href={askUs} target="_blank" rel="noopener">
+                    <MessageCircle /> Pay on WhatsApp
+                  </a>
+                </Button>
+                <Button variant="outline" onClick={() => setStage("form")}>
+                  Change the link
+                </Button>
+              </div>
+            </Card>
+          )
         ) : (
           <form onSubmit={pay} className="grid gap-6" noValidate>
             <div>
@@ -259,9 +266,11 @@ export function PublishFlow(p: Props) {
                 </p>
               ) : null}
               <Button type="submit" size="lg" disabled={stage === "paying" || !slugState.ok}>
-                {stage === "paying" ? <Loader2 className="animate-spin" /> : <Lock />} Pay {rupee(p.price)} and publish
+                {stage === "paying" ? <Loader2 className="animate-spin" /> : <Lock />} {p.razorpay ? `Pay ${rupee(p.price)} and publish` : `Continue to pay ${rupee(p.price)}`}
               </Button>
-              <p className="text-muted-foreground text-xs">UPI, cards and net banking through Razorpay. One-time payment, no subscription.</p>
+              <p className="text-muted-foreground text-xs">
+                {p.razorpay ? "UPI, cards and net banking through Razorpay." : "Pay by UPI from any app: Google Pay, PhonePe, Paytm or BHIM."} One-time payment, no subscription.
+              </p>
             </Card>
           </form>
         )}
@@ -288,5 +297,131 @@ export function PublishFlow(p: Props) {
         </Card>
       </aside>
     </div>
+  );
+}
+
+/* Paying by UPI to the studio's own account: QR with the amount filled in, a phone button, then the transaction ID. */
+function UpiPay({
+  siteId,
+  price,
+  url,
+  upi,
+  email,
+  claimRef,
+  askUs,
+  onChangeLink,
+}: {
+  siteId: string;
+  price: number;
+  url: string;
+  upi: NonNullable<Props["upi"]>;
+  email: string;
+  claimRef: string;
+  askUs: string;
+  onChangeLink: () => void;
+}) {
+  const [ref, setRef] = React.useState("");
+  const [claimed, setClaimed] = React.useState(claimRef);
+  const [busy, setBusy] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [copied, setCopied] = React.useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(upi.id);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  };
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const r = await fetch(`/api/build/sites/${siteId}/claim`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ref }) });
+    const j = await r.json().catch(() => ({}));
+    setBusy(false);
+    if (!r.ok || !j.ok) return setError(j.error || "Something went wrong. Please try again.");
+    if (j.paid) return window.location.reload();
+    setClaimed(ref.trim());
+  };
+  if (claimed)
+    return (
+      <Card className="gap-5 p-7">
+        <Check className="text-clay-ink size-9" aria-hidden />
+        <div>
+          <h1 className="heading text-4xl">Thank you!</h1>
+          <p className="text-muted-foreground mt-2">
+            We&apos;ve got your transaction ID ({claimed}). As soon as we see the payment, usually within the hour, your invitation goes live at the link below and we email {email || "you"}.
+          </p>
+        </div>
+        <div className="bg-muted rounded-lg border p-4 text-sm">
+          <p className="font-medium">Your link</p>
+          <p className="mt-1 break-all">{url.replace(/^https?:\/\//, "")}</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" asChild>
+            <a href={askUs} target="_blank" rel="noopener">
+              <MessageCircle /> Send us the screenshot on WhatsApp
+            </a>
+          </Button>
+          <Button variant="ghost" onClick={() => setClaimed("")}>
+            Wrong transaction ID?
+          </Button>
+        </div>
+      </Card>
+    );
+  return (
+    <Card className="gap-6 p-7">
+      <div>
+        <h1 className="heading text-4xl">Pay {rupee(price)} by UPI</h1>
+        <p className="text-muted-foreground mt-2">Scan the code with any UPI app, or tap the button on your phone. The amount is already filled in.</p>
+      </div>
+      <div className="grid items-center gap-6 sm:grid-cols-[208px_1fr]">
+        <div className="mx-auto w-52 rounded-xl border bg-white p-2 shadow-sm sm:mx-0 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full" role="img" aria-label={`UPI QR code to pay ${rupee(price)} to ${upi.name || upi.id}`} dangerouslySetInnerHTML={{ __html: upi.qr }} />
+        <dl className="grid gap-3 text-sm">
+          {upi.name ? (
+            <div>
+              <dt className="text-muted-foreground">Pay to</dt>
+              <dd className="font-medium">{upi.name}</dd>
+            </div>
+          ) : null}
+          <div>
+            <dt className="text-muted-foreground">UPI ID</dt>
+            <dd className="flex flex-wrap items-center gap-2 font-medium break-all">
+              {upi.id}
+              <Button type="button" size="sm" variant="outline" className="h-8" onClick={copy}>
+                {copied ? <Check /> : <Copy />} {copied ? "Copied" : "Copy"}
+              </Button>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">Amount</dt>
+            <dd className="heading text-2xl font-semibold lining-nums">{rupee(price)}</dd>
+          </div>
+          <Button asChild className="sm:hidden">
+            <a href={upi.uri}>Pay with a UPI app</a>
+          </Button>
+        </dl>
+      </div>
+      <form onSubmit={submit} className="grid gap-3 border-t pt-5" noValidate>
+        <div className="grid gap-1.5">
+          <Label htmlFor="utr">After paying, enter the UPI transaction ID (UTR)</Label>
+          <Input id="utr" value={ref} onChange={(e) => setRef(e.target.value)} inputMode="numeric" autoComplete="off" placeholder="12-digit number from your payment app" aria-invalid={!!error} />
+          {error ? <p className="text-destructive text-xs">{error}</p> : <p className="text-muted-foreground text-xs">You&apos;ll find it in the payment&apos;s details in Google Pay, PhonePe or Paytm.</p>}
+        </div>
+        <Button type="submit" disabled={busy || ref.trim().length < 6}>
+          {busy ? <Loader2 className="animate-spin" /> : null} I&apos;ve paid
+        </Button>
+      </form>
+      <p className="text-muted-foreground text-sm">
+        Your link will be <span className="text-foreground font-medium break-all">{url.replace(/^https?:\/\//, "")}</span>.{" "}
+        <button type="button" onClick={onChangeLink} className="underline underline-offset-4">
+          Change it
+        </button>
+        {" · "}
+        <a href={askUs} target="_blank" rel="noopener" className="underline underline-offset-4">
+          Questions? WhatsApp us
+        </a>
+      </p>
+    </Card>
   );
 }

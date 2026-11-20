@@ -51,7 +51,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       after(() =>
         notifyStudio(
           `Ready to publish: ${coupleNames(d)} · ${rupees(amount)}`,
-          `${name} (+${phone}, ${email}) finished "${coupleNames(d)}" and wants it live at ${liveUrl(slug)}.\nTake ${rupees(amount)} by UPI, then press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`
+          `${name} (+${phone}, ${email}) finished "${coupleNames(d)}" and wants it live at ${liveUrl(slug)}.\nThey're paying ${rupees(amount)} by UPI (note "Invitation ${site.id}"). Once it's in your account, press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`
         )
       );
     return json({ ok: true, mode: "manual", amount, whatsapp: publicWhatsApp(), url: liveUrl(slug) });

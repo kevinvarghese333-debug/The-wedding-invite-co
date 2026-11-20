@@ -36,6 +36,7 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
     ["Started", fmtDateTime(s.created_at)],
     ["Last edited", fmtDateTime(s.updated_at)],
     ["Asked to publish", s.publish_requested_at ? fmtDateTime(s.publish_requested_at) : "No"],
+    ["Says they paid", s.claim_ref ? `UTR ${s.claim_ref} · ${fmtDateTime(s.claimed_at)}` : "No"],
     ["Paid", s.paid_at ? `${rupees(s.amount)} · ${s.payment_method}${s.payment_ref ? ` · ${s.payment_ref}` : ""} · ${fmtDateTime(s.paid_at)}` : "Not yet"],
     ["Opens", String(s.views)],
     ["RSVPs", String(rsvps.length)],
@@ -90,6 +91,11 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
                 <h2 className="text-lg font-semibold">Mark paid and publish</h2>
                 <p className="text-muted-foreground text-sm">For payments taken by UPI or bank transfer, or to publish free. The couple gets an email with their link.</p>
               </div>
+              {s.claim_ref ? (
+                <p className="bg-clay-soft rounded-lg px-4 py-3 text-sm">
+                  The couple says they paid by UPI, transaction ID <strong className="font-semibold">{s.claim_ref}</strong>. Check it in your bank app before publishing.
+                </p>
+              ) : null}
               <form action={markPaidAction} className="grid gap-3 sm:grid-cols-2">
                 <input type="hidden" name="id" value={s.id} />
                 <div className="grid gap-1.5 sm:col-span-2">
@@ -109,7 +115,7 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
                 </div>
                 <div className="grid gap-1.5 sm:col-span-2">
                   <Label htmlFor="m-ref">Reference (optional)</Label>
-                  <Input id="m-ref" name="ref" placeholder="UPI transaction id" />
+                  <Input id="m-ref" name="ref" placeholder="UPI transaction id" defaultValue={s.claim_ref || ""} />
                 </div>
                 <Button type="submit" className="sm:col-span-2">Mark paid and publish</Button>
               </form>
