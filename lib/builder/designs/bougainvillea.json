@@ -1,0 +1,161 @@
+{
+ "var": "INVITE",
+ "file": "assets/js/config.js",
+ "config": {
+  "groom": {
+   "name": "Joel",
+   "full": "Joel Mathew",
+   "parents": "Mr. Mathew George & Mrs. Annie Mathew",
+   "house": "Puthenpurackal",
+   "line": "Son of grace and laughter, stepping forward with love and devotion."
+  },
+  "bride": {
+   "name": "Maria",
+   "full": "Maria Thomas",
+   "parents": "Mr. Thomas Varghese & Mrs. Elizabeth Thomas",
+   "house": "The Thomas family",
+   "line": "Daughter of faith and warmth, carrying her family’s love into a new dawn."
+  },
+  "initials": [
+   "J",
+   "M"
+  ],
+  "hashtag": "#JoelWedsMaria",
+  "date": "2027-04-19T17:00:00+05:30",
+  "tagline": "Two hearts, one beautiful day.",
+  "welcome": [
+   "Some stories take years to find their way. Ours found its way home.",
+   "With joy, Joel & Maria invite you to celebrate their wedding."
+  ],
+  "welcomePlace": "St. Mary’s Church, Kottayam",
+  "lines": {
+   "ceremonies": "Join us as we begin our forever.",
+   "rsvp": "We’d love to know you’re coming. RSVP here.",
+   "closing": "From our first hello to forever.\nSee you there."
+  },
+  "defaultGuest": "Family & Friends",
+  "story": {
+   "eyebrow": "How we got here",
+   "quote": "Every love story is beautiful, but ours is our favourite.",
+   "chapters": [
+    {
+     "photo": "assets/img/chapter-1.jpg",
+     "focus": "50% 45%",
+     "title": "The First Hello",
+     "text": "A friend’s birthday, a crowded room, and one conversation that went on long after the cake was gone."
+    },
+    {
+     "photo": "assets/img/chapter-2.jpg",
+     "focus": "50% 40%",
+     "title": "Coffee, Again",
+     "text": "One coffee became a habit. Then a favourite table. Then a standing plan every Saturday."
+    },
+    {
+     "photo": "assets/img/chapter-3.jpg",
+     "focus": "50% 40%",
+     "title": "Meeting the Families",
+     "text": "Nervous introductions, too much food, and two families who got along better than we hoped."
+    },
+    {
+     "photo": "assets/img/chapter-4.jpg",
+     "focus": "50% 40%",
+     "title": "Best Friends First",
+     "text": "Long drives, longer talks and the easy kind of quiet you only find with your person."
+    },
+    {
+     "photo": "assets/img/chapter-5.jpg",
+     "focus": "50% 40%",
+     "title": "The Question",
+     "text": "A sunset, a shaky voice and the quickest yes in history."
+    },
+    {
+     "photo": "assets/img/chapter-6.jpg",
+     "focus": "50% 40%",
+     "title": "Forever Starts Now",
+     "text": "And now we’d love for you to be there as we begin the next chapter."
+    }
+   ]
+  },
+  "familyPhotos": [
+   {
+    "photo": "assets/img/family-1.jpg",
+    "focus": "50% 42%"
+   },
+   {
+    "photo": "assets/img/family-2.jpg",
+    "focus": "50% 66%"
+   }
+  ],
+  "events": [
+   {
+    "name": "Holy Matrimony",
+    "art": "chapel",
+    "start": "2027-04-19T17:00:00+05:30",
+    "end": "2027-04-19T18:30:00+05:30",
+    "venue": "St. Mary’s Church",
+    "address": "Kudamaloor, Kottayam",
+    "dress": "Traditional / Formals",
+    "maps": ""
+   },
+   {
+    "name": "Wedding Reception",
+    "art": "reception",
+    "start": "2027-04-19T19:00:00+05:30",
+    "end": "2027-04-19T22:00:00+05:30",
+    "venue": "The Lake Lawns",
+    "address": "Kottayam",
+    "dress": "Traditional / Formals",
+    "maps": ""
+   }
+  ],
+  "info": {
+   "weather": {
+    "title": "Dress for the heat",
+    "temp": "Around 33°C",
+    "sub": "Hot and humid, even into the evening",
+    "text": "April is the hottest month of the year. Please choose light, breathable fabrics, keep sunglasses and sunscreen handy, and drink plenty of water through the day. A short afternoon shower is possible too.",
+    "tips": [
+     "Light cottons",
+     "Sunscreen & shades",
+     "Stay hydrated"
+    ]
+   },
+   "forecast": {
+    "lat": 9.4467,
+    "lon": 76.5413,
+    "from": "2027-04-19",
+    "to": "2027-04-19"
+   },
+   "notes": [
+    {
+     "icon": "camera",
+     "title": "Share your photos",
+     "text": "Post your pictures from the celebrations with {hashtag} so we can find them all."
+    },
+    {
+     "icon": "bed",
+     "title": "Stay",
+     "text": "[Where outstation guests can stay]"
+    },
+    {
+     "icon": "car",
+     "title": "Parking",
+     "text": "[Parking details]"
+    },
+    {
+     "icon": "chat",
+     "title": "Questions?",
+     "text": "Please let us know if you have any questions or need any arrangements beforehand."
+    }
+   ],
+   "contact": {
+    "name": "",
+    "whatsapp": "",
+    "display": ""
+   }
+  },
+  "rsvpBy": "2027-03-20",
+  "sheetUrl": "",
+  "music": "/builder/music/canon.mp3"
+ }
+}

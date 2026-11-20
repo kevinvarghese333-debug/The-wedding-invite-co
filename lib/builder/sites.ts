@@ -5,6 +5,8 @@ import { getDb } from "@/lib/db";
 import { SAMPLES } from "@/lib/samples";
 import { normalize, type InviteData } from "@/lib/builder/types";
 import { templateOrDefault } from "@/lib/builder/templates";
+import { findDesign, type Config } from "@/lib/builder/designs";
+import { cleanConfig, startingConfig, studioSummary } from "@/lib/builder/studio";
 
 export type SiteStatus = "draft" | "live" | "paused";
 export type Site = {
@@ -38,7 +40,7 @@ export type Rsvp = {
   created_at: string;
   name: string;
   phone: string | null;
-  attending: "yes" | "no";
+  attending: "yes" | "no" | "wish"; // "wish": a blessing or message, not a reply
   guests: number;
   events: string | null;
   message: string | null;
@@ -122,8 +124,13 @@ export function newSiteId() {
 }
 
 export function createSite(templateId: string, ip: string, palette?: string) {
-  const t = templateOrDefault(templateId);
   const id = newSiteId();
+  const design = findDesign(templateId);
+  if (design) {
+    db().prepare("INSERT INTO sites (id, template, data, ip) VALUES (?, ?, ?, ?)").run(id, design.id, JSON.stringify(startingConfig(design)), ip);
+    return id;
+  }
+  const t = templateOrDefault(templateId);
   const data = palette && t.palettes.some((p) => p.id === palette) ? { ...t.sample, style: { ...t.sample.style, palette } } : t.sample;
   db().prepare("INSERT INTO sites (id, template, data, ip) VALUES (?, ?, ?, ?)").run(id, t.id, JSON.stringify(data), ip);
   return id;
@@ -142,7 +149,38 @@ export function getSiteBySlug(slug: string): Site | undefined {
   return db().prepare("SELECT * FROM sites WHERE slug = ?").get(slug) as Site | undefined;
 }
 
-/** The couple's working copy, cleaned. */
+/** A studio design (one of our real invitations) rather than a builder template? */
+export const isStudio = (s: Pick<Site, "template">) => !!findDesign(s.template);
+
+/** The settings of a studio design site: the working copy, or what guests see. */
+export function studioConfig(s: Site, which: "draft" | "live" = "draft"): Config | null {
+  const design = findDesign(s.template);
+  const raw = which === "live" ? s.live_data : s.data;
+  if (!design || !raw) return null;
+  try {
+    return cleanConfig(design, JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+export type Summary = { one: string; two: string; names: string; date: string; place: string; events: string[] };
+
+/** Names, date and place, whichever kind of design the site uses. */
+export function siteSummary(s: Site): Summary {
+  const design = findDesign(s.template);
+  if (design) {
+    const c = studioConfig(s) ?? design.sample;
+    const x = studioSummary(design, c);
+    const evs = (c as Record<string, unknown>).events;
+    const events = Array.isArray(evs) ? evs.map((e) => String((e as Record<string, unknown>)?.name ?? (e as Record<string, unknown>)?.title ?? "")).filter(Boolean) : [];
+    return { ...x, names: [x.one, x.two].filter(Boolean).join(" & ") || "Our wedding", events };
+  }
+  const d = siteData(s);
+  return { one: d.one, two: d.two, names: [d.one.trim(), d.two.trim()].filter(Boolean).join(" & ") || "Our wedding", date: d.date, place: d.city, events: d.events.map((e) => e.name).filter(Boolean) };
+}
+
+/** The couple's working copy, cleaned (builder templates only; see studioConfig for studio designs). */
 export function siteData(s: Site): InviteData {
   const t = templateOrDefault(s.template);
   try {
@@ -163,7 +201,7 @@ export function liveData(s: Site): InviteData | null {
   }
 }
 
-export function saveDraft(id: string, template: string, data: InviteData) {
+export function saveDraft(id: string, template: string, data: InviteData | Config) {
   db().prepare("UPDATE sites SET template = ?, data = ?, updated_at = ? WHERE id = ?").run(template, JSON.stringify(data), now(), id);
 }
 
@@ -198,7 +236,7 @@ export function slugProblem(slug: string, siteId: string): string | null {
   return null;
 }
 
-export function suggestSlug(d: InviteData, siteId: string) {
+export function suggestSlug(d: Pick<Summary, "one" | "two" | "date">, siteId: string) {
   const a = cleanSlug(d.one);
   const b = cleanSlug(d.two);
   const year = d.date ? d.date.slice(0, 4) : "";
@@ -321,6 +359,12 @@ export function addRsvp(r: Omit<Rsvp, "id" | "created_at">) {
 
 export function listRsvps(siteId: string): Rsvp[] {
   return db().prepare("SELECT * FROM site_rsvps WHERE site_id = ? ORDER BY created_at DESC").all(siteId) as Rsvp[];
+}
+
+export function listWishes(siteId: string, limit = 60) {
+  return db()
+    .prepare("SELECT name, message, created_at FROM site_rsvps WHERE site_id = ? AND attending = 'wish' AND message IS NOT NULL AND message != '' ORDER BY created_at DESC LIMIT ?")
+    .all(siteId, limit) as { name: string; message: string; created_at: string }[];
 }
 
 export function deleteRsvp(siteId: string, id: number) {

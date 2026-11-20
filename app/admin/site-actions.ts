@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
-import { cleanSlug, deleteSite, getSite, publishChanges, revokeLinks, setSlug, setStatus, siteData, slugProblem, suggestSlug, addLibraryTrack, deleteLibraryTrack } from "@/lib/builder/sites";
+import { cleanSlug, deleteSite, getSite, publishChanges, revokeLinks, setSlug, setStatus, siteSummary, slugProblem, suggestSlug, addLibraryTrack, deleteLibraryTrack } from "@/lib/builder/sites";
 import { completePayment } from "@/lib/builder/publish";
 import { builderPrice, musicDir, saveMusic, MUSIC_RE } from "@/lib/builder/server";
 import fs from "node:fs";
@@ -21,7 +21,7 @@ export async function markPaidAction(fd: FormData) {
   const id = str(fd, "id", 20);
   const s = getSite(id);
   if (!s) redirect("/admin/sites");
-  let slug = cleanSlug(str(fd, "slug", 60)) || s.slug || suggestSlug(siteData(s), s.id);
+  let slug = cleanSlug(str(fd, "slug", 60)) || s.slug || suggestSlug(siteSummary(s), s.id);
   const problem = slugProblem(slug, s.id);
   if (problem) back(id, "?error=" + encodeURIComponent(`Web address: ${problem}`));
   setSlug(s.id, slug);

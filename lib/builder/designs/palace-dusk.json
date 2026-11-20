@@ -1,0 +1,156 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "one": {
+    "first": "Veer",
+    "family": "Malhotra"
+   },
+   "two": {
+    "first": "Naina",
+    "family": "Rathore"
+   },
+   "joiner": "weds"
+  },
+  "plate": "SAVE THE DATE",
+  "wedding": {
+   "start": "2027-03-07T18:30:00+05:30",
+   "timezone": "Asia/Kolkata"
+  },
+  "blessing": {
+   "invocation": "ॐ श्री गणेशाय नमः",
+   "line": "With the heavenly blessings of",
+   "elders": "Smt. Kamla Devi & Late Shri Harish Malhotra",
+   "hosts": "Mrs. Ritu & Mr. Sanjay Malhotra",
+   "request": "request the pleasure of your company at the wedding of their son"
+  },
+  "partner": {
+   "label": "Daughter of",
+   "parents": "Mrs. Meenal & Mr. Devraj Rathore",
+   "next": "On the following events"
+  },
+  "events": [
+   {
+    "name": "Mehendi",
+    "start": "2027-03-05T11:00:00+05:30",
+    "venue": "Anand Bagh",
+    "place": "Udaipur",
+    "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+   },
+   {
+    "name": "Haldi",
+    "start": "2027-03-05T16:00:00+05:30",
+    "venue": "Anand Bagh",
+    "place": "Udaipur",
+    "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+   },
+   {
+    "name": "Cocktail",
+    "start": "2027-03-05T20:00:00+05:30",
+    "venue": "Anand Bagh",
+    "place": "Udaipur",
+    "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+   },
+   {
+    "name": "Engagement",
+    "start": "2027-03-06T18:00:00+05:30",
+    "venue": "Anand Bagh",
+    "place": "Udaipur",
+    "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+   },
+   {
+    "name": "Shaadi",
+    "start": "2027-03-07T18:30:00+05:30",
+    "venue": "Anand Bagh",
+    "place": "Udaipur",
+    "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+   },
+   {
+    "name": "Reception",
+    "start": "2027-03-08T19:30:00+05:30",
+    "venue": "Anand Bagh",
+    "place": "Udaipur",
+    "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+   }
+  ],
+  "route": {
+   "title": [
+    "See the",
+    "route"
+   ],
+   "note": "Tap to open the map",
+   "map": "https://www.google.com/maps/search/?api=1&query=Udaipur+Rajasthan"
+  },
+  "meet": {
+   "kicker": "Meet the",
+   "title": [
+    "Bride and",
+    "Groom"
+   ],
+   "note": "We are both so delighted that you can join us for what we hope will be one of the happiest days of our lives. The love shown to us since our roka has touched us deeply, and we want to thank every one of you for it. We cannot wait to see you at the wedding.",
+   "photo": "assets/couple.webp",
+   "alt": "Naina and Veer laughing together"
+  },
+  "rsvp": {
+   "title": [
+    "Please",
+    "RSVP"
+   ],
+   "note": "Tap to message us on WhatsApp",
+   "whatsapp": "",
+   "message": "Hello! {guest} replying to the invitation for {one} & {two}."
+  },
+  "know": {
+   "title": [
+    "Things to",
+    "know"
+   ],
+   "note": "To help you feel at ease and enjoy every moment of the celebrations, we have gathered a few thoughtful details we would love you to know before the big day.",
+   "items": [
+    {
+     "icon": "tag",
+     "title": "Hashtag",
+     "text": "Posting photos? Please use #VeerKiNaina"
+    },
+    {
+     "icon": "sun",
+     "title": "Weather",
+     "text": "Sunny days around 28°C, with cool evenings. Bring a light shawl."
+    },
+    {
+     "icon": "person",
+     "title": "Staff",
+     "text": "We recommend Hotel Bhola Bhawan nearby for accompanying staff."
+    },
+    {
+     "icon": "car",
+     "title": "Parking",
+     "text": "Valet parking is available for all our guests at the venue."
+    }
+   ]
+  },
+  "follow": {
+   "title": [
+    "Follow",
+    "the action"
+   ],
+   "note": "Tap to open our Instagram page",
+   "instagram": "https://www.instagram.com/"
+  },
+  "countdown": {
+   "title": "The countdown begins",
+   "done": "Today is the day"
+  },
+  "signoff": "With love, the Malhotra and Rathore families",
+  "music": "",
+  "colours": {
+   "first": "#20306e",
+   "second": "#b92b63",
+   "third": "#ebaa2b",
+   "night": "#12183f",
+   "cream": "#fbefd6",
+   "ink": "#33200c"
+  }
+ }
+}

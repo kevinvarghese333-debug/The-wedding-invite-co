@@ -1,0 +1,224 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "one": {
+    "first": "Karthik",
+    "title": "Chi."
+   },
+   "two": {
+    "first": "Meenakshi",
+    "title": "Chi. Sow."
+   },
+   "joiner": "&"
+  },
+  "tagline": "Thursday, 11 February 2027 · Madurai",
+  "wedding": {
+   "start": "2027-02-11T07:30:00+05:30",
+   "timezone": "Asia/Kolkata"
+  },
+  "kolam": {
+   "intro": "A kolam is drawn at the doorstep to welcome every guest.",
+   "cue": "Scroll to draw ours"
+  },
+  "blessing": {
+   "invocation": "ஸ்ரீ கணேசாய நமஹ",
+   "mantra": [
+    "वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।",
+    "निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥"
+   ],
+   "mantraLatin": "Vakratunda Mahakaya Suryakoti Samaprabha · Nirvighnam Kuru Me Deva Sarva-Karyeshu Sarvada",
+   "line": "With the blessings of Lord Ganesha and our elders",
+   "elders": "Smt. Kamala & Late Shri K. Sundaram",
+   "hosts": "Smt. Lakshmi & Shri S. Raman",
+   "request": "request the pleasure of your company at the wedding of their son"
+  },
+  "partner": {
+   "label": "with",
+   "note": "daughter of",
+   "parents": "Smt. Padma & Shri V. Venkatesh, Chennai",
+   "next": "Please join us for the celebrations"
+  },
+  "events": [
+   {
+    "name": "Mehendi",
+    "icon": 0,
+    "start": "2027-02-08T16:00:00+05:30",
+    "venue": "Raman Illam, Anna Nagar",
+    "place": "Madurai",
+    "dress": "Shades of green",
+    "map": "https://www.google.com/maps/search/?api=1&query=Anna+Nagar+Madurai"
+   },
+   {
+    "name": "Haldi",
+    "icon": 1,
+    "start": "2027-02-09T10:00:00+05:30",
+    "venue": "Raman Illam, Anna Nagar",
+    "place": "Madurai",
+    "dress": "Turmeric yellow",
+    "map": "https://www.google.com/maps/search/?api=1&query=Anna+Nagar+Madurai"
+   },
+   {
+    "name": "Sangeet",
+    "icon": 2,
+    "start": "2027-02-09T19:00:00+05:30",
+    "venue": "Thamarai Gardens",
+    "place": "Madurai",
+    "dress": "Bright and festive",
+    "map": "https://www.google.com/maps/search/?api=1&query=Madurai"
+   },
+   {
+    "name": "Nichayathartham",
+    "icon": 3,
+    "start": "2027-02-10T17:30:00+05:30",
+    "venue": "Sri Meenakshi Kalyana Mandapam",
+    "place": "Madurai",
+    "dress": "Silk and jasmine",
+    "map": "https://www.google.com/maps/search/?api=1&query=Madurai"
+   },
+   {
+    "name": "Muhurtham",
+    "icon": 4,
+    "start": "2027-02-11T07:30:00+05:30",
+    "venue": "Sri Meenakshi Kalyana Mandapam",
+    "place": "Madurai",
+    "dress": "Traditional silks",
+    "map": "https://www.google.com/maps/search/?api=1&query=Madurai"
+   },
+   {
+    "name": "Reception",
+    "icon": 5,
+    "start": "2027-02-11T19:00:00+05:30",
+    "venue": "Vaigai Grand Convention Hall",
+    "place": "Madurai",
+    "dress": "Evening formals",
+    "map": "https://www.google.com/maps/search/?api=1&query=Madurai"
+   }
+  ],
+  "venue": {
+   "title": [
+    "The",
+    "venue"
+   ],
+   "name": "Sri Meenakshi Kalyana Mandapam",
+   "place": "Bypass Road, Madurai, Tamil Nadu",
+   "note": "Tap the seal to open the map",
+   "map": "https://www.google.com/maps/search/?api=1&query=Madurai"
+  },
+  "meet": {
+   "kicker": "Meet the",
+   "title": [
+    "Bride",
+    "& Groom"
+   ],
+   "note": "Our families met over filter coffee and a horoscope; we met properly over a very long argument about the best idli in Madurai. Two years, many temple walks and one Nichayathartham later, we are still arguing about idlis, and we would not change a thing. Thank you for every blessing along the way. We cannot wait to see you at the mandapam."
+  },
+  "gallery": {
+   "kicker": "Moments",
+   "title": [
+    "Our little",
+    "love story"
+   ],
+   "photos": [
+    {
+     "src": "assets/photos/p1.webp",
+     "alt": "Karthik and Meenakshi walking hand in hand down a pillared temple corridor"
+    },
+    {
+     "src": "assets/photos/p2.webp",
+     "alt": "Buying jasmine at the flower market"
+    },
+    {
+     "src": "assets/photos/p3.webp",
+     "alt": "Filter coffee on the steps of an old Chettinad house"
+    },
+    {
+     "src": "assets/photos/p4.webp",
+     "alt": "Sitting by the temple tank among lit diyas"
+    },
+    {
+     "src": "assets/photos/p5.webp",
+     "alt": "Running along the beach at sunrise"
+    },
+    {
+     "src": "assets/photos/p6.webp",
+     "alt": "Foreheads together under strings of jasmine and marigold"
+    }
+   ]
+  },
+  "rsvp": {
+   "title": [
+    "Kindly",
+    "RSVP"
+   ],
+   "note": "Tap the seal to reply on WhatsApp",
+   "ring": "REPLY ON WHATSAPP · REPLY ON WHATSAPP · ",
+   "whatsapp": "",
+   "message": "Vanakkam! {guest} replying to the invitation for {one} & {two}."
+  },
+  "know": {
+   "title": [
+    "Good to",
+    "know"
+   ],
+   "note": "A few details to help you settle in and enjoy every moment of the celebrations.",
+   "items": [
+    {
+     "icon": "tag",
+     "title": "Hashtag",
+     "text": "Sharing photos? Please use #KarthikWedsMeenakshi"
+    },
+    {
+     "icon": "sun",
+     "title": "Weather",
+     "text": "Warm days around 30°C and pleasant evenings near 21°C. Cotton and silk are perfect."
+    },
+    {
+     "icon": "person",
+     "title": "Staff",
+     "text": "Rooms for accompanying staff are booked at Hotel Tamil Nadu, 5 minutes from the mandapam."
+    },
+    {
+     "icon": "car",
+     "title": "Parking",
+     "text": "Valet parking is available at every venue."
+    }
+   ]
+  },
+  "follow": {
+   "title": [
+    "Follow",
+    "the action"
+   ],
+   "note": "Tap the seal to open our Instagram page",
+   "ring": "FOLLOW ALONG · FOLLOW ALONG · ",
+   "instagram": "https://www.instagram.com/"
+  },
+  "countdown": {
+   "title": "Until the muhurtham",
+   "done": "Today is the day"
+  },
+  "signoff": "With love, the Raman and Venkatesh families",
+  "music": "",
+  "colours": {
+   "night": "#0f1c4d",
+   "blue": "#1f3c8c",
+   "powder": "#a9c6ee",
+   "leaf": "#123d2b",
+   "leaf2": "#1d5a3d",
+   "leafL": "#7fb28c",
+   "cream": "#fbf3df",
+   "pink": "#f2b8c3",
+   "rose": "#c2416b",
+   "turmeric": "#f3c847",
+   "butter": "#fbeaa6",
+   "gold": "#d6a646",
+   "goldL": "#f4dc9c",
+   "kumkum": "#c8283c",
+   "marigold": "#f08a1e",
+   "rice": "#fbf8ef",
+   "ink": "#1b2433"
+  }
+ }
+}

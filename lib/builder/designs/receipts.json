@@ -1,0 +1,175 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "one": {
+    "first": "Tara",
+    "last": "Menon"
+   },
+   "two": {
+    "first": "Kabir",
+    "last": "Anand"
+   }
+  },
+  "wedding": {
+   "start": "2027-02-13T17:00:00+05:30",
+   "timezone": "Asia/Kolkata",
+   "venue": "The Banyan House",
+   "place": "Assagao, Goa",
+   "map": "https://www.google.com/maps/search/?api=1&query=Assagao+Goa"
+  },
+  "story": [
+   "two people.",
+   "two cities.",
+   "one cancelled train.",
+   "six years later, people ask how we knew.",
+   "we kept the receipts."
+  ],
+  "receipts": [
+   {
+    "label": "Exhibit A",
+    "title": "The first date",
+    "when": "14 MAR 2021  7:42 PM",
+    "photo": "assets/photos/first-date.jpg",
+    "alt": "Tara and Kabir laughing across a cafe table",
+    "items": [
+     [
+      "2 filter coffees",
+      "180"
+     ],
+     [
+      "1 shared brownie",
+      "120"
+     ],
+     [
+      "Kabir on trains",
+      "40 min"
+     ]
+    ],
+    "total": [
+     "TOTAL",
+     "Tara stayed"
+    ]
+   },
+   {
+    "label": "Exhibit B",
+    "title": "The long distance",
+    "when": "2022 TO 2024",
+    "photo": "assets/photos/long-distance.jpg",
+    "alt": "Tara hugging Kabir at airport arrivals",
+    "items": [
+     [
+      "Voice notes",
+      "4,112"
+     ],
+     [
+      "Flights to Berlin",
+      "9"
+     ],
+     [
+      "Flights missed",
+      "1"
+     ]
+    ],
+    "total": [
+     "TOTAL",
+     "worth it"
+    ]
+   },
+   {
+    "label": "Exhibit C",
+    "title": "The question",
+    "when": "02 OCT 2026  6:10 PM",
+    "photo": "assets/photos/the-question.jpg",
+    "alt": "Tara showing her engagement ring on a beach, Kabir beside her",
+    "items": [
+     [
+      "Ring, hidden in a sock",
+      "1"
+     ],
+     [
+      "Speeches rehearsed",
+      "6"
+     ],
+     [
+      "Speeches delivered",
+      "0"
+     ]
+    ],
+    "total": [
+     "TOTAL",
+     "yes"
+    ]
+   }
+  ],
+  "proof": "proof enough?",
+  "oneMore": "one more thing.",
+  "invitation": {
+   "title": "The invitation",
+   "wording": [
+    "Together with their families",
+    "{one} {oneLast} and {two} {twoLast}",
+    "request the pleasure of your company",
+    "at their wedding"
+   ],
+   "dateNote": "clear your calendar."
+  },
+  "weekend": [
+   {
+    "day": "Fri 12 Feb",
+    "time": "11:00 AM",
+    "title": "Haldi",
+    "start": "2027-02-12T11:00:00+05:30",
+    "hours": 3,
+    "place": "The courtyard",
+    "wear": "Yellow, and nothing you love",
+    "note": "you will be covered in turmeric.",
+    "map": "https://www.google.com/maps/search/?api=1&query=Assagao+Goa"
+   },
+   {
+    "day": "Fri 12 Feb",
+    "time": "7:30 PM",
+    "title": "Sangeet",
+    "start": "2027-02-12T19:30:00+05:30",
+    "hours": 4,
+    "place": "The pool lawn",
+    "wear": "Anything that sparkles",
+    "map": "https://www.google.com/maps/search/?api=1&query=Assagao+Goa"
+   },
+   {
+    "day": "Sat 13 Feb",
+    "time": "5:00 PM",
+    "title": "The wedding",
+    "start": "2027-02-13T17:00:00+05:30",
+    "hours": 2,
+    "place": "Under the banyan",
+    "wear": "Festive, comfortable shoes",
+    "map": "https://www.google.com/maps/search/?api=1&query=Assagao+Goa"
+   },
+   {
+    "day": "Sat 13 Feb",
+    "time": "8:00 PM",
+    "title": "Dinner and dancing",
+    "start": "2027-02-13T20:00:00+05:30",
+    "hours": 4,
+    "place": "The long table",
+    "wear": "Same outfit, more dancing",
+    "map": "https://www.google.com/maps/search/?api=1&query=Assagao+Goa"
+   }
+  ],
+  "rsvp": {
+   "deadline": "2027-01-10",
+   "maxGuests": 4,
+   "note": "we are counting chairs.",
+   "demo": true,
+   "endpoint": "",
+   "whatsapp": "",
+   "email": ""
+  },
+  "closing": {
+   "note": "and that is how you tie the knot.",
+   "line": "See you in Goa"
+  }
+ }
+}

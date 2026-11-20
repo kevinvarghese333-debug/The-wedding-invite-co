@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BuilderFooter, BuilderHeader } from "@/components/builder/header";
 import { getBase, liveUrl, mySites } from "@/lib/builder/server";
-import { listRsvps, siteData } from "@/lib/builder/sites";
+import { listRsvps, siteSummary } from "@/lib/builder/sites";
+import { findDesign } from "@/lib/builder/designs";
 import { templateOrDefault } from "@/lib/builder/templates";
-import { coupleNames, dayMonth } from "@/lib/builder/render";
+import { dayMonth } from "@/lib/builder/render";
 import { ago } from "@/lib/format";
 
 export const metadata = { title: "My designs", robots: { index: false } };
@@ -31,14 +32,14 @@ export default async function MinePage() {
         {sites.length ? (
           <div className="mt-8 grid gap-3">
             {sites.map((s) => {
-              const d = siteData(s);
-              const t = templateOrDefault(s.template);
+              const d = siteSummary(s);
+              const t = findDesign(s.template) ?? templateOrDefault(s.template);
               const rsvps = s.paid_at ? listRsvps(s.id).length : 0;
               return (
                 <Card key={s.id} className="flex-row flex-wrap items-center gap-4 p-5">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="heading text-2xl">{coupleNames(d)}</h2>
+                      <h2 className="heading text-2xl">{d.names}</h2>
                       {s.paid_at ? <Badge variant="success">{s.status === "paused" ? "Paused" : "Live"}</Badge> : <Badge variant="outline">Draft</Badge>}
                     </div>
                     <p className="text-muted-foreground text-sm">

@@ -1,5 +1,5 @@
 import { findSample } from "@/lib/samples";
-import { countView, getSiteBySlug, liveData } from "@/lib/builder/sites";
+import { countView, getSiteBySlug } from "@/lib/builder/sites";
 import { renderSite } from "@/lib/builder/server";
 
 export const runtime = "nodejs";
@@ -14,10 +14,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
   if (s) return new Response(null, { status: 302, headers: { Location: s.live, "Cache-Control": "public, max-age=300" } });
 
   const site = /^[a-z0-9-]{3,40}$/.test(slug) ? getSiteBySlug(slug) : undefined;
-  const data = site && site.paid_at && site.status === "live" ? liveData(site) : null;
-  if (site && data) {
+  const html = site && site.paid_at && site.status === "live" ? renderSite(site, "live") : "";
+  if (site && html) {
     countView(site.id);
-    return new Response(renderSite(site, data, "live"), {
+    return new Response(html, {
       headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache", "X-Robots-Tag": "noindex, nofollow" },
     });
   }

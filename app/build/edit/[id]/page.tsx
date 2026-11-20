@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BuilderHeader } from "@/components/builder/header";
 import { Editor } from "@/components/builder/editor";
-import { getSite, hasUnpublishedChanges, listRsvps, siteData } from "@/lib/builder/sites";
-import { builderPrice, canEdit, getBase, library, liveUrl } from "@/lib/builder/server";
+import { StudioEditor } from "@/components/builder/studio-editor";
+import { findDesign } from "@/lib/builder/designs";
+import { getSite, hasUnpublishedChanges, listRsvps, siteData, studioConfig } from "@/lib/builder/sites";
+import { builderPrice, canEdit, designHtml, getBase, library, liveUrl } from "@/lib/builder/server";
 import { builderUrl, siteUrl } from "@/lib/config";
 
 export const metadata = { title: "Edit your invitation", robots: { index: false } };
@@ -35,6 +37,20 @@ export default async function EditPage({ params }: { params: Promise<{ id: strin
       </div>
     );
   }
+  const editorSite = {
+    id: site.id,
+    template: site.template,
+    paid: !!site.paid_at,
+    status: site.status,
+    slug: site.slug,
+    liveUrl: site.slug ? liveUrl(site.slug) : "",
+    unpublished: hasUnpublishedChanges(site),
+    contact: { name: site.contact_name || "", email: site.email || "", phone: site.phone || "" },
+    rsvps: site.paid_at ? listRsvps(site.id).length : 0,
+  };
+  const design = findDesign(site.template);
+  if (design)
+    return <StudioEditor site={editorSite} design={design} initial={studioConfig(site) ?? design.sample} html={designHtml(design.id)} library={library()} price={builderPrice()} />;
   return (
     <Editor
       site={{

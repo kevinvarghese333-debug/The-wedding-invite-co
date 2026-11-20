@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Karthik &amp; Meenakshi</title>
+<meta name="description" content="You are invited to the wedding of Karthik and Meenakshi in Madurai. Scroll to draw the kolam.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0f1c4d">
+<meta property="og:title" content="Karthik &amp; Meenakshi">
+<meta property="og:description" content="You are invited. Scroll to draw the kolam.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://karthik-meenakshi.vercel.app/assets/og.jpg">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+Tamil:wght@500;600&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/sky.webp">
+<link rel="stylesheet" href="css/style.css">
+<script>history.scrollRestoration = 'manual'; document.documentElement.classList.add('js'); if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('reduced');</script>
+</head>
+<body>
+
+<button class="music" id="music" type="button" aria-label="Play music" aria-pressed="false" hidden><i></i><i></i><i></i></button>
+
+<main>
+
+  <!-- 1. The kolam. One unbroken rice-flour line is drawn round the dots as you scroll; the dots bloom into
+          flowers, the kolam lies down on the threshold and the temple rises behind the names. -->
+  <section class="open" id="open" aria-label="Invitation">
+    <div class="open__pin" id="pin">
+      <div class="scene" id="scene" aria-hidden="true">
+        <img class="sky" id="sky" src="assets/sky.webp" alt="" decoding="async">
+        <canvas class="stars" id="stars"></canvas>
+        <div class="temple" id="temple"><img src="assets/temple.webp" alt="" decoding="async"><i class="temple__glow"></i></div>
+        <img class="palm palm--l" src="assets/palms.webp" alt="" decoding="async">
+        <img class="palm palm--r" src="assets/palms.webp" alt="" decoding="async">
+        <div class="ground" id="ground"></div>
+      </div>
+
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="kolam" id="kolam"><svg id="kolamSvg"></svg></div>
+      </div>
+
+      <div class="words" id="words">
+        <p class="words__to" id="to" hidden></p>
+        <h1 class="names" id="names">
+          <span class="nm" data-split="one"></span>
+          <span class="nm nm--and" data-split="joiner"></span>
+          <span class="nm" data-split="two"></span>
+        </h1>
+        <p class="words__tag" id="tag" data-t="tagline"></p>
+      </div>
+
+      <div class="lede" id="lede">
+        <p class="lede__intro" data-t="kolam.intro"></p>
+        <p class="cue" id="cue"><span data-t="kolam.cue"></span><i></i></p>
+      </div>
+      <div class="meter" id="meter" aria-hidden="true"><i></i></div>
+    </div>
+  </section>
+
+  <!-- 2. Ganesha, mantra, families and names on banana-leaf green, under a swaying thoranam -->
+  <section class="panel panel--leaf" id="blessing">
+    <div class="thoranam" aria-hidden="true"><img src="assets/thoranam.webp" alt="" loading="lazy"></div>
+    <div class="wrap wrap--narrow blessing">
+      <p class="invoke" data-rise lang="ta" data-t="b.invocation"></p>
+      <div class="ganesha" id="ganesha">
+        <svg class="ganesha__ring" viewBox="0 0 200 200" aria-hidden="true">
+          <circle pathLength="1" cx="100" cy="100" r="94"/>
+          <g class="dots"></g>
+          <g class="petals"></g>
+        </svg>
+        <img src="assets/ganesha.webp" alt="Lord Ganesha seated on a lotus" loading="lazy">
+      </div>
+      <p class="mantra" lang="sa"></p>
+      <p class="mantra-latin" data-rise data-t="b.mantraLatin"></p>
+      <svg class="flourish" data-draw viewBox="0 0 240 24" aria-hidden="true"><path pathLength="1" d="M4 12H88M152 12H236M96 12c0-6 5-9 10-6s4 10-2 10M144 12c0-6-5-9-10-6s-4 10 2 10M106 12c4-8 10-10 14-10s10 2 14 10c-4 8-10 10-14 10s-10-2-14-10Z"/></svg>
+      <p class="line" data-rise data-t="b.line"></p>
+      <p class="line line--name" data-rise data-t="b.elders"></p>
+      <p class="line line--sm" data-rise>&amp;</p>
+      <p class="line line--name" data-rise data-t="b.hosts"></p>
+      <p class="line" data-rise data-t="b.request"></p>
+      <p class="honor" data-rise data-t="oneTitle"></p>
+      <h2 class="bigname" data-split="oneFull"></h2>
+      <p class="line line--sm" data-rise data-t="p.label"></p>
+      <p class="honor" data-rise data-t="twoTitle"></p>
+      <h2 class="bigname" data-split="twoFull"></h2>
+      <p class="line" data-rise data-t="p.note"></p>
+      <p class="line line--name" data-rise data-t="p.parents"></p>
+      <svg class="flourish" data-draw viewBox="0 0 240 24" aria-hidden="true"><path pathLength="1" d="M4 12H88M152 12H236M96 12c0-6 5-9 10-6s4 10-2 10M144 12c0-6-5-9-10-6s-4 10 2 10M106 12c4-8 10-10 14-10s10 2 14 10c-4 8-10 10-14 10s-10-2-14-10Z"/></svg>
+    </div>
+  </section>
+
+  <!-- 3. Events: cream arch cards with green borders that draw themselves, each with its own object above -->
+  <section class="panel panel--leaf2" id="events">
+    <div class="wrap">
+      <h2 class="title" data-rise data-t="p.next"></h2>
+      <ul class="cards" id="cards"></ul>
+    </div>
+    <div class="venue">
+      <h2 class="title" data-lines="venue.title" data-rise></h2>
+      <p class="venue__name" data-rise data-t="venue.name"></p>
+      <p class="note" data-rise data-t="venue.place"></p>
+      <a class="seal" id="venueSeal" target="_blank" rel="noopener" aria-label="Open the venue on the map" data-rise>
+        <svg class="seal__ring" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="ringPath1" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><text><textPath href="#ringPath1">SEE THE ROUTE · SEE THE ROUTE · SEE THE ROUTE · </textPath></text></svg>
+        <svg class="seal__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11.5A7 7 0 0 0 5 9.5C5 14.7 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+      </a>
+      <p class="note" data-rise data-t="venue.note"></p>
+    </div>
+  </section>
+
+  <!-- 4. Meet the couple on lotus pink; strands of jasmine lower like a curtain and part around them -->
+  <section class="panel panel--pink" id="meet">
+    <div class="jasmine" id="jasmine" aria-hidden="true"></div>
+    <div class="meet">
+      <div class="meet__text wrap--narrow">
+        <p class="kicker" data-rise data-t="meet.kicker"></p>
+        <h2 class="title title--big" data-rise data-lines="meet.title"></h2>
+        <p class="body" data-rise data-t="meet.note"></p>
+      </div>
+      <figure class="portrait" id="portrait">
+        <svg class="portrait__kolam" viewBox="-2 -2 18 18" aria-hidden="true"></svg>
+        <img src="assets/couple.webp" alt="__WIC_ONE__ in a cream silk veshti and __WIC_TWO__ in a pink Kanchipuram saree, both garlanded" loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 5. Gallery -->
+  <section class="panel panel--pink2" id="gallery">
+    <div class="wrap">
+      <p class="kicker" data-rise data-t="gallery.kicker"></p>
+      <h2 class="title" data-rise data-lines="gallery.title"></h2>
+    </div>
+    <div class="slider" id="slider" aria-roledescription="carousel" aria-label="Photos of the couple">
+      <ul class="slides" id="slides"></ul>
+      <div class="slider__ctrl">
+        <button class="arrow" id="prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="dots" id="dots" role="tablist"></div>
+        <button class="arrow" id="next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. RSVP by the brass lamp: its glow spreads as you arrive -->
+  <section class="panel panel--leaf panel--rsvp" id="rsvp">
+    <div class="rsvp">
+      <div class="lamp" id="lamp" aria-hidden="true">
+        <i class="lamp__glow"></i>
+        <img src="assets/lamp.webp" alt="" loading="lazy">
+      </div>
+      <div class="rsvp__in">
+        <h2 class="title title--big" data-rise data-lines="rsvp.title"></h2>
+        <a class="seal seal--light" id="rsvpSeal" target="_blank" rel="noopener" aria-label="Reply on WhatsApp" data-rise>
+          <svg class="seal__ring" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="ringPath2" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><text><textPath href="#ringPath2" data-t="rsvp.ring"></textPath></text></svg>
+          <svg class="seal__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4.1A8 8 0 1 1 8.3 19L4 20Z"/><path d="M9 9.2c.3 2.7 2.8 5.3 5.7 5.8l1.2-1.5-1.9-1.1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9L10.7 8 9 9.2Z"/></svg>
+        </a>
+        <p class="note" data-rise data-t="rsvp.note"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Good to know, on cream with a kolam border that draws along the edge -->
+  <section class="panel panel--cream" id="know">
+    <svg class="edge" viewBox="0 0 400 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 10C12 0 25 0 25 10S38 20 50 10 62 0 75 10 88 20 100 10 112 0 125 10 138 20 150 10 162 0 175 10 188 20 200 10 212 0 225 10 238 20 250 10 262 0 275 10 288 20 300 10 312 0 325 10 338 20 350 10 362 0 375 10 388 20 400 10"/></svg>
+    <div class="wrap">
+      <h2 class="title" data-rise data-lines="know.title"></h2>
+      <p class="body body--center" data-rise data-t="know.note"></p>
+      <ul class="know" id="knowList"></ul>
+    </div>
+  </section>
+
+  <!-- 8. Follow: the parrot on its lotus, on turmeric yellow -->
+  <section class="panel panel--yellow" id="follow">
+    <div class="wrap wrap--narrow">
+      <h2 class="title" data-rise data-lines="follow.title"></h2>
+      <p class="note" data-rise data-t="follow.note"></p>
+    </div>
+    <div class="parrot" id="parrot">
+      <svg class="parrot__ring" viewBox="0 0 200 200" aria-hidden="true"><circle pathLength="1" cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="88" class="dots"/></svg>
+      <img src="assets/parrot.webp" alt="A green parrot perched on a pink lotus" loading="lazy">
+      <a class="seal seal--small" id="followSeal" target="_blank" rel="noopener" aria-label="Open Instagram">
+        <svg class="seal__ring" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="ringPath3" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><text><textPath href="#ringPath3" data-t="follow.ring"></textPath></text></svg>
+        <svg class="seal__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.7"/><circle cx="16.7" cy="7.3" r=".6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- 9. Night at the temple again; a small kolam draws itself at the threshold under the countdown -->
+  <section class="finale" id="finale">
+    <div class="finale__pin" id="finPin">
+      <div class="scene scene--end" aria-hidden="true">
+        <img class="sky" src="assets/sky.webp" alt="" loading="lazy">
+        <canvas class="stars" id="stars2"></canvas>
+        <div class="temple" id="temple2"><img src="assets/temple.webp" alt="" loading="lazy"><i class="temple__glow"></i></div>
+        <img class="palm palm--l" src="assets/palms.webp" alt="" loading="lazy">
+        <img class="palm palm--r" src="assets/palms.webp" alt="" loading="lazy">
+        <div class="ground ground--end"></div>
+      </div>
+      <div class="stage stage--end" aria-hidden="true"><div class="kolam" id="kolam2"><svg id="kolamSvg2"></svg></div></div>
+      <div class="count" id="count">
+        <h2 class="count__title" data-t="count.title"></h2>
+        <p class="count__clock" id="clock" role="timer" aria-live="off"></p>
+        <p class="count__sign" data-t="signoff"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <a class="foot__credit" href="https://www.instagram.com/the.weddinginviteco/" target="_blank" rel="noopener">
+    <img src="assets/twic-seal.png" alt="" width="52" height="52" loading="lazy">
+    <span>Made with love by The Wedding Invite Co.</span>
+  </a>
+</footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-tag" viewBox="0 0 48 48"><path pathLength="1" d="M18 6 14 42M34 6 30 42M7 17h36M5 31h36"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 48 48"><path pathLength="1" d="M24 15.5a8.5 8.5 0 1 1 0 17a8.5 8.5 0 1 1 0-17M24 5v5M24 38v5M5 24h5M38 24h5M10.6 10.6l3.5 3.5M33.9 33.9l3.5 3.5M10.6 37.4l3.5-3.5M33.9 14.1l3.5-3.5"/></symbol>
+  <symbol id="i-person" viewBox="0 0 48 48"><path pathLength="1" d="M24 6.5a5.5 5.5 0 1 1 0 11a5.5 5.5 0 1 1 0-11M15 42V26a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v16M20 42V32M28 42V32"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path pathLength="1" d="M8 36V26l4-11c.6-1.6 1.8-2.5 3.4-2.5h17.2c1.6 0 2.8.9 3.4 2.5l4 11v10ZM8 26h32M12 36v4M36 36v4M13 31h4M31 31h4"/></symbol>
+</defs></svg>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/kolam.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

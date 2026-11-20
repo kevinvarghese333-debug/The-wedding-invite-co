@@ -1,8 +1,7 @@
 import { after } from "next/server";
 import { clean, editable, json } from "@/lib/builder/api";
-import { claimPayment, siteData } from "@/lib/builder/sites";
+import { claimPayment, siteSummary } from "@/lib/builder/sites";
 import { builderPrice, liveUrl } from "@/lib/builder/server";
-import { coupleNames } from "@/lib/builder/render";
 import { notifyStudio } from "@/lib/notify";
 import { siteUrl } from "@/lib/config";
 import { rupees } from "@/lib/format";
@@ -22,12 +21,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   const ref = clean(b.ref, 40).replace(/\s+/g, "");
   if (!/^[A-Za-z0-9-]{6,40}$/.test(ref)) return json({ ok: false, error: "Please enter the UPI transaction ID (UTR) from your payment app. It's usually 12 digits." }, 422);
   claimPayment(site.id, ref);
-  const d = siteData(site);
+  const names = siteSummary(site).names;
   after(() =>
     notifyStudio(
-      `Paid by UPI? ${coupleNames(d)} · ${rupees(builderPrice())}`,
+      `Paid by UPI? ${names} · ${rupees(builderPrice())}`,
       [
-        `${site.contact_name || coupleNames(d)} says they paid ${rupees(builderPrice())} by UPI.`,
+        `${site.contact_name || names} says they paid ${rupees(builderPrice())} by UPI.`,
         `Transaction ID: ${ref}`,
         site.slug ? `Their link: ${liveUrl(site.slug)}` : "",
         `Check your bank, then press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`,

@@ -308,7 +308,7 @@ export function Editor({ site, initial, library, price, siteUrl, builderUrl }: {
   );
 }
 
-function ContactDialog({
+export function ContactDialog({
   open,
   onOpenChange,
   siteId,

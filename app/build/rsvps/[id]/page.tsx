@@ -5,9 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BuilderHeader } from "@/components/builder/header";
-import { getSite, listRsvps, siteData } from "@/lib/builder/sites";
+import { getSite, listRsvps, siteSummary } from "@/lib/builder/sites";
 import { canEdit, getBase, liveUrl } from "@/lib/builder/server";
-import { coupleNames } from "@/lib/builder/render";
 import { fmtDateTime, fmtPhone } from "@/lib/format";
 
 export const metadata = { title: "Guest replies", robots: { index: false } };
@@ -17,13 +16,13 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
   const base = await getBase();
   const site = getSite(id);
   if (!site || !(await canEdit(site))) redirect(`${base}/edit/${id}`);
-  const d = siteData(site);
+  const d = siteSummary(site);
   const rows = listRsvps(site.id);
-  const yes = rows.filter((r) => r.attending === "yes");
+  const wishes = rows.filter((r) => r.attending === "wish");
+  const replies = rows.filter((r) => r.attending !== "wish");
+  const yes = replies.filter((r) => r.attending === "yes");
   const guests = yes.reduce((n, r) => n + r.guests, 0);
-  const perEvent = d.events
-    .filter((e) => e.name)
-    .map((e) => ({ name: e.name, n: yes.filter((r) => (r.events || "").split(", ").includes(e.name)).reduce((s, r) => s + r.guests, 0) }));
+  const perEvent = d.events.map((name) => ({ name, n: yes.filter((r) => (r.events || "").split(", ").includes(name)).reduce((s, r) => s + r.guests, 0) }));
   return (
     <div className="bg-muted min-h-dvh">
       <BuilderHeader base={base} active="mine" />
@@ -35,7 +34,7 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
           <div>
             <h1 className="heading text-5xl">Guest replies</h1>
             <p className="text-muted-foreground mt-1">
-              {coupleNames(d)}
+              {d.names}
               {site.slug ? (
                 <>
                   {" · "}
@@ -55,9 +54,9 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {[
             ["Guests coming", guests],
-            ["Replies", rows.length],
+            ["Replies", replies.length],
             ["Accepted", yes.length],
-            ["Declined", rows.length - yes.length],
+            ["Declined", replies.length - yes.length],
           ].map(([l, v]) => (
             <Card key={l} className="gap-1 p-5">
               <p className="text-muted-foreground text-sm">{l}</p>
@@ -79,7 +78,7 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
           </Card>
         ) : null}
         <Card className="gap-0 py-0">
-          {rows.length ? (
+          {replies.length ? (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -93,7 +92,7 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((r) => (
+                {replies.map((r) => (
                   <TableRow key={r.id}>
                     <TableCell className="font-medium">{r.name}</TableCell>
                     <TableCell>{r.attending === "yes" ? "Yes" : "No"}</TableCell>
@@ -110,6 +109,21 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
             <p className="text-muted-foreground p-10 text-center">No replies yet. Share your link on WhatsApp and they&apos;ll appear here.</p>
           )}
         </Card>
+        {wishes.length ? (
+          <Card className="gap-3 p-5">
+            <p className="font-semibold">Blessings and wishes ({wishes.length})</p>
+            <ul className="grid gap-3">
+              {wishes.map((w) => (
+                <li key={w.id} className="border-b pb-3 last:border-0">
+                  <p className="text-sm">{w.message}</p>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    {w.name} · {fmtDateTime(w.created_at)}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        ) : null}
       </main>
     </div>
   );

@@ -1,0 +1,229 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "one": {
+    "first": "Harman",
+    "family": "Sandhu"
+   },
+   "two": {
+    "first": "Simran",
+    "family": "Gill"
+   },
+   "joiner": "&"
+  },
+  "tagline": "Sunday, 14 March 2027 · Amritsar",
+  "wedding": {
+   "start": "2027-03-14T09:30:00+05:30",
+   "timezone": "Asia/Kolkata"
+  },
+  "laavan": {
+   "cue": "Scroll to walk the four laavan",
+   "rounds": [
+    {
+     "gurmukhi": "ਪਹਿਲੀ ਲਾਂਵ",
+     "english": "The first laav",
+     "meaning": "A life of duty and goodness, begun together"
+    },
+    {
+     "gurmukhi": "ਦੂਜੀ ਲਾਂਵ",
+     "english": "The second laav",
+     "meaning": "Love and devotion, free of fear and ego"
+    },
+    {
+     "gurmukhi": "ਤੀਜੀ ਲਾਂਵ",
+     "english": "The third laav",
+     "meaning": "Hearts full of longing for the Divine"
+    },
+    {
+     "gurmukhi": "ਚੌਥੀ ਲਾਂਵ",
+     "english": "The fourth laav",
+     "meaning": "Peace, harmony and a union that is whole"
+    }
+   ]
+  },
+  "blessing": {
+   "invocation": "ੴ",
+   "mool": "ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ",
+   "line": "With the blessings of Waheguru Ji and our elders",
+   "elders": "Sardarni Gurdev Kaur & Late Sardar Jagir Singh Sandhu",
+   "hosts": "Sardarni Manpreet Kaur & Sardar Kulwant Singh Sandhu",
+   "request": "request the pleasure of your company at the Anand Karaj of their son"
+  },
+  "partner": {
+   "label": "with",
+   "note": "daughter of",
+   "parents": "Sardarni Rupinder Kaur & Sardar Amarjit Singh Gill",
+   "next": "Please join us for the celebrations"
+  },
+  "events": [
+   {
+    "name": "Mehendi",
+    "start": "2027-03-11T15:00:00+05:30",
+    "venue": "Sandhu Haveli",
+    "place": "Amritsar",
+    "dress": "Shades of green",
+    "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+   },
+   {
+    "name": "Maiyan",
+    "start": "2027-03-12T10:00:00+05:30",
+    "venue": "Sandhu Haveli",
+    "place": "Amritsar",
+    "dress": "Haldi yellow",
+    "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+   },
+   {
+    "name": "Jaago",
+    "start": "2027-03-12T20:00:00+05:30",
+    "venue": "Sandhu Haveli",
+    "place": "Amritsar",
+    "dress": "Bright and festive",
+    "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+   },
+   {
+    "name": "Chooda",
+    "start": "2027-03-14T06:30:00+05:30",
+    "venue": "Gill Residence",
+    "place": "Amritsar",
+    "dress": "Traditional",
+    "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+   },
+   {
+    "name": "Anand Karaj",
+    "start": "2027-03-14T09:30:00+05:30",
+    "venue": "Gurdwara Sahib, Ranjit Avenue",
+    "place": "Amritsar",
+    "dress": "Heads covered, please",
+    "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+   },
+   {
+    "name": "Reception",
+    "start": "2027-03-14T19:30:00+05:30",
+    "venue": "The Rose Bagh",
+    "place": "Amritsar",
+    "dress": "Evening formals",
+    "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+   }
+  ],
+  "venue": {
+   "title": [
+    "The",
+    "venue"
+   ],
+   "name": "The Rose Bagh",
+   "place": "GT Road, Amritsar, Punjab",
+   "note": "Tap to open the map",
+   "map": "https://www.google.com/maps/search/?api=1&query=Amritsar+Punjab"
+  },
+  "meet": {
+   "kicker": "Meet the",
+   "title": [
+    "Bride",
+    "& Groom"
+   ],
+   "note": "We met at a cousin’s Lohri bonfire, arguing about who made the better makki di roti. Six winters later we are still arguing, and we would not change a thing. Thank you for every blessing, every phone call and every bit of love along the way. We cannot wait to walk the laavan with all of you around us."
+  },
+  "gallery": {
+   "kicker": "Moments",
+   "title": [
+    "Our little",
+    "love story"
+   ],
+   "photos": [
+    {
+     "src": "assets/photos/p1.webp",
+     "alt": "Harman and Simran walking through a mustard field at sunset"
+    },
+    {
+     "src": "assets/photos/p2.webp",
+     "alt": "Sharing chai at a roadside dhaba"
+    },
+    {
+     "src": "assets/photos/p3.webp",
+     "alt": "Simran twirling in an old haveli courtyard"
+    },
+    {
+     "src": "assets/photos/p4.webp",
+     "alt": "Sitting by the lake among lit diyas"
+    },
+    {
+     "src": "assets/photos/p5.webp",
+     "alt": "A tractor ride down a village road"
+    },
+    {
+     "src": "assets/photos/p6.webp",
+     "alt": "Foreheads together under marigold strings"
+    }
+   ]
+  },
+  "rsvp": {
+   "title": [
+    "Kindly",
+    "RSVP"
+   ],
+   "note": "Tap the seal to reply on WhatsApp",
+   "ring": "REPLY ON WHATSAPP · REPLY ON WHATSAPP · ",
+   "whatsapp": "",
+   "message": "Sat Sri Akal! {guest} replying to the invitation for {one} & {two}."
+  },
+  "know": {
+   "title": [
+    "Good to",
+    "know"
+   ],
+   "note": "A few details to help you settle in and enjoy every moment of the celebrations.",
+   "items": [
+    {
+     "icon": "tag",
+     "title": "Hashtag",
+     "text": "Sharing photos? Please use #HarSimKiLaav"
+    },
+    {
+     "icon": "sun",
+     "title": "Weather",
+     "text": "Mild days around 25°C and cool evenings near 12°C. Bring a light shawl."
+    },
+    {
+     "icon": "person",
+     "title": "Staff",
+     "text": "Rooms for accompanying staff are booked at Hotel Ranjit Residency, 5 minutes away."
+    },
+    {
+     "icon": "car",
+     "title": "Parking",
+     "text": "Valet parking is available at every venue."
+    }
+   ]
+  },
+  "follow": {
+   "title": [
+    "Follow",
+    "the festivities"
+   ],
+   "note": "Tap the moon to open our Instagram page",
+   "ring": "FOLLOW ALONG · FOLLOW ALONG · ",
+   "instagram": "https://www.instagram.com/"
+  },
+  "countdown": {
+   "title": "Until the laavan",
+   "done": "Today is the day"
+  },
+  "signoff": "With love, the Sandhu and Gill families",
+  "music": "",
+  "colours": {
+   "plum": "#2a1035",
+   "plum2": "#4a1d5e",
+   "saffron": "#f08a24",
+   "coral": "#f0765c",
+   "gold": "#d9a645",
+   "goldL": "#f6dd9c",
+   "teal": "#0c5455",
+   "teal2": "#12807e",
+   "cream": "#fbf0e0",
+   "peach": "#f8d9bd",
+   "ink": "#2b1530"
+  }
+ }
+}

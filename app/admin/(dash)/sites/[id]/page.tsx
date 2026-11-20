@@ -7,10 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SiteBadge } from "@/components/admin/site-badge";
-import { getSite, hasUnpublishedChanges, listRsvps, siteData, suggestSlug } from "@/lib/builder/sites";
+import { getSite, hasUnpublishedChanges, listRsvps, siteSummary, suggestSlug } from "@/lib/builder/sites";
+import { findDesign } from "@/lib/builder/designs";
 import { builderPrice, editLink, liveUrl } from "@/lib/builder/server";
 import { templateOrDefault } from "@/lib/builder/templates";
-import { coupleNames } from "@/lib/builder/render";
 import { deleteSiteAction, markPaidAction, publishChangesAction, revokeAction, setSlugAction, setStatusAction } from "@/app/admin/site-actions";
 import { fmtDate, fmtDateTime, fmtPhone, rupees } from "@/lib/format";
 import { whatsappHref } from "@/lib/whatsapp";
@@ -22,8 +22,8 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
   const sp = await searchParams;
   const s = getSite(id);
   if (!s) notFound();
-  const d = siteData(s);
-  const t = templateOrDefault(s.template);
+  const d = siteSummary(s);
+  const t = findDesign(s.template) ?? templateOrDefault(s.template);
   const rsvps = listRsvps(s.id);
   const link = editLink(s);
   const slug = s.slug || suggestSlug(d, s.id);
@@ -51,7 +51,7 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="heading text-4xl">{coupleNames(d)}</h1>
+            <h1 className="heading text-4xl">{d.names}</h1>
             <SiteBadge s={s} />
           </div>
           {s.slug && s.paid_at ? (

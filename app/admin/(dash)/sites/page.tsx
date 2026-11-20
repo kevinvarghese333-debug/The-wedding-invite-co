@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { listSites, siteData, siteStats } from "@/lib/builder/sites";
+import { listSites, siteSummary, siteStats } from "@/lib/builder/sites";
+import { findDesign } from "@/lib/builder/designs";
 import { SiteBadge } from "@/components/admin/site-badge";
 import { templateOrDefault } from "@/lib/builder/templates";
-import { coupleNames } from "@/lib/builder/render";
 import { builderUrl } from "@/lib/config";
 import { ago, fmtDate, fmtPhone, rupees } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -104,15 +104,15 @@ export default async function SitesPage({ searchParams }: { searchParams: SP }) 
               </TableHeader>
               <TableBody>
                 {sites.map((s) => {
-                  const d = siteData(s);
+                  const d = siteSummary(s);
                   return (
                     <TableRow key={s.id} className="relative">
                       <TableCell className="pl-5 font-medium">
                         <Link href={`/admin/sites/${s.id}`} className="after:absolute after:inset-0 hover:underline">
-                          {coupleNames(d)}
+                          {d.names}
                         </Link>
                       </TableCell>
-                      <TableCell>{templateOrDefault(s.template).name}</TableCell>
+                      <TableCell>{(findDesign(s.template) ?? templateOrDefault(s.template)).name}</TableCell>
                       <TableCell>{d.date ? fmtDate(d.date) : <span className="text-muted-foreground">Not set</span>}</TableCell>
                       <TableCell className="tabular-nums">{s.phone ? fmtPhone(s.phone) : <span className="text-muted-foreground">Not saved</span>}</TableCell>
                       <TableCell>
@@ -128,14 +128,14 @@ export default async function SitesPage({ searchParams }: { searchParams: SP }) 
             </div>
             <ul className="divide-y md:hidden">
               {sites.map((s) => {
-                const d = siteData(s);
+                const d = siteSummary(s);
                 return (
                   <li key={s.id}>
                     <Link href={`/admin/sites/${s.id}`} className="hover:bg-muted/50 flex items-start justify-between gap-3 px-4 py-3.5">
                       <div className="min-w-0">
-                        <p className="truncate font-medium">{coupleNames(d)}</p>
+                        <p className="truncate font-medium">{d.names}</p>
                         <p className="text-muted-foreground mt-0.5 text-[13px]">
-                          {templateOrDefault(s.template).name}
+                          {(findDesign(s.template) ?? templateOrDefault(s.template)).name}
                           {d.date ? ` · ${fmtDate(d.date)}` : ""}
                         </p>
                         <p className="text-muted-foreground mt-0.5 text-[13px]">{ago(s.updated_at)}</p>

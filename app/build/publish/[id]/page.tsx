@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
 import { BuilderHeader } from "@/components/builder/header";
 import { PublishFlow } from "@/components/builder/publish-flow";
-import { getSite, siteData, suggestSlug } from "@/lib/builder/sites";
+import { getSite, siteSummary, suggestSlug } from "@/lib/builder/sites";
 import { builderPrice, canEdit, getBase, liveUrl } from "@/lib/builder/server";
-import { coupleNames } from "@/lib/builder/render";
 import { publicWhatsApp, siteUrl } from "@/lib/config";
 import { razorpayReady } from "@/lib/builder/razorpay";
 import { upiPayment } from "@/lib/builder/upi";
@@ -15,7 +14,7 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
   const base = await getBase();
   const site = getSite(id);
   if (!site || !(await canEdit(site))) redirect(`${base}/edit/${id}`);
-  const d = siteData(site);
+  const d = siteSummary(site);
   const slug = site.slug || suggestSlug(d, site.id);
   const price = builderPrice();
   const rzp = razorpayReady();
@@ -25,7 +24,7 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
       <BuilderHeader base={base} />
       <PublishFlow
         siteId={site.id}
-        names={coupleNames(d)}
+        names={d.names}
         price={price}
         host={`${siteUrl().replace(/^https?:\/\//, "")}/i/`}
         initialSlug={slug}

@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aarav weds Tanvi</title>
+<meta name="description" content="You are invited to the wedding of Aarav and Tanvi in Mussoorie. Scroll to step into the hills.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#10264a">
+<meta property="og:title" content="Aarav weds Tanvi">
+<meta property="og:description" content="You are invited. Scroll to step into the hills.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://aarav-tanvi.vercel.app/assets/og.jpg">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/band-front.webp">
+<link rel="preload" as="image" href="assets/band-mid.webp">
+<link rel="preload" as="image" href="assets/band-back.webp">
+<link rel="preload" as="image" href="assets/foliage-side.webp">
+<link rel="preload" as="image" href="assets/shiva.webp">
+<link rel="stylesheet" href="css/style.css">
+<script>history.scrollRestoration = 'manual'; document.documentElement.classList.add('js'); if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('reduced');</script>
+</head>
+<body>
+
+<button class="music" id="music" type="button" aria-label="Play music" aria-pressed="false" hidden><i></i><i></i><i></i></button>
+
+<main>
+
+  <!-- 1. The night sky. Scroll walks you through a paper-cut diorama into the hills. -->
+  <section class="hero" id="hero" aria-label="Invitation">
+    <div class="pin">
+      <div class="sky" aria-hidden="true"><canvas class="stars"></canvas><div class="moon"><i></i></div></div>
+
+      <div class="valley" aria-hidden="true">
+        <div class="hills" id="hills"></div>
+        <div class="clouds" id="clouds"></div>
+        <img class="hotel" src="assets/hotel.webp" alt="" decoding="async">
+        <div class="balloon"><img src="assets/balloon.webp" alt="" decoding="async"></div>
+      </div>
+
+      <div class="words">
+        <p class="words__to" id="heroTo" hidden></p>
+        <h1 class="words__names">
+          <span class="name" data-t="one" data-split></span>
+          <span class="weds" data-t="joiner"></span>
+          <span class="name" data-t="two" data-split></span>
+        </h1>
+      </div>
+
+      <!-- the paper-cut garden: separate layers, back to front, that grow up one after another -->
+      <div class="flora" aria-hidden="true">
+        <img class="side side--back side--l" src="assets/foliage-side.webp" alt="" decoding="async">
+        <img class="side side--back side--r" src="assets/foliage-side.webp" alt="" decoding="async">
+        <img class="band band--back" src="assets/band-back.webp" alt="" decoding="async">
+        <div class="medallion"><i class="halo"></i><img src="assets/shiva.webp" alt="" decoding="async"></div>
+        <img class="band band--mid" src="assets/band-mid.webp" alt="" decoding="async">
+        <img class="band band--front" src="assets/band-front.webp" alt="" decoding="async">
+        <img class="side side--front side--l" src="assets/foliage-side.webp" alt="" decoding="async">
+        <img class="side side--front side--r" src="assets/foliage-side.webp" alt="" decoding="async">
+      </div>
+
+      <p class="dateline" id="dateline" aria-label=""></p>
+      <p class="cue" id="cue"><span>Scroll</span><i></i></p>
+    </div>
+  </section>
+
+  <!-- 2. Blessings and names -->
+  <section class="panel panel--navy damask" id="blessing">
+    <div class="wrap wrap--center">
+      <p class="invocation" data-rise data-t="invocation" lang="sa"></p>
+      <div class="ganesha" id="ganesha"><img src="assets/ganesha.webp" alt="Lord Ganesha" loading="lazy" width="676" height="1002"></div>
+      <p class="script" data-rise data-t="b.line"></p>
+      <p class="script" data-rise data-t="b.elders"></p>
+      <i class="rule" data-rise></i>
+      <p class="script" data-rise data-t="b.hosts"></p>
+      <p class="script script--sm" data-rise data-t="b.request"></p>
+      <h2 class="big" data-t="one" data-split></h2>
+      <p class="big-and" data-rise>&amp;</p>
+      <h2 class="big" data-t="two" data-split></h2>
+      <p class="script" data-rise data-t="p.label"></p>
+      <p class="script" data-rise data-t="p.parents"></p>
+      <p class="script next" data-rise data-t="p.next"></p>
+    </div>
+
+    <!-- 3. Events: each illustration sits in a gold oval that draws itself -->
+    <div class="wrap">
+      <ul class="events" id="events"></ul>
+    </div>
+  </section>
+
+  <!-- 4. The route: a dashed path climbs the hill and the balloon follows it -->
+  <section class="route panel--navy" id="route">
+    <div class="route__pin">
+      <div class="wrap wrap--center route__words">
+        <h2 class="title" data-lines="route.title"></h2>
+        <p class="venue" data-t="route.venue"></p>
+        <a class="ring ring--gold" id="routeRing" target="_blank" rel="noopener" aria-label="Open the map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11.5A7 7 0 0 0 5 9.5C5 14.7 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a>
+        <p class="note" data-t="route.note"></p>
+      </div>
+      <svg class="route__map" id="routeMap" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+      <img class="route__balloon" id="routeBalloon" src="assets/balloon.webp" alt="" aria-hidden="true" loading="lazy">
+    </div>
+  </section>
+
+  <!-- 5. The couple -->
+  <section class="panel panel--mint buti" id="meet">
+    <svg class="edge edge--top" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path id="scallopTop"/></svg>
+    <img class="sprig sprig--l" src="assets/foliage-side.webp" alt="" aria-hidden="true" loading="lazy">
+    <img class="sprig sprig--r" src="assets/foliage-side.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="wrap wrap--center">
+      <p class="kicker" data-rise data-t="meet.kicker"></p>
+      <h2 class="title title--ink" data-lines="meet.title" data-split></h2>
+      <p class="body" data-rise data-t="meet.note"></p>
+      <figure class="arch-photo" id="archPhoto">
+        <img id="couplePhoto" alt="" loading="lazy">
+        <svg class="arch-photo__frame" viewBox="0 0 300 400" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M10 395V150A140 140 0 0 1 290 150V395Z"/><path pathLength="1" d="M22 383V152A128 128 0 0 1 278 152V383Z"/></svg>
+      </figure>
+    </div>
+
+    <!-- 6. Album -->
+    <div class="album" id="album" aria-roledescription="carousel" aria-label="Pre-wedding photos">
+      <h2 class="title title--ink" data-rise>Our little album</h2>
+      <div class="album__view"><div class="album__track" id="track"></div></div>
+      <div class="album__nav">
+        <button class="album__btn" id="prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="album__dots" id="dots"></div>
+        <button class="album__btn" id="next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. RSVP: a mandala turns around the button -->
+  <section class="panel panel--plum florals" id="rsvp">
+    <svg class="edge edge--top" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path class="scallop"/></svg>
+    <div class="wrap wrap--center">
+      <h2 class="title" data-lines="rsvp.title" data-split></h2>
+      <div class="mandala-wrap">
+        <svg class="mandala" id="mandala" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+        <a class="ring ring--big" id="rsvpRing" target="_blank" rel="noopener" aria-label="Reply on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4.1A8 8 0 1 1 8.3 19L4 20Z"/><path d="M9 9.2c.3 2.7 2.8 5.3 5.7 5.8l1.2-1.5-1.9-1.1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9L10.7 8 9 9.2Z"/></svg></a>
+      </div>
+      <p class="note" data-rise data-t="rsvp.note"></p>
+    </div>
+
+    <!-- 8. Things to know -->
+    <div class="wrap wrap--center know-wrap">
+      <h2 class="title" data-lines="know.title" data-split></h2>
+      <p class="body body--light" data-rise data-t="know.note"></p>
+      <ul class="know" id="knowList"></ul>
+    </div>
+  </section>
+
+  <!-- 9. Follow -->
+  <section class="panel panel--butter" id="follow">
+    <svg class="edge edge--top" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path class="scallop"/></svg>
+    <div class="wrap wrap--center">
+      <div class="sunburst" id="sunburst">
+        <svg class="sunburst__rays" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+        <div class="sunburst__face">
+          <h2 class="title title--ink" data-lines="follow.title"></h2>
+          <a class="ring ring--navy" id="followRing" target="_blank" rel="noopener" aria-label="Open Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.7"/><circle cx="16.7" cy="7.3" r=".6"/></svg></a>
+          <p class="note note--ink" data-t="follow.note"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Night falls again: the moon rises over the hills and the countdown runs -->
+  <section class="finale" id="finale">
+    <div class="finale__pin">
+      <div class="sky" aria-hidden="true"><canvas class="stars"></canvas></div>
+      <div class="finale__moon" aria-hidden="true"><i></i></div>
+      <div class="hills hills--night" id="hillsNight" aria-hidden="true"></div>
+      <img class="finale__balloon" src="assets/balloon.webp" alt="" aria-hidden="true" loading="lazy">
+      <div class="count" id="count">
+        <h2 class="count__title" data-t="count.title"></h2>
+        <p class="count__clock" id="clock" role="timer" aria-live="off"></p>
+        <p class="script count__sign" data-t="signoff"></p>
+        <img class="count__seal" src="assets/twic-seal.png" alt="The Wedding Invite Co." loading="lazy" width="56" height="56">
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-tag" viewBox="0 0 48 48"><path pathLength="1" d="M19 8l-4 32M33 8l-4 32M9 18h32M7 30h32"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path pathLength="1" d="M30 13a7 7 0 1 1 6.8 8.5M30 6v2.5M41.5 10l-1.8 1.8M44 21h-2.5"/><path pathLength="1" d="M13 38h20a7 7 0 0 0 0-14 10 10 0 0 0-19 2.5A6 6 0 0 0 13 38Z"/></symbol>
+  <symbol id="i-person" viewBox="0 0 48 48"><path pathLength="1" d="M24 7a6 6 0 1 1 0 12 6 6 0 0 1 0-12ZM11 41c0-8 6-14 13-14s13 6 13 14"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path pathLength="1" d="M8 34v-9l4-10c.6-1.6 2-2.5 3.6-2.5h16.8c1.6 0 3 .9 3.6 2.5l4 10v9ZM8 25h32M14 34v4M34 34v4"/><path pathLength="1" d="M15 29.5h.1M33 29.5h.1"/></symbol>
+</defs></svg>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/scenery.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BuilderFooter, BuilderHeader } from "@/components/builder/header";
 import { TemplateCard } from "@/components/builder/template-card";
+import { StudioCard } from "@/components/builder/studio-card";
+import { DESIGNS, designThumb } from "@/lib/builder/designs";
 import { TEMPLATES } from "@/lib/builder/templates";
 import { builderPrice, getBase } from "@/lib/builder/server";
 import { startDesign } from "@/app/build/actions";
@@ -78,7 +80,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
             <h2 id="how-h" className="sr-only">How it works</h2>
             <ol className="grid gap-4 md:grid-cols-3">
               {[
-                ["Pick a design", "Five designs, each with its own colours. You can switch later without losing what you typed."],
+                ["Pick a design", `${DESIGNS.length + TEMPLATES.length} designs, most of them real invitations from our studio. Open any of them before you choose.`],
                 ["Make it yours", "Names, celebrations, venues, story, photos, music, fonts and text size. The phone preview updates as you type."],
                 [`Pay ${rupees(price)} and share`, "Choose your link, pay once, and send it on WhatsApp. RSVPs come straight to you."],
               ].map(([t, d], i) => (
@@ -101,7 +103,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
               <h2 id="designs-h" className="heading mt-4 text-[clamp(36px,4.6vw,58px)] leading-[1.02]">
                 Start from a design you love.
               </h2>
-              <p className="text-muted-foreground mt-3">Each one is a real invitation. Tap &quot;Full screen&quot; to open it the way guests will.</p>
+              <p className="text-muted-foreground mt-3">Real invitations from our studio, ready for your names, dates and photos. Tap one to open it the way your guests will.</p>
             </div>
             {sp.busy ? (
               <p role="status" className="bg-destructive/10 text-destructive mx-auto mt-8 max-w-xl rounded-lg px-4 py-3 text-center text-sm">
@@ -109,6 +111,15 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
               </p>
             ) : null}
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {DESIGNS.map((d) => (
+                <StudioCard key={d.id} id={d.id} name={d.name} blurb={d.blurb} tags={d.tags} thumb={designThumb(d.id)} base={base} action={startDesign} />
+              ))}
+            </div>
+            <div className="mx-auto mt-20 max-w-2xl text-center">
+              <h3 className="heading text-[clamp(30px,3.6vw,44px)] leading-[1.05]">Or keep it simple.</h3>
+              <p className="text-muted-foreground mt-2">Lighter designs where you also choose the colours, fonts and text size, and see every change as you type.</p>
+            </div>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {TEMPLATES.map((t) => (
                 <TemplateCard key={t.id} id={t.id} name={t.name} blurb={t.blurb} tags={t.tags} palettes={t.palettes.map(({ id, label, bg, accent, ink }) => ({ id, label, bg, accent, ink }))} action={startDesign} />
               ))}

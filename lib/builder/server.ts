@@ -7,7 +7,10 @@ import { isAdmin } from "@/lib/auth";
 import { builderUrl, siteUrl } from "@/lib/config";
 import { getSettings } from "@/lib/settings";
 import { BUILT_IN, trackSrc, type Track } from "@/lib/builder/music";
-import { listByIds, listLibraryTracks, type Site } from "@/lib/builder/sites";
+import { listByIds, listLibraryTracks, siteData, siteSummary, studioConfig, liveData, type Site } from "@/lib/builder/sites";
+import { findDesign, designThumb } from "@/lib/builder/designs";
+import { renderStudio } from "@/lib/builder/studio";
+import { dayMonth } from "@/lib/builder/render";
 import { templateOrDefault } from "@/lib/builder/templates";
 import { renderDocument, type RenderMode } from "@/lib/builder/render";
 import type { InviteData } from "@/lib/builder/types";
@@ -127,7 +130,43 @@ export function library(): Track[] {
 }
 
 /* ---------- rendering ---------- */
-export function renderSite(s: Site, data: InviteData, mode: RenderMode) {
+const htmlCache = new Map<string, string>();
+/** The original page of a studio design, as shipped in public/builder/designs/<id>/index.html. */
+export function designHtml(id: string) {
+  if (!/^[a-z0-9-]+$/.test(id)) return "";
+  const hit = htmlCache.get(id);
+  if (hit !== undefined && process.env.NODE_ENV === "production") return hit;
+  const file = path.join(process.cwd(), "public", "builder", "designs", id, "index.html");
+  const html = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
+  htmlCache.set(id, html);
+  return html;
+}
+
+/** A site as a full HTML page: its draft (previews) or its published copy (live). Empty when there's nothing to show. */
+export function renderSite(s: Site, mode: RenderMode) {
+  const which = mode === "live" ? "live" : "draft";
+  const design = findDesign(s.template);
+  if (design) {
+    const config = studioConfig(s, which);
+    if (!config) return "";
+    const x = siteSummary(s);
+    const names = [x.one, x.two].filter(Boolean).join(" & ") || "Our wedding";
+    return renderStudio(design, designHtml(design.id), config, {
+      mode,
+      title: x.date ? `${names} · ${dayMonth(x.date)}` : names,
+      description: `${names} invite you to celebrate their wedding${x.date ? " on " + dayMonth(x.date) : ""}${x.place ? " in " + x.place : ""}. Tap to open.`,
+      image: `${siteUrl()}${designThumb(design.id).replace(".jpg", "-og.jpg")}`,
+      pageUrl: s.slug ? liveUrl(s.slug) : undefined,
+      rsvpUrl: s.slug ? `/api/build/rsvp/${s.slug}` : "",
+    });
+  }
+  const data = which === "live" ? liveData(s) : siteData(s);
+  if (!data) return "";
+  return renderEngine(s, data, mode);
+}
+
+
+function renderEngine(s: Site, data: InviteData, mode: RenderMode) {
   const t = templateOrDefault(s.template);
   return renderDocument(t, data, {
     mode,

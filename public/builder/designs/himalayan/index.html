@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en" class="gated">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tara &amp; Advait</title>
+<meta name="description" content="Tara and Advait are getting married in the Himalayan foothills, 11 to 14 March 2027.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#24102f">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tara-advait.vercel.app/">
+<meta property="og:site_name" content="Tara &amp; Advait">
+<meta property="og:title" content="Tara &amp; Advait · 11 to 14 March 2027">
+<meta property="og:description" content="Ring the bell. The procession sets out for the Himalayan foothills, 11 to 14 March 2027.">
+<meta property="og:image" content="https://tara-advait.vercel.app/assets/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tara and Advait walking hand in hand with their wedding party toward a hill temple, with the dates 11 to 14 March 2027">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tara-advait.vercel.app/assets/img/og.jpg">
+<script>
+  /* Loading part-way down breaks the scroll triggers, so always start at the top. */
+  history.scrollRestoration = 'manual';
+  if (location.search.includes('skip')) document.documentElement.classList.remove('gated');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600&family=Rozha+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/invite.css">
+<noscript><style>.gate{display:none}html.gated{overflow:auto}.names,.stage-cue{opacity:1}</style></noscript>
+</head>
+<body>
+
+<!-- The bell gate. Ringing it is the tap that lets the browser start the music. -->
+<div class="gate" id="gate">
+  <div class="ripples" aria-hidden="true"><i></i><i></i><i></i></div>
+  <img class="toran toran-l" src="assets/img/gate/marigold.webp" alt="">
+  <img class="toran toran-r" src="assets/img/gate/marigold.webp" alt="">
+  <button class="bell" id="bell" type="button" aria-label="Ring the bell to open the invitation">
+    <img src="assets/img/gate/bell.webp" alt="">
+  </button>
+  <p class="gate-hint">Ring the bell to enter</p>
+</div>
+
+<main>
+
+  <!-- 1. Opening scene -->
+  <section class="scene" id="scene" aria-label="__WIC_ONE__ and __WIC_TWO__ are getting married">
+    <div class="stage">
+      <img class="sky" src="assets/img/scene/sky.jpg" alt="">
+      <img class="layer temple" src="assets/img/scene/temple.webp" alt="A small stone temple on a hill">
+      <img class="layer ridge" src="assets/img/scene/ridge.webp" alt="">
+      <img class="layer guests" src="assets/img/scene/guests.webp" alt="The couple and their guests walking up the path to the temple">
+      <div class="names" id="names">
+        <h1>
+          <span class="nm nm-a" data-bride></span>
+          <span class="nm-amp">&amp;</span>
+          <span class="nm nm-b" data-groom></span>
+        </h1>
+        <p class="names-when">11 to 14 March 2027, Rishikesh</p>
+      </div>
+      <p class="stage-cue"><span>Scroll to join the procession</span></p>
+      <div class="stage-fade" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <div class="paper">
+    <div class="arches arches-paper" data-arches="#24102f" data-line="#d9b25f" aria-hidden="true"></div>
+
+    <!-- 2. Formal invitation -->
+    <section class="formal" aria-label="Invitation">
+      <div class="jharokha">
+        <img class="ganesha" src="assets/img/ganesha.webp" alt="Lord Ganesha">
+        <p class="mantra" lang="sa">
+          वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।<br>
+          निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥
+        </p>
+        <p class="blessing">With the blessings of<span class="fline" data-blessings></span></p>
+        <p class="hosts"><span class="fline" data-bride-parents></span>of <span data-bride-place></span></p>
+        <p class="request">request the pleasure of your company<br>at the wedding of their daughter</p>
+        <p class="formal-name" data-bride></p>
+        <p class="with">with</p>
+        <p class="formal-name" data-groom></p>
+        <p class="hosts"><span class="fline">son of <span data-groom-parents></span></span>of <span data-groom-place></span></p>
+      </div>
+    </section>
+
+    <!-- 3. Event cards -->
+    <section class="events" aria-labelledby="events-title">
+      <h2 id="events-title" class="title">The celebrations</h2>
+      <div id="event-list"></div>
+    </section>
+
+    <!-- 4. Venue map -->
+    <section class="venue" aria-labelledby="venue-title">
+      <h2 id="venue-title" class="title">Finding your way</h2>
+      <a class="map" id="map-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 600 700" role="img" aria-label="Illustrated map of Neelkanth Hills">
+          <defs>
+            <clipPath id="map-arch"><path d="M10 690V300C10 130 150 10 300 10s290 120 290 290v390z"/></clipPath>
+          </defs>
+          <g clip-path="url(#map-arch)">
+            <rect width="600" height="700" fill="#3b1b4f"/>
+            <path class="m-hill" d="M-20 300 90 170l70 70 90-130 110 120 70-60 90 90 110-60V0H-20z" fill="#4a2563"/>
+            <path class="m-hill" d="M-20 400 70 300l90 60 110-90 130 90 110-70 110 80" fill="none"/>
+            <path class="m-hill" d="M-20 470 110 400l130 60 140-60 240 80" fill="none"/>
+            <path class="m-river" d="M640 300c-70 40-120 30-170 80s-30 90-90 130-160 20-220 70-90 80-180 130"/>
+            <text class="m-water" x="372" y="470" transform="rotate(-38 372 470)">Ganga</text>
+            <g class="m-trees" fill="#6d4a8a">
+              <path d="M70 250l16 40H54zM110 225l18 48H92zM500 215l15 40h-30zM540 245l17 44h-34zM60 560l15 38H45zM100 590l14 34H86zM480 600l16 42h-32zM524 572l14 36h-28z"/>
+            </g>
+            <path class="m-route" id="map-route" pathLength="1" d="M300 640c-60-30-40-70-10-90s70-30 40-80-110-30-120-90 60-60 100-80 40-50 10-90"/>
+            <g class="m-pin" transform="translate(300 640)"><circle r="7"/><text x="16" y="5">Hotel gate</text></g>
+            <g class="m-pin" transform="translate(290 550)"><circle r="7"/><text x="-16" y="5" text-anchor="end">Riverside Lawn</text></g>
+            <g class="m-pin" transform="translate(210 380)"><circle r="7"/><text x="-16" y="5" text-anchor="end">The Deodar Courtyard</text></g>
+            <g class="m-pin" transform="translate(310 300)"><circle r="7"/><text x="16" y="5">The Pine Terrace</text></g>
+            <g class="m-pin m-goal" transform="translate(320 210)">
+              <circle class="m-pulse" r="12"/>
+              <path d="M-16 8h32l-5-10h-5l-3-12-3-6-3-12-3 12-3 6-3 12h-5z" fill="#f2dfae"/>
+              <text y="-40" text-anchor="middle">Hilltop Temple Lawn</text>
+            </g>
+          </g>
+          <path d="M10 690V300C10 130 150 10 300 10s290 120 290 290v390z" fill="none" stroke="#d9b25f" stroke-width="3"/>
+          <path d="M22 678V300C22 140 156 22 300 22s278 118 278 278v378z" fill="none" stroke="#d9b25f" stroke-width="1"/>
+        </svg>
+        <span class="map-cta">Open the location in Google Maps</span>
+      </a>
+      <p class="venue-name" data-map-label></p>
+    </section>
+  </div>
+
+  <!-- 5 to 9 sit on the pink section -->
+  <div class="pink" id="pink">
+    <div class="threshold" aria-hidden="true">
+      <div class="arches arches-back" data-arches="#d6337f" data-line="#f2dfae"></div>
+      <div class="arches arches-front" data-arches="#fbe4ee" data-line="#d9b25f"></div>
+      <div class="drape drape-l"><img src="assets/img/gate/marigold.webp" alt=""></div>
+      <div class="drape drape-r"><img src="assets/img/gate/marigold.webp" alt=""></div>
+    </div>
+
+    <!-- 5. Meet the couple -->
+    <section class="couple" aria-labelledby="couple-title">
+      <h2 id="couple-title" class="title">Bride &amp; Groom</h2>
+      <figure class="couple-art">
+        <svg class="couple-arch" viewBox="0 0 360 480" aria-hidden="true">
+          <path d="M8 472V190C8 150 40 150 40 118 40 86 80 86 88 56 96 30 150 44 180 8c30 36 84 22 92 48 8 30 48 30 48 62 0 32 32 32 32 72v282z" fill="#f6c9dc" stroke="#d9b25f" stroke-width="3"/>
+          <path d="M20 460V192c0-32 32-34 32-68 0-30 40-32 48-60 6-22 52-12 80-40 28 28 74 18 80 40 8 28 48 30 48 60 0 34 32 36 32 68v268z" fill="none" stroke="#d9b25f"/>
+        </svg>
+        <img src="assets/img/scene/couple.webp" alt="__WIC_ONE__ and __WIC_TWO__, hand in hand">
+      </figure>
+      <p class="couple-note" data-message></p>
+      <p class="couple-sign"><span data-bride></span> &amp; <span data-groom></span></p>
+    </section>
+
+    <!-- 6. Photo gallery -->
+    <section class="gallery" aria-labelledby="gallery-title" aria-roledescription="carousel">
+      <h2 id="gallery-title" class="title">Moments so far</h2>
+      <div class="slides" id="slides">
+        <div class="track" id="track"></div>
+        <button class="nav nav-prev" id="prev" type="button" aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="nav nav-next" id="next" type="button" aria-label="Next photo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </section>
+
+    <!-- 7. RSVP -->
+    <section class="rsvp" aria-labelledby="rsvp-title">
+      <div class="disc">
+        <svg class="mandala" id="mandala" viewBox="-250 -250 500 500" aria-hidden="true"></svg>
+        <div class="disc-face">
+          <h2 id="rsvp-title">Will you join us?</h2>
+          <p data-rsvp-by></p>
+          <a class="wa" id="wa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2a8.7 8.7 0 0 0-7.5 13.2L3.3 21l4.7-1.2A8.7 8.7 0 1 0 12 3.2zm5 12.3c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1l-1.5-.5a11.3 11.3 0 0 1-4.3-3.9c-.4-.6-.9-1.5-.9-2.4 0-1 .5-1.5.7-1.7.3-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.5.8 1 1.3 1.5 1.8.7.5 1.3.8 1.7 1 .3.1.5.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>
+            Reply on WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Guest information -->
+    <section class="info" aria-labelledby="info-title">
+      <h2 id="info-title" class="title">Good to know</h2>
+      <div id="info-list"></div>
+    </section>
+
+    <!-- 9. Instagram -->
+    <section class="ig" aria-labelledby="ig-title">
+      <h2 id="ig-title" class="title">Follow the action</h2>
+      <div class="cabinet" id="cabinet">
+        <button class="cab-toggle" id="cab-toggle" type="button" aria-label="Open or close the cabinet">
+          <img class="cab cab-open" src="assets/img/ig/cabinet-open.webp" alt="A wooden cabinet full of vintage cameras">
+          <img class="cab cab-closed" src="assets/img/ig/cabinet-closed.webp" alt="">
+        </button>
+        <a class="ring" id="ig-link" target="_blank" rel="noopener">
+          <svg class="ring-text" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="ring-path" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+            <circle cx="100" cy="100" r="96" fill="none" stroke="#d9b25f" stroke-width="1.5" stroke-dasharray="1 7" stroke-linecap="round"/>
+            <text><textPath href="#ring-path" textLength="486">see every moment as it happens, see every moment&#160;</textPath></text>
+          </svg>
+          <svg class="ring-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6"/></svg>
+          <span class="visually-hidden">Follow on Instagram</span>
+        </a>
+      </div>
+      <p class="ig-handle" data-ig-handle></p>
+      <p class="ig-tag" data-hashtag></p>
+    </section>
+  </div>
+
+  <!-- 10. Countdown -->
+  <section class="night" id="night" aria-labelledby="night-title">
+    <div class="arches arches-night" data-arches="#1b1030" data-line="#d9b25f" aria-hidden="true"></div>
+    <div class="night-sky">
+      <img src="assets/img/night.jpg" alt="Stars over snow peaks">
+      <canvas id="stars" aria-hidden="true"></canvas>
+    </div>
+    <div class="night-body">
+      <h2 id="night-title" class="title">Until we say yes</h2>
+      <div class="clock" id="clock" role="timer" aria-label="Time until the wedding">
+        <div><b id="c-d">00</b><span>Days</span></div>
+        <div><b id="c-h">00</b><span>Hours</span></div>
+        <div><b id="c-m">00</b><span>Minutes</span></div>
+        <div><b id="c-s">00</b><span>Seconds</span></div>
+      </div>
+      <p class="night-note" id="night-note"></p>
+      <footer class="maker">
+        <img src="assets/img/twic-seal.png" alt="" width="56" height="56">
+        <p>A sample invitation by The Wedding Invite Co.<br>Names, dates and venues are fictional.</p>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<!-- Floating music control -->
+<button class="music" id="music" type="button" aria-label="Pause music" aria-pressed="true" hidden>
+  <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
+  <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.5-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z"/></svg>
+</button>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/ornaments.js"></script>
+<script src="assets/js/gate.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

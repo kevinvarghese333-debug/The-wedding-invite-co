@@ -1,4 +1,4 @@
-import { getSite, siteData } from "@/lib/builder/sites";
+import { getSite } from "@/lib/builder/sites";
 import { canEdit, renderSite } from "@/lib/builder/server";
 
 export const runtime = "nodejs";
@@ -14,7 +14,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       { status: 403, headers: { "Content-Type": "text/html; charset=utf-8" } }
     );
   const thumb = new URL(req.url).searchParams.get("thumb") === "1";
-  return new Response(renderSite(site, siteData(site), thumb ? "thumb" : "preview"), {
+  return new Response(renderSite(site, thumb ? "thumb" : "preview"), {
     headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow" },
   });
 }

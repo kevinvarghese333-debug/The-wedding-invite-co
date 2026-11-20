@@ -1,10 +1,9 @@
 import { after } from "next/server";
 import { clean, cleanPhone, editable, emailOk, json } from "@/lib/builder/api";
-import { addOrder, cleanSlug, getSite, requestPublish, setContact, setSlug, siteData, slugProblem } from "@/lib/builder/sites";
+import { addOrder, cleanSlug, getSite, requestPublish, setContact, setSlug, siteSummary, slugProblem } from "@/lib/builder/sites";
 import { builderPrice, liveUrl } from "@/lib/builder/server";
 import { createRazorpayOrder, razorpayKeyId, razorpayReady } from "@/lib/builder/razorpay";
 import { onContactSaved } from "@/lib/builder/publish";
-import { coupleNames } from "@/lib/builder/render";
 import { notifyStudio } from "@/lib/notify";
 import { publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
 import { rupees } from "@/lib/format";
@@ -41,7 +40,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   const fresh = getSite(site.id)!;
   if (!site.lead_id || emailChanged) after(() => onContactSaved(fresh));
 
-  const d = siteData(fresh);
+  const names = siteSummary(fresh).names;
   const amount = builderPrice();
 
   if (!razorpayReady()) {
@@ -50,15 +49,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if (first)
       after(() =>
         notifyStudio(
-          `Ready to publish: ${coupleNames(d)} · ${rupees(amount)}`,
-          `${name} (+${phone}, ${email}) finished "${coupleNames(d)}" and wants it live at ${liveUrl(slug)}.\nThey're paying ${rupees(amount)} by UPI (note "Invitation ${site.id}"). Once it's in your account, press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`
+          `Ready to publish: ${names} · ${rupees(amount)}`,
+          `${name} (+${phone}, ${email}) finished "${names}" and wants it live at ${liveUrl(slug)}.\nThey're paying ${rupees(amount)} by UPI (note "Invitation ${site.id}"). Once it's in your account, press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`
         )
       );
     return json({ ok: true, mode: "manual", amount, whatsapp: publicWhatsApp(), url: liveUrl(slug) });
   }
 
   try {
-    const order = await createRazorpayOrder(amount, `site_${site.id}`, { site: site.id, slug, couple: coupleNames(d) });
+    const order = await createRazorpayOrder(amount, `site_${site.id}`, { site: site.id, slug, couple: names });
     addOrder({ id: order.id, site_id: site.id, amount });
     return json({
       ok: true,
@@ -68,7 +67,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       amount: order.amount,
       currency: "INR",
       name: STUDIO,
-      description: `Wedding invitation · ${coupleNames(d)}`,
+      description: `Wedding invitation · ${names}`,
       prefill: { name, email, contact: `+${phone}` },
       url: liveUrl(slug),
     });
