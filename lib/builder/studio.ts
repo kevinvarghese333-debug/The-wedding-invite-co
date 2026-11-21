@@ -153,7 +153,64 @@ export type StudioOpts = {
 const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const h = (s: string) => s.replace(/[&<>"']/g, (c) => ESC[c]);
 /* Names go into HTML text, attributes and inline scripts, so keep them to characters that are safe in all three. */
-const safeName = (s: string) => h(s.replace(/[<>"'`\\]/g, "").slice(0, 40));
+const safeName = (s: string) => h(s.replace(/[<>"'`\\]/g, "").slice(0, 80));
+
+/* ---------- words a design may have written into its page ----------
+   __WIC_ONE__, __WIC_DATE_LONG__ …: derived from the names and date.
+   __WIC{path}__: any setting, as text. __WICURL{path}__: a setting that is a link.
+   <!--wic-if:path--> … <!--/wic-if:path-->: dropped when that setting is empty. */
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+const ORD: Record<string, string> = { one: "first", two: "second", three: "third", five: "fifth", eight: "eighth", nine: "ninth", twelve: "twelfth", twenty: "twentieth", thirty: "thirtieth" };
+const words = (n: number) => (n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? "-" + ONES[n % 10] : ""));
+const ordinal = (n: number) => {
+  const w = words(n);
+  const last = w.split("-").pop()!;
+  const o = ORD[last] ?? (last.endsWith("y") ? last.slice(0, -1) + "ieth" : last + "th");
+  return w.slice(0, w.length - last.length) + o;
+};
+const yearWords = (y: number) => `two thousand${y % 100 ? " and " + words(y % 100) : ""}`;
+
+export function wicValues(design: Design, config: Config): Record<string, string> {
+  const x = studioSummary(design, config);
+  const v: Record<string, string> = { ONE: x.one, TWO: x.two, I1: x.one.charAt(0).toUpperCase(), I2: x.two.charAt(0).toUpperCase(), PLACE: x.place };
+  if (x.date) {
+    const [y, m, d] = x.date.split("-").map(Number);
+    const dow = DAYS[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+    Object.assign(v, {
+      DATE: `${d} ${MONTHS[m - 1]} ${y}`,
+      DATE_LONG: `${dow}, ${d} ${MONTHS[m - 1]} ${y}`,
+      DATE_DM: `${d} ${MONTHS[m - 1]}`,
+      DATE_DOTS: `${String(d).padStart(2, "0")} · ${String(m).padStart(2, "0")} · ${y}`,
+      DATE_WORDS: `${dow}, the ${ordinal(d)} of ${MONTHS[m - 1]}`,
+      YEAR_WORDS: yearWords(y),
+      WEEKDAY: dow,
+      MONTH_YEAR: `${MONTHS[m - 1]} ${y}`,
+    });
+  }
+  const raw = String(getPath(config, design.date) ?? "");
+  const ts = Date.parse(raw);
+  if (Number.isFinite(ts)) v.TS = String(ts);
+  const t = /T(\d{2}):(\d{2})/.exec(raw);
+  if (t) v.TIME = `${Number(t[1]) % 12 || 12}:${t[2]} ${Number(t[1]) < 12 ? "AM" : "PM"}`;
+  return v;
+}
+
+const text = (v: Json | undefined) => (typeof v === "string" || typeof v === "number" ? h(String(v).replace(/[\r\n]+/g, " ")) : "");
+const src = (v: Json | undefined) => (typeof v === "string" && (PHOTO_URL.test(v) || (LOCAL.test(v) && !v.includes(".."))) ? h(v) : "");
+const link = (v: Json | undefined) => (typeof v === "string" && /^(https?:\/\/|mailto:|tel:|#)/.test(v) ? h(v) : "#");
+
+function fillTokens(out: string, design: Design, config: Config) {
+  const vals = wicValues(design, config);
+  return out
+    .replace(/<!--wic-if:([^>]+?)-->([\s\S]*?)<!--\/wic-if:\1-->/g, (_, p, inner) => (text(getPath(config, p)) ? inner : ""))
+    .replace(/__WICURL\{([^}]+)\}__/g, (_, p) => link(getPath(config, p)))
+    .replace(/__WICSRC\{([^}]+)\}__/g, (_, p) => src(getPath(config, p)))
+    .replace(/__WIC\{([^}]+)\}__/g, (_, p) => text(getPath(config, p)))
+    .replace(/__WIC_([A-Z0-9_]+)__/g, (m, k) => (k in vals ? safeName(vals[k]) : ""));
+}
 
 export function renderStudio(design: Design, html: string, config: Config, o: StudioOpts) {
   let c = config;
@@ -183,9 +240,8 @@ export function renderStudio(design: Design, html: string, config: Config, o: St
     .replace(/<title>[\s\S]*?<\/title>/i, "")
     .replace(/<meta\s+(?:property|name)="(?:og:[^"]*|twitter:[^"]*|description|robots)"[^>]*>/gi, "")
     .replace(/<link\s+rel="canonical"[^>]*>/gi, "")
-    .replace(/<head([^>]*)>/i, `<head$1>\n${head}`)
-    .replace(/__WIC_ONE__/g, safeName(s.one))
-    .replace(/__WIC_TWO__/g, safeName(s.two));
+    .replace(/<head([^>]*)>/i, `<head$1>\n${head}\n<script>window.__WIC = ${JSON.stringify(wicValues(design, c)).replace(/</g, "\\u003c")};</script>`);
+  out = fillTokens(out, design, c);
 
   const file = design.file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const tag = new RegExp(`<script([^>]*)\\ssrc="(?:\\./)?${file}(?:\\?[^"]*)?"([^>]*)>\\s*</script>`, "i");

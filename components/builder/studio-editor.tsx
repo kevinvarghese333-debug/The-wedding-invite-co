@@ -14,7 +14,7 @@ import { useBase } from "@/components/builder/base";
 import { ContactDialog, type EditorSite } from "@/components/builder/editor";
 import { uploadPhoto } from "@/components/builder/fields";
 import { designBase, type Config, type Design, type Json } from "@/lib/builder/designs";
-import { fieldKind, isHidden, renderStudio, samplePhotoCount, setPath, studioSummary } from "@/lib/builder/studio";
+import { fieldKind, getPath, isHidden, renderStudio, samplePhotoCount, setPath, studioSummary } from "@/lib/builder/studio";
 import type { Track } from "@/lib/builder/music";
 
 /* ---------- labels ---------- */
@@ -58,6 +58,11 @@ const LABELS: Record<string, string> = {
   hashtag: "Hashtag",
   hashtags: "Hashtags",
   defaultLanguage: "Starting language",
+  cal: "Calendar times",
+  weekday: "Day of the week",
+  parts: "Times and places",
+  where: "Where",
+  time: "Time",
 };
 const human = (k: string) =>
   LABELS[k] ??
@@ -67,7 +72,7 @@ const human = (k: string) =>
     .replace(/^./, (c) => c.toUpperCase());
 
 /* Technical settings nobody needs to touch. */
-const QUIET = /^(id|icon|focus|lat|lon|tz|timezone|locale|flag|code|cal|weekday|appleTrackId|seconds|embedUrl|provider|key|table|demo|endpoint|sheetUrl|url)$/;
+const QUIET = /^(id|icon|focus|lat|lon|tz|timezone|locale|flag|code|appleTrackId|seconds|embedUrl|provider|key|table|demo|endpoint|sheetUrl|rsvpEndpoint|url)$/;
 
 type SaveState = "saved" | "dirty" | "saving" | "error";
 
@@ -238,6 +243,7 @@ export function StudioEditor({
             <div className="border-b px-5 py-4">
               <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">{design.name}</p>
               <p className="text-muted-foreground mt-1 text-[13px]">Everything guests read is below. Change the wording, dates, places and photos; the design takes care of the rest.</p>
+              {design.tip ? <p className="text-muted-foreground mt-1 text-[13px]">{design.tip}</p> : null}
               {samples ? (
                 <p className="bg-clay-soft mt-3 rounded-lg px-3 py-2 text-[13px]">
                   {samples} {samples === 1 ? "photo is" : "photos are"} still our sample. Replace {samples === 1 ? "it" : "them"} with yours before you publish.
@@ -265,11 +271,20 @@ export function StudioEditor({
                 ))}
               </Section>
             ) : null}
-            {groups.map((k, i) => (
-              <Section key={k} title={human(k)} open={i < 2}>
-                <Node design={design} path={k} k={k} value={config[k]} sample={design.sample[k]} set={set} library={library} siteId={site.id} bare />
-              </Section>
-            ))}
+            {groups.flatMap((k, i) =>
+              // "text" holds every line of a page, by section: one panel per section
+              k === "text" && design.sample.text && typeof design.sample.text === "object"
+                ? Object.keys(design.sample.text).map((g) => (
+                    <Section key={`text.${g}`} title={`Words · ${human(g)}`}>
+                      <Node design={design} path={`text.${g}`} k={g} value={getPath(config, `text.${g}`)} sample={getPath(design.sample, `text.${g}`)} set={set} library={library} siteId={site.id} bare />
+                    </Section>
+                  ))
+                : [
+                    <Section key={k} title={human(k)} open={i < 2}>
+                      <Node design={design} path={k} k={k} value={config[k]} sample={design.sample[k]} set={set} library={library} siteId={site.id} bare />
+                    </Section>,
+                  ]
+            )}
             <div className="flex justify-end px-5 pt-5">
               {site.paid ? null : (
                 <Button asChild>
@@ -447,7 +462,7 @@ function Controls({ i, n, move, remove, compact }: { i: number; n: number; move:
 function Field({ path, k, value, sample, set, library, siteId, design }: { path: string; k: string; value: Json; sample: Json; set: (p: string, v: Json) => void; library: Track[]; siteId: string; design: Design }) {
   const id = React.useId();
   const kind = fieldKind(k, sample === "" ? value : sample);
-  const label = /^\d+$/.test(k) ? "" : human(k);
+  const label = /^(\d+|t\d+)$/.test(k) ? "" : human(k);
   const lab = label ? (
     <Label htmlFor={id} className="text-[13px]">
       {label}

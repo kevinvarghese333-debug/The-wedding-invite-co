@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" class="is-locked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wedding invitation</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FFFFFF">
+<!-- Link preview (WhatsApp, iMessage, Instagram) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='%23F2B8C6'%3E%3Cellipse cx='16' cy='8.5' rx='5' ry='7'/%3E%3Cellipse cx='16' cy='8.5' rx='5' ry='7' transform='rotate(72 16 16)'/%3E%3Cellipse cx='16' cy='8.5' rx='5' ry='7' transform='rotate(144 16 16)'/%3E%3Cellipse cx='16' cy='8.5' rx='5' ry='7' transform='rotate(216 16 16)'/%3E%3Cellipse cx='16' cy='8.5' rx='5' ry='7' transform='rotate(288 16 16)'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%23B4597A'/%3E%3C/svg%3E">
+<script>
+  document.documentElement.classList.add('js');
+  // Always start at the cover, even on reload
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  // If the opening script never runs, show the page anyway.
+  setTimeout(function () { if (!window.__opening) document.documentElement.classList.remove('js', 'is-locked'); }, 4000);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/cover-blossoms.webp">
+<link rel="preload" as="image" href="assets/img/seal.webp">
+<link rel="stylesheet" href="assets/css/invite.css">
+</head>
+<body>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- ============ Cover: a card sealed with wax ============ -->
+<div id="cover" role="dialog" aria-label="Wedding invitation cover">
+  <div class="leaf l">
+    <div class="face">
+      <img class="cover-blossoms" src="assets/img/cover-blossoms.webp" alt="">
+      <img class="cover-branch" src="assets/img/branch-petals.webp" alt="">
+      <div class="cover-card">
+        <p class="cover-of">The wedding of</p>
+        <p class="cover-names script">__WIC_ONE__<i>&amp;</i>__WIC_TWO__</p>
+        <p class="cover-date">__WIC_DATE__</p>
+        <div class="seal-slot" style="position:relative"><img class="seal" src="assets/img/seal.webp" alt=""><span class="script" aria-hidden="true" style="position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(26px,9vw,40px);letter-spacing:.06em;color:rgba(150,70,95,.6);text-shadow:0 1px 0 rgba(255,255,255,.6),0 -1px 0 rgba(120,40,70,.25);pointer-events:none">__WIC_I1__&nbsp;__WIC_I2__</span></div>
+        <p class="cover-tap">Tap the seal to open</p>
+      </div>
+    </div>
+    <i class="shade"></i>
+  </div>
+  <div class="leaf r"><i class="shade"></i></div>
+  <button class="seal-btn" id="openBtn" type="button" aria-label="Open the invitation"></button>
+</div>
+
+<main id="main">
+
+  <!-- ============ The walk: rose door, blossom aisle, arch ============ -->
+  <section class="walk" id="top" aria-label="__WIC_ONE__ and __WIC_TWO__">
+    <div class="walk-stage">
+      <img class="walk-margin" src="assets/img/branch-tall.webp" alt="">
+
+      <div class="walk-window">
+        <img class="walk-still" src="assets/img/scene-door.jpg" alt="A rose-covered garden path leading up steps to an arched door">
+        <canvas id="walk" aria-hidden="true"></canvas>
+        <div class="walk-fog"></div>
+        <p class="aisle-line">We would love you beside us</p>
+      </div>
+
+      <div class="hero-words">
+        <div class="hero-in">
+          <h1 class="hero-names script" id="names" aria-label="__WIC_ONE__ and __WIC_TWO__">__WIC_ONE__ &amp; __WIC_TWO__</h1>
+          <p class="hero-date">__WIC_DATE_LONG__</p>
+        </div>
+      </div>
+
+      <p class="cue"><span>Scroll to walk through the garden</span><i aria-hidden="true"></i></p>
+      <a class="skip" href="#details">Skip to the details</a>
+
+      <div class="arrival">
+        <div class="arrival-arch">
+          <div class="arrival-photo"><img src="__WICSRC{photos.couple}__" alt="__WIC_ONE__ and __WIC_TWO__ smiling in sunglasses, with mountains and golden autumn trees behind them"></div>
+          <img class="arrival-frame" src="assets/img/arch.webp" alt="">
+        </div>
+        <div class="arrival-words">
+          <p class="aw">Together with their families</p>
+          <p class="aw arrival-names script">__WIC_ONE__ &amp; __WIC_TWO__</p>
+          <p class="aw">request the pleasure of your company<br>at the celebration of their marriage</p>
+          <p class="aw">on __WIC_DATE_WORDS__<br>__WIC_YEAR_WORDS__</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ The two of them ============ -->
+  <section class="pair" aria-label="__WIC_ONE__ and __WIC_TWO__">
+    <div class="pair-row">
+      <figure class="portrait p-a">
+        <div class="portrait-frame"><img src="__WICSRC{photos.one}__" alt="__WIC_ONE__ in a denim jacket on a lawn, smiling, with golden trees and rocky hills behind" loading="lazy" decoding="async"></div>
+        <figcaption class="script">__WIC_ONE__</figcaption>
+      </figure>
+      <figure class="portrait p-b">
+        <div class="portrait-frame"><img src="__WICSRC{photos.two}__" alt="__WIC_TWO__ in a brown hoodie and white joggers, leaning on a tree on a street covered in autumn leaves" loading="lazy" decoding="async"></div>
+        <figcaption class="script">__WIC_TWO__</figcaption>
+      </figure>
+      <div class="flutter f-a" aria-hidden="true"><img src="assets/img/butterfly-1.webp" alt=""></div>
+      <div class="flutter f-b" aria-hidden="true"><img src="assets/img/butterfly-2.webp" alt=""></div>
+    </div>
+    <blockquote class="verse">
+      <p>The flowers appear on the earth; the time of the singing of birds is come.</p>
+      <cite>Song of Solomon 2:12</cite>
+    </blockquote>
+  </section>
+
+  <!-- ============ Countdown: a petal falls with every second ============ -->
+  <section class="count" id="countdown">
+    <img class="count-branch" id="countBranch" src="assets/img/branch-wide.webp" alt="" loading="lazy" decoding="async">
+    <h2>Until we say I do</h2>
+    <div class="clock" id="clock" role="timer" aria-live="off">
+      <div class="unit"><span class="num" id="cd-d">--</span><span class="lbl">days</span></div>
+      <div class="unit"><span class="num" id="cd-h">--</span><span class="lbl">hours</span></div>
+      <div class="unit"><span class="num" id="cd-m">--</span><span class="lbl">minutes</span></div>
+      <div class="unit"><span class="num" id="cd-s">--</span><span class="lbl">seconds</span></div>
+    </div>
+    <p class="count-note" id="cd-note"></p>
+  </section>
+
+  <!-- ============ The celebrations: signs hung on chains ============ -->
+  <section class="days" id="details">
+    <img class="days-jasmine" src="assets/img/jasmine.webp" alt="" loading="lazy" decoding="async">
+    <h2>The celebrations</h2>
+    <div class="ladder" id="ladder"></div>
+  </section>
+
+  <!-- ============ RSVP: the hummingbird carries the reply ============ -->
+  <section class="rsvp" id="rsvp">
+    <img class="rsvp-garland" src="assets/img/garland.webp" alt="" loading="lazy" decoding="async">
+    <div class="rsvp-head">
+      <img class="rsvp-urn" src="assets/img/urn.webp" alt="" loading="lazy" decoding="async">
+      <h2>Will you join us?</h2>
+      <img class="rsvp-urn flip" src="assets/img/urn.webp" alt="" loading="lazy" decoding="async">
+    </div>
+    <p class="rsvp-for">Kindly reply for the wedding on __WIC_DATE_DM__</p>
+    <div class="rsvp-card" id="rsvpCard">
+      <form id="rsvpForm" novalidate>
+        <div class="field">
+          <label for="rsvp-name">Your name</label>
+          <input type="text" id="rsvp-name" name="name" autocomplete="name" maxlength="120" placeholder="Anna and Joseph Thomas" required>
+        </div>
+        <fieldset>
+          <legend>Will you attend?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" id="rsvp-yes" name="attending" value="yes" checked><span>Joyfully accept</span></label>
+            <label class="choice"><input type="radio" id="rsvp-no" name="attending" value="no"><span>Regretfully decline</span></label>
+          </div>
+        </fieldset>
+        <div class="field" id="guestsField">
+          <span class="legend" id="guests-legend">Number of guests, including you</span>
+          <div class="stepper" role="group" aria-labelledby="guests-legend">
+            <button type="button" id="g-minus" aria-label="One fewer guest">&minus;</button>
+            <output id="rsvp-guests" aria-live="polite">2</output>
+            <button type="button" id="g-plus" aria-label="One more guest">+</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="rsvp-msg">A message for the couple (optional)</label>
+          <textarea id="rsvp-msg" name="message" maxlength="600" placeholder="Your wishes for __WIC_ONE__ and __WIC_TWO__"></textarea>
+        </div>
+        <p class="err" id="rsvpErr" role="alert"></p>
+        <button class="btn solid" type="submit" id="rsvpSubmit">Send my reply</button>
+        <p class="demo-note">This is a sample invitation, so replies aren&rsquo;t saved.</p>
+      </form>
+      <div class="thanks" id="thanks" hidden>
+        <p class="script" id="thanksTitle">Thank you</p>
+        <p id="thanksMsg"></p>
+        <button class="btn" type="button" id="editReply">Change my reply</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Closing ============ -->
+  <footer class="closing">
+    <div class="closing-scene">
+      <img class="closing-photo" src="assets/img/scene-terrace.jpg" alt="A terrace arch draped in pink bougainvillea, looking out over hills at sunset" loading="lazy" decoding="async">
+      <div class="closing-words">
+        <p class="script">__WIC_ONE__<i>&amp;</i>__WIC_TWO__</p>
+        <p>With love from both families</p>
+      </div>
+    </div>
+    <p class="maker"><img src="assets/img/twic-seal.png" alt="" width="34" height="34" loading="lazy" decoding="async">Made by The Wedding Invite Co.</p>
+  </footer>
+</main>
+
+<button class="music" id="musicBtn" type="button" aria-label="Play music" hidden><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+<audio id="music" loop preload="none"></audio>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/garden.js"></script>
+<script src="assets/js/walk.js"></script>
+<script src="assets/js/opening.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

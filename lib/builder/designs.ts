@@ -13,6 +13,11 @@ import himalayan from "@/lib/builder/designs/himalayan.json";
 import receipts from "@/lib/builder/designs/receipts.json";
 import ganeshaDoors from "@/lib/builder/designs/ganesha-doors.json";
 import bougainvillea from "@/lib/builder/designs/bougainvillea.json";
+import maroonArch from "@/lib/builder/designs/maroon-arch.json";
+import cherryBlossom from "@/lib/builder/designs/cherry-blossom.json";
+import teakDoors from "@/lib/builder/designs/teak-doors.json";
+import lotusPond from "@/lib/builder/designs/lotus-pond.json";
+import newYearMoon from "@/lib/builder/designs/new-year-moon.json";
 
 export type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
 export type Config = { [k: string]: Json };
@@ -217,6 +222,77 @@ export const DESIGNS: Design[] = [
       hide: ["info.forecast"],
     },
     bougainvillea
+  ),
+  D(
+    {
+      id: "cherry-blossom",
+      name: "Cherry Blossom",
+      blurb: "Pink blossoms and a hummingbird on white paper. Guests break a wax seal with your initials and walk through a garden; replies fly away with a bird.",
+      tags: ["Christian", "Floral", "Romantic"],
+      one: "couple.first",
+      two: "couple.second",
+      date: "weddingStart",
+      endpoint: "rsvpEndpoint",
+      music: "music",
+    },
+    cherryBlossom
+  ),
+  D(
+    {
+      id: "maroon-arch",
+      name: "Maroon Arch",
+      blurb: "A Mughal arch in gold on deep maroon with paisleys. Break the seal with your initials to reveal the celebrations, the venue and your photos.",
+      tags: ["Hindu", "North Indian", "Elegant"],
+      one: "couple.bride",
+      two: "couple.groom",
+      date: "weddingStart",
+      place: "venue.name",
+      endpoint: "rsvp.endpoint",
+      music: "music",
+    },
+    maroonArch
+  ),
+  D(
+    {
+      id: "teak-doors",
+      name: "Teak Doors",
+      blurb: "Carved teak doors open with a temple bell. Every illustration is hand-drawn, and each celebration has its own reveal: an envelope, a ring box, a dhol, a lamp.",
+      tags: ["Hindu", "North Indian", "Illustrated"],
+      one: "bride",
+      two: "groom",
+      date: "events[3].date",
+      endpoint: "rsvpEndpoint",
+      music: "music",
+    },
+    teakDoors
+  ),
+  D(
+    {
+      id: "lotus-pond",
+      name: "Lotus Pond",
+      blurb: "Guests touch still water and a lotus opens. Malayalam and English, a story in four seasons, the muhurtham and the sadhya.",
+      tags: ["Hindu", "Kerala", "Malayalam"],
+      one: "one",
+      two: "two",
+      date: "date",
+      place: "place",
+      tip: "Every line of this design is editable below, section by section.",
+    },
+    lotusPond
+  ),
+  D(
+    {
+      id: "new-year-moon",
+      name: "New Year Moon",
+      blurb: "A clock ticks to midnight and the new year begins with your wedding. Moonlit, bilingual and made for a celebration that runs late.",
+      tags: ["Christian", "Kerala", "Evening"],
+      one: "one",
+      two: "two",
+      date: "date",
+      place: "place",
+      tip: "Every line of this design is editable below, section by section.",
+    },
+    newYearMoon
   ),
 ];
 

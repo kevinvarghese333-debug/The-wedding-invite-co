@@ -1,0 +1,90 @@
+{
+ "var": "INVITE",
+ "file": "assets/js/config.js",
+ "config": {
+  "couple": {
+   "first": "Sneha",
+   "second": "Jerin"
+  },
+  "weddingStart": "2026-12-30T15:00:00+05:30",
+  "weddingNote": "Wednesday, 30 December 2026, at 3:00 PM",
+  "music": "",
+  "events": [
+   {
+    "id": "engagement",
+    "date": "2026-12-10",
+    "weekday": "Thursday",
+    "title": "Engagement",
+    "parts": [
+     {
+      "time": "4:00 PM",
+      "where": "The Garden Chapel, Kochi",
+      "map": ""
+     }
+    ],
+    "cal": {
+     "start": "2026-12-10T16:00:00+05:30",
+     "end": "2026-12-10T19:00:00+05:30"
+    }
+   },
+   {
+    "id": "madhuram-sangeet",
+    "date": "2026-12-28",
+    "weekday": "Monday",
+    "title": "Madhuram Veppu & Sangeet",
+    "host": "Hosted by both families",
+    "parts": [
+     {
+      "time": "6:30 PM",
+      "where": "The Orchard Lawn, Kochi",
+      "map": ""
+     }
+    ],
+    "cal": {
+     "start": "2026-12-28T18:30:00+05:30",
+     "end": "2026-12-28T22:00:00+05:30"
+    }
+   },
+   {
+    "id": "holy-matrimony",
+    "date": "2026-12-30",
+    "weekday": "Wednesday",
+    "title": "Holy Matrimony",
+    "parts": [
+     {
+      "time": "3:00 PM",
+      "where": "The Garden Chapel, Kochi",
+      "map": ""
+     }
+    ],
+    "cal": {
+     "start": "2026-12-30T15:00:00+05:30",
+     "end": "2026-12-30T17:00:00+05:30"
+    }
+   },
+   {
+    "id": "reception",
+    "date": "2026-12-30",
+    "weekday": "Wednesday",
+    "title": "Wedding Reception",
+    "parts": [
+     {
+      "time": "6:00 PM",
+      "where": "The Orchard Lawn, Kochi",
+      "map": ""
+     }
+    ],
+    "cal": {
+     "start": "2026-12-30T18:00:00+05:30",
+     "end": "2026-12-30T22:00:00+05:30"
+    }
+   }
+  ],
+  "rsvpEndpoint": "",
+  "photos": {
+   "couple": "assets/img/couple-photo.jpg",
+   "one": "assets/img/portrait-one.jpg",
+   "two": "assets/img/portrait-two.jpg"
+  }
+ }
+}
