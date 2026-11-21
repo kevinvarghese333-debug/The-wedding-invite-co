@@ -1,0 +1,132 @@
+{
+ "var": "INVITE",
+ "file": "assets/js/config.js",
+ "config": {
+  "bride": "Tara",
+  "groom": "Advait",
+  "hashtag": "#TaraFoundHerAdvait",
+  "weddingAt": "2027-03-13T18:30:00+05:30",
+  "families": {
+   "bride": {
+    "parents": "Mrs. Sunita & Mr. Rajeev Malhotra",
+    "place": "Dehradun"
+   },
+   "groom": {
+    "parents": "Mrs. Anjali & Mr. Vikram Rawat",
+    "place": "New Delhi"
+   },
+   "blessings": "Smt. Kamla Devi Malhotra & Late Shri Harish Malhotra"
+  },
+  "events": [
+   {
+    "id": "mehendi",
+    "name": "Mehendi",
+    "date": "Thursday, 11 March 2027",
+    "time": "11:00 AM",
+    "venue": "The Deodar Courtyard, Neelkanth Hills",
+    "route": "Shuttles leave the hotel lobby every 20 minutes from 10:30."
+   },
+   {
+    "id": "haldi",
+    "name": "Haldi",
+    "date": "Thursday, 11 March 2027",
+    "time": "4:00 PM",
+    "venue": "Riverside Lawn, Neelkanth Hills",
+    "route": "A five-minute walk downhill from the courtyard. Follow the marigolds."
+   },
+   {
+    "id": "cocktail",
+    "name": "Cocktail",
+    "date": "Thursday, 11 March 2027",
+    "time": "8:00 PM",
+    "venue": "The Pine Terrace, Neelkanth Hills",
+    "route": "Take the stone steps up from the hotel lobby."
+   },
+   {
+    "id": "prewedding",
+    "name": "Pre-Wedding",
+    "date": "Friday, 12 March 2027",
+    "time": "7:00 PM",
+    "venue": "The Grand Durbar Hall, Neelkanth Hills",
+    "route": "Inside the main hotel, on the ground floor past reception."
+   },
+   {
+    "id": "shaadi",
+    "name": "Shaadi",
+    "date": "Saturday, 13 March 2027",
+    "time": "6:30 PM",
+    "venue": "The Hilltop Temple Lawn, Neelkanth Hills",
+    "route": "The baraat leaves the hotel gate at 5:00 PM. Walk with us or take a shuttle."
+   },
+   {
+    "id": "reception",
+    "name": "Reception",
+    "date": "Sunday, 14 March 2027",
+    "time": "7:30 PM",
+    "venue": "The Grand Durbar Hall, Neelkanth Hills",
+    "route": "Inside the main hotel, on the ground floor past reception."
+   }
+  ],
+  "map": {
+   "label": "Neelkanth Hills, Rishikesh",
+   "url": "https://www.google.com/maps/search/?api=1&query=Rishikesh%2C+Uttarakhand"
+  },
+  "couple": {
+   "message": "We met on a trek neither of us was fit enough for, and we have been walking side by side ever since. These hills gave us our first chapter, so we are bringing the people we love back here for the next one. Come for the rituals, stay for the dancing, and bring shoes you can climb in."
+  },
+  "gallery": [
+   {
+    "src": "assets/img/gallery/1.jpg",
+    "alt": "Tara and Advait"
+   },
+   {
+    "src": "assets/img/gallery/2.jpg",
+    "alt": "Tara and Advait"
+   },
+   {
+    "src": "assets/img/gallery/3.jpg",
+    "alt": "Tara and Advait"
+   },
+   {
+    "src": "assets/img/gallery/4.jpg",
+    "alt": "Tara and Advait"
+   },
+   {
+    "src": "assets/img/gallery/5.jpg",
+    "alt": "Tara and Advait"
+   }
+  ],
+  "rsvp": {
+   "whatsapp": "",
+   "message": "Namaste! We'd love to join Tara and Advait's wedding. Guests attending: ",
+   "by": "Please reply by 15 February 2027"
+  },
+  "guestInfo": [
+   {
+    "id": "hashtag",
+    "title": "Share your photos",
+    "text": "Tag everything you post with {hashtag} so we can find it later."
+   },
+   {
+    "id": "weather",
+    "title": "Weather",
+    "text": "Expect 24°C by day and 11°C after sunset. Pack a warm layer for the evening events."
+   },
+   {
+    "id": "staff",
+    "title": "Staff accommodation",
+    "text": "Rooms for drivers and nannies are booked at Hill View Lodge, 400 metres from the main gate."
+   },
+   {
+    "id": "parking",
+    "title": "Parking",
+    "text": "Free valet at the main gate. Self-parking is at the lower lot, with a shuttle up to the hotel."
+   }
+  ],
+  "instagram": {
+   "handle": "@tara.and.advait",
+   "url": "https://www.instagram.com/"
+  },
+  "music": "assets/audio/wedding-loop.mp3"
+ }
+}

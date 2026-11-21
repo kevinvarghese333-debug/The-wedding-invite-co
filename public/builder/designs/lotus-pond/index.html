@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en" class="is-locked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wedding invitation</title>
+<meta name="theme-color" content="#061716">
+<!-- Link preview (WhatsApp, iMessage, Instagram) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B2A2A'/%3E%3Cpath d='M16 25c-5-3-6-9 0-16 6 7 5 13 0 16z' fill='%23E98AAA'/%3E%3Cpath d='M16 25c-6 0-10-4-11-9 5 0 9 3 11 9zM16 25c6 0 10-4 11-9-5 0-9 3-11 9z' fill='%23D6457A'/%3E%3C/svg%3E">
+<script>
+  document.documentElement.classList.add('js');
+  // Always start at the pond, even on reload
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  // If the opening script never runs, show the page anyway.
+  setTimeout(function () { if (!window.__opening) document.documentElement.classList.remove('js', 'is-locked'); }, 4000);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300..600&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..500,0..100;1,9..144,300..500,0..100&family=Manjari:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/invite.css">
+</head>
+<body>
+
+<!-- The pond: the opening plays here, and it stays as the first screen -->
+<section class="pond-scene" id="top" aria-label="__WIC_ONE__ and __WIC_TWO__">
+  <canvas id="pond" aria-hidden="true"></canvas>
+  <picture class="pond-still" aria-hidden="true">
+    <source media="(min-aspect-ratio: 1/1)" srcset="assets/img/hero-wide.jpg">
+    <img src="__WICSRC{photos.hero}__" alt="">
+  </picture>
+  <div class="pond-shade" aria-hidden="true"></div>
+  <div class="pond-fog" aria-hidden="true"></div>
+
+  <div class="pads" aria-hidden="true">
+    <div class="pad" style="--x:6%;--y:84%;--s:30;--r:20deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:94%;--y:76%;--s:26;--r:-50deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:14%;--y:24%;--s:17;--r:120deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:84%;--y:18%;--s:21;--r:205deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:73%;--y:104%;--s:34;--r:80deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:-2%;--y:50%;--s:22;--r:160deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:102%;--y:44%;--s:19;--r:10deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+    <div class="pad" style="--x:30%;--y:5%;--s:13;--r:250deg"><svg viewBox="-105 -105 210 210"><use href="#padleaf"/></svg></div>
+  </div>
+
+  <div class="lotus" aria-hidden="true">
+    <div class="lotus-in">
+      <svg viewBox="-220 -200 440 300">
+        <defs>
+          <linearGradient id="pf" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#FDF1F4"/><stop offset=".42" stop-color="#F5B6CA"/><stop offset="1" stop-color="#D9497F"/>
+          </linearGradient>
+          <linearGradient id="pb" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#F7CFDB"/><stop offset=".5" stop-color="#E585A7"/><stop offset="1" stop-color="#B42F63"/>
+          </linearGradient>
+          <linearGradient id="pl" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#EBAFC2"/><stop offset="1" stop-color="#9E2A57"/>
+          </linearGradient>
+          <linearGradient id="pod" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F1DD7C"/><stop offset="1" stop-color="#A9A53E"/>
+          </linearGradient>
+          <radialGradient id="glow">
+            <stop offset="0" stop-color="#F8C9D8" stop-opacity=".55"/><stop offset=".45" stop-color="#D6457A" stop-opacity=".16"/><stop offset="1" stop-color="#D6457A" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.5"/></filter>
+          <path id="petal" d="M0 0C-30-26-33-96 0-150C33-96 30-26 0 0Z"/>
+        </defs>
+        <circle class="glow" cx="0" cy="-64" r="190" fill="url(#glow)"/>
+        <use class="reflection" href="#flower" transform="translate(0 12) scale(1 -.5)" filter="url(#soft)"/>
+        <g class="cradle" transform="translate(0 6) scale(1.5 .3)"><use href="#padleaf" transform="rotate(64)"/></g>
+        <g id="flower" class="flower">
+          <g class="row">
+            <g class="petal" data-a="-96" data-s=".78"><use href="#petal" fill="url(#pl)"/></g>
+            <g class="petal" data-a="96" data-s=".78"><use href="#petal" fill="url(#pl)"/></g>
+          </g>
+          <g class="row">
+            <g class="petal" data-a="-58" data-s=".96"><use href="#petal" fill="url(#pb)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="58" data-s=".96"><use href="#petal" fill="url(#pb)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="-29" data-s="1"><use href="#petal" fill="url(#pb)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="29" data-s="1"><use href="#petal" fill="url(#pb)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="0" data-s="1.04"><use href="#petal" fill="url(#pb)"/><path class="vein" d="M0-8V-136"/></g>
+          </g>
+          <g class="heart">
+            <g class="stamens"></g>
+            <path d="M-21-48Q0-41 21-48L16-61Q0-66-16-61Z" fill="url(#pod)"/>
+            <ellipse cx="0" cy="-61" rx="16" ry="4" fill="#F4E38E"/>
+          </g>
+          <g class="row">
+            <g class="petal" data-a="-70" data-s=".8"><use href="#petal" fill="url(#pf)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="70" data-s=".8"><use href="#petal" fill="url(#pf)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="-37" data-s=".88"><use href="#petal" fill="url(#pf)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="37" data-s=".88"><use href="#petal" fill="url(#pf)"/><path class="vein" d="M0-8V-136"/></g>
+            <g class="petal" data-a="0" data-s=".44"><use href="#petal" fill="url(#pf)"/></g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <canvas id="motes" aria-hidden="true"></canvas>
+
+  <div class="topbar">
+    <span class="mono" aria-hidden="true">__WIC_I1__<svg viewBox="0 0 24 24"><path d="M12 19c-3.6-2.3-4.4-6.6 0-11.6 4.4 5 3.6 9.3 0 11.6z"/><path d="M12 19c-4.4 0-7.4-2.8-8-6.6 3.6 0 6.5 2.3 8 6.6zM12 19c4.4 0 7.4-2.8 8-6.6-3.6 0-6.5 2.3-8 6.6z"/></svg>__WIC_I2__</span>
+    <button class="skip" type="button">__WIC{text.top.t1}__</button>
+  </div>
+
+  <div class="intro">
+    <p class="kicker">__WIC{text.top.t2}__</p>
+    <p class="tease">__WIC{text.top.t3}__</p>
+    <button class="touch" type="button"><span class="drop" aria-hidden="true"><i></i><i></i></span>__WIC{text.top.t4}__</button>
+    <p class="hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+      __WIC{text.top.t5}__
+    </p>
+  </div>
+
+  <div class="bloom-words" aria-hidden="true">
+    <p class="ml" lang="ml">__WIC{text.top.t6}__ <i>✦</i> __WIC{text.top.t7}__</p>
+    <p class="names"><span class="n1">__WIC_ONE__</span> <span class="amp">&amp;</span> <span class="n2">__WIC_TWO__</span></p>
+    <p class="sub">__WIC{text.top.t8}__</p>
+  </div>
+
+  <div class="hero-words">
+    <p class="kicker">__WIC{text.top.t9}__</p>
+    <h1 class="hero-names">__WIC_ONE__ <span class="amp">&amp;</span> __WIC_TWO__</h1>
+    <p class="hero-when">__WIC{text.top.t10}__<span class="sep"> · </span><span class="place">__WIC{text.top.t11}__</span></p>
+  </div>
+  <a class="scrollcue" href="#invite"><span>__WIC{text.top.t12}__</span><i></i></a>
+</section>
+
+<section class="words" id="invite" aria-label="Invitation">
+  <div class="words-inner">
+    <svg class="lotus-line rv" viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" aria-hidden="true">
+      <path d="M60 58C50 50 47 34 60 14 73 34 70 50 60 58Z"/>
+      <path d="M60 58C46 58 34 48 31 34 45 34 56 44 60 58ZM60 58C74 58 86 48 89 34 75 34 64 44 60 58Z"/>
+      <path d="M60 58C42 62 22 56 12 44 28 40 48 46 60 58ZM60 58C78 62 98 56 108 44 92 40 72 46 60 58Z"/>
+      <path d="M2 61H118"/>
+    </svg>
+    <p class="w-bless rv" lang="ml">__WIC{text.invite.t1}__</p>
+    <p class="w-lead rv">__WIC{text.invite.t2}__<br>__WIC{text.invite.t3}__</p>
+    <div class="w-parents">
+      <div class="rv">
+        <p class="w-name">__WIC_ONE__</p>
+        <p class="w-of">__WIC{text.invite.t4}__</p>
+        <p class="w-par">__WIC{text.invite.t5}__ &amp; __WIC{text.invite.t6}__</p>
+        <p class="w-house">__WIC{text.invite.t7}__</p>
+      </div>
+      <span class="w-amp rv" aria-hidden="true">&amp;</span>
+      <div class="rv">
+        <p class="w-name">__WIC_TWO__</p>
+        <p class="w-of">__WIC{text.invite.t8}__</p>
+        <p class="w-par">__WIC{text.invite.t9}__ &amp; __WIC{text.invite.t10}__</p>
+        <p class="w-house">__WIC{text.invite.t11}__</p>
+      </div>
+    </div>
+    <p class="w-req rv">__WIC{text.invite.t12}__<br>__WIC{text.invite.t13}__<br><b>__WIC{text.invite.t14}__</b></p>
+    <p class="w-date rv">__WIC{text.invite.t15}__</p>
+  </div>
+</section>
+
+<!-- Our story: four chapters along a stream that draws itself -->
+<section class="story" id="story" aria-label="Our story">
+  <header class="story-intro">
+    <p class="kicker rv">__WIC{text.story.t1}__</p>
+    <h2 class="rv">__WIC{text.story.t2}__ <br class="m">__WIC{text.story.t3}__</h2>
+  </header>
+  <div class="stream">
+    <svg class="stream-line" aria-hidden="true"><path class="stream-bed"/><path class="stream-flow"/></svg>
+    <span class="stream-bud" aria-hidden="true"></span>
+
+    <article class="chap">
+      <span class="chap-year" aria-hidden="true">2019</span>
+      <figure class="chap-photo"><img src="__WICSRC{photos.pooram}__" width="1100" height="733" loading="lazy" alt="Caparisoned elephants and bright umbrellas at Thrissur Pooram" style="object-position:62% 50%"></figure>
+      <div class="chap-text">
+        <p class="chap-when">__WIC{text.story.t4}__</p>
+        <h3>__WIC{text.story.t5}__</h3>
+        <p>__WIC{text.story.t6}__</p>
+      </div>
+    </article>
+
+    <article class="chap">
+      <span class="chap-year" aria-hidden="true">2022</span>
+      <figure class="chap-photo"><img src="__WICSRC{photos.boat}__" width="1100" height="609" loading="lazy" alt="__WIC_ONE__ and __WIC_TWO__ on an old wooden boat in a field of lotus leaves" style="object-position:60% 55%"></figure>
+      <div class="chap-text">
+        <p class="chap-when">__WIC{text.story.t7}__</p>
+        <h3>__WIC{text.story.t8}__</h3>
+        <p>__WIC{text.story.t9}__</p>
+      </div>
+    </article>
+
+    <article class="chap">
+      <span class="chap-year" aria-hidden="true">2025</span>
+      <figure class="chap-photo"><img src="__WICSRC{photos.mist}__" width="1100" height="1650" loading="lazy" alt="__WIC_ONE__ and __WIC_TWO__ forehead to forehead in a misty meadow" style="object-position:50% 70%"></figure>
+      <div class="chap-text">
+        <p class="chap-when">__WIC{text.story.t10}__</p>
+        <h3>__WIC{text.story.t11}__</h3>
+        <p>__WIC{text.story.t12}__</p>
+      </div>
+    </article>
+
+    <article class="chap">
+      <span class="chap-year" aria-hidden="true">2027</span>
+      <figure class="chap-photo"><img src="__WICSRC{photos.lotus_face}__" width="1100" height="1650" loading="lazy" alt="__WIC_ONE__ holding a pink lotus to her face as __WIC_TWO__ holds her" style="object-position:40% 30%"></figure>
+      <div class="chap-text">
+        <p class="chap-when">__WIC{text.story.t13}__</p>
+        <h3>__WIC{text.story.t14}__</h3>
+        <p>__WIC{text.story.t15}__</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- The celebrations, on the dark water again -->
+<section class="fns" id="celebrations" aria-label="The celebrations">
+  <div class="fns-bg" aria-hidden="true"><img src="__WICSRC{photos.pads}__" alt="" loading="lazy"></div>
+  <header class="fns-intro">
+    <p class="kicker rv">__WIC{text.celebrations.t1}__</p>
+    <h2 class="rv">__WIC{text.celebrations.t2}__ <br class="m">__WIC{text.celebrations.t3}__</h2>
+  </header>
+
+  <article class="muhurtham">
+    <div class="dial" aria-hidden="true">
+      <svg viewBox="-120 -120 240 240">
+        <g class="dial-ticks"></g>
+        <circle class="dial-track" r="92"/>
+        <path class="dial-arc"/>
+        <g class="dial-sun"><circle r="7"/><circle r="13" class="halo"/></g>
+        <g class="dial-hand"><line y1="-66" y2="-84"/></g>
+      </svg>
+      <div class="dial-face">
+        <span class="dial-label">__WIC{text.celebrations.t4}__</span>
+        <span class="dial-time">10:42</span>
+        <span class="dial-to">__WIC{text.celebrations.t5}__</span>
+      </div>
+    </div>
+    <div class="mu-text">
+      <p class="fn-date"><span class="fn-num"><span>21</span></span><span class="fn-dm">__WIC{text.celebrations.t6}__<br>__WIC{text.celebrations.t7}__</span></p>
+      <h3>__WIC{text.celebrations.t8}__ <span lang="ml">__WIC{text.celebrations.t9}__</span></h3>
+      <p class="fn-time">__WIC{text.celebrations.t10}__</p>
+      <p class="fn-place"><b>__WIC{text.celebrations.t11}__</b><br>__WIC{text.celebrations.t12}__</p>
+      <p class="fn-note">__WIC{text.celebrations.t13}__</p>
+      <div class="fn-actions">
+        <a class="btn" href="__WICURL{links.map1}__" target="_blank" rel="noopener">__WIC{text.celebrations.t14}__</a>
+        <button class="btn outline" type="button" data-cal="1">__WIC{text.celebrations.t15}__</button>
+      </div>
+    </div>
+  </article>
+
+  <div class="fn-row">
+    <article class="fn">
+      <div class="fn-top">
+        <p class="fn-date"><span class="fn-num"><span>20</span></span><span class="fn-dm">__WIC{text.celebrations.t16}__<br>__WIC{text.celebrations.t17}__</span></p>
+        <svg class="fn-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 26v-9.5a2 2 0 0 1 4 0V15a2 2 0 0 1 4 0v1.5a2 2 0 0 1 4 0V22a4 4 0 0 1-4 4z"/><path d="M13 15V6a2 2 0 0 0-4 0v10.5"/><circle cx="16" cy="21" r="1.4"/><path d="M5 9c1-2 2-2 3-1M4 13c1-1 2-1 3 0"/></svg>
+      </div>
+      <h3>__WIC{text.celebrations.t18}__ &amp; __WIC{text.celebrations.t19}__</h3>
+      <p class="fn-time">__WIC{text.celebrations.t20}__</p>
+      <p class="fn-place"><b>__WIC{text.celebrations.t21}__</b><br>__WIC{text.celebrations.t22}__</p>
+      <p class="fn-note">__WIC{text.celebrations.t23}__</p>
+      <div class="fn-actions">
+        <a class="btn" href="__WICURL{links.map2}__" target="_blank" rel="noopener">__WIC{text.celebrations.t24}__</a>
+        <button class="btn outline" type="button" data-cal="0">__WIC{text.celebrations.t25}__</button>
+      </div>
+      <span class="kasavu" aria-hidden="true"></span>
+    </article>
+
+    <article class="fn">
+      <div class="fn-top">
+        <p class="fn-date"><span class="fn-num"><span>21</span></span><span class="fn-dm">__WIC{text.celebrations.t26}__<br>__WIC{text.celebrations.t27}__</span></p>
+        <svg class="fn-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 17c4-1 7-6 12-6s9 3 12 2c-2 5-7 8-12 8-6 0-9-2-12-4z"/><path d="M5 16.5C9 15 13 14 20 14.5"/><circle cx="10" cy="11" r="2"/><circle cx="16" cy="9.5" r="2"/></svg>
+      </div>
+      <h3>__WIC{text.celebrations.t28}__</h3>
+      <p class="fn-time">__WIC{text.celebrations.t29}__</p>
+      <p class="fn-place"><b>__WIC{text.celebrations.t30}__</b><br>__WIC{text.celebrations.t31}__</p>
+      <p class="fn-note">__WIC{text.celebrations.t32}__</p>
+      <div class="fn-actions">
+        <a class="btn" href="__WICURL{links.map3}__" target="_blank" rel="noopener">__WIC{text.celebrations.t33}__</a>
+        <button class="btn outline" type="button" data-cal="2">__WIC{text.celebrations.t34}__</button>
+      </div>
+      <span class="kasavu" aria-hidden="true"></span>
+    </article>
+
+    <article class="fn">
+      <div class="fn-top">
+        <p class="fn-date"><span class="fn-num"><span>21</span></span><span class="fn-dm">__WIC{text.celebrations.t35}__<br>__WIC{text.celebrations.t36}__</span></p>
+        <svg class="fn-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v22M9 25h10"/><path d="M14 5c-3 1-5 3-5 6h10c0-3-2-5-5-6z"/><path d="M7 13c0 2 3 4 7 4s7-2 7-4"/><path d="M11 20.5c1 .7 2 1 3 1s2-.3 3-1"/></svg>
+      </div>
+      <h3>__WIC{text.celebrations.t37}__</h3>
+      <p class="fn-time">__WIC{text.celebrations.t38}__</p>
+      <p class="fn-place"><b>__WIC{text.celebrations.t39}__</b><br>__WIC{text.celebrations.t40}__</p>
+      <p class="fn-note">__WIC{text.celebrations.t41}__</p>
+      <div class="fn-actions">
+        <a class="btn" href="__WICURL{links.map4}__" target="_blank" rel="noopener">__WIC{text.celebrations.t42}__</a>
+        <button class="btn outline" type="button" data-cal="3">__WIC{text.celebrations.t43}__</button>
+      </div>
+      <span class="kasavu" aria-hidden="true"></span>
+    </article>
+  </div>
+</section>
+
+<!-- The sadhya, served dish by dish on a banana leaf -->
+<section class="sadhya" id="sadhya" aria-label="The sadhya">
+  <header class="sadhya-intro">
+    <p class="kicker rv">__WIC{text.sadhya.t1}__</p>
+    <h2 class="rv">__WIC{text.sadhya.t2}__</h2>
+    <p class="sadhya-lede rv">__WIC{text.sadhya.t3}__</p>
+  </header>
+  <div class="leaf-wrap rv">
+    <div class="leaf-scroll">
+      <svg class="leaf" viewBox="0 0 1000 440" role="img" aria-labelledby="leaf-title">
+        <title id="leaf-title">A banana leaf with the dishes of a Kerala wedding sadhya</title>
+        <defs>
+          <linearGradient id="leafg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3E8A4E"/><stop offset=".55" stop-color="#2F7440"/><stop offset="1" stop-color="#25603A"/>
+          </linearGradient>
+        </defs>
+        <g class="leaf-body">
+          <path class="leaf-blade" d="M18 214C60 118 190 52 400 36 610 22 840 34 984 64 990 170 990 280 984 386 840 414 610 420 400 406 190 392 62 314 18 214Z" fill="url(#leafg)"/>
+          <path class="leaf-rib" d="M22 214C300 210 640 214 986 222"/>
+          <g class="leaf-veins"></g>
+        </g>
+        <g class="dishes"></g>
+      </svg>
+    </div>
+    <p class="leaf-hint">__WIC{text.sadhya.t4}__ <span aria-hidden="true">→</span></p>
+  </div>
+  <ol class="dish-list"></ol>
+</section>
+
+<!-- Countdown, over a water lily -->
+<section class="cd" id="countdown" aria-label="Countdown">
+  <div class="cd-bg" aria-hidden="true"><img src="__WICSRC{photos.lily_dark}__" alt="" loading="lazy"></div>
+  <p class="kicker rv">__WIC{text.countdown.t1}__</p>
+  <h2 class="rv">__WIC{text.countdown.t2}__</h2>
+  <div class="cd-units rv" role="timer" aria-label="Time until the wedding">
+    <div class="cd-unit"><div class="cd-num" data-unit="d"></div><span class="cd-label">__WIC{text.countdown.t3}__</span></div>
+    <div class="cd-unit"><div class="cd-num" data-unit="h"></div><span class="cd-label">__WIC{text.countdown.t4}__</span></div>
+    <div class="cd-unit"><div class="cd-num" data-unit="m"></div><span class="cd-label">__WIC{text.countdown.t5}__</span></div>
+    <div class="cd-unit"><div class="cd-num" data-unit="s"></div><span class="cd-label">__WIC{text.countdown.t6}__</span></div>
+  </div>
+  <p class="cd-when rv">__WIC{text.countdown.t7}__<span class="sep"> · </span><span class="place">__WIC{text.countdown.t8}__</span></p>
+  <p class="cd-done">__WIC{text.countdown.t9}__</p>
+</section>
+
+<!-- Gallery: photos standing on the water, with their reflections -->
+<section class="gal" id="gallery" aria-label="Gallery">
+  <header class="gal-intro">
+    <p class="kicker rv">__WIC{text.gallery.t1}__</p>
+    <h2 class="rv">__WIC{text.gallery.t2}__ <br class="m">__WIC{text.gallery.t3}__</h2>
+  </header>
+  <div class="gal-strip" tabindex="0" aria-label="Photos, scroll sideways">
+    <button class="gal-item" type="button"><img src="__WICSRC{photos.hero}__" width="1400" height="2100" loading="lazy" alt="__WIC_ONE__ and __WIC_TWO__ close together, holding pink lotuses"></button>
+    <button class="gal-item" type="button"><img src="__WICSRC{photos.lotus_teal}__" width="1100" height="1278" loading="lazy" alt="A pink lotus in bloom against dark water"></button>
+    <button class="gal-item" type="button"><img src="__WICSRC{photos.meadow}__" width="1100" height="1650" loading="lazy" alt="__WIC_ONE__ and __WIC_TWO__ standing in a misty meadow, smiling at each other"></button>
+    <button class="gal-item wide" type="button"><img src="__WICSRC{photos.temple}__" width="1100" height="733" loading="lazy" alt="Tiered tiled roofs of a Kerala temple against the sky"></button>
+    <button class="gal-item" type="button"><img src="__WICSRC{photos.jasmine}__" width="1100" height="1651" loading="lazy" alt="Strings of jasmine in a bride's hair"></button>
+    <button class="gal-item" type="button"><img src="__WICSRC{photos.grass}__" width="1100" height="1650" loading="lazy" alt="__WIC_ONE__ and __WIC_TWO__ sitting in the long grass, laughing"></button>
+    <button class="gal-item wide" type="button"><img src="__WICSRC{photos.lamp}__" width="1100" height="734" loading="lazy" alt="A brass oil lamp with two flames"></button>
+    <button class="gal-item" type="button"><img src="__WICSRC{photos.lilies}__" width="1100" height="1650" loading="lazy" alt="Pale pink water lilies among their leaves"></button>
+  </div>
+  <div class="gal-nav">
+    <button class="gal-btn" type="button" data-dir="-1" aria-label="Previous photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="gal-progress" aria-hidden="true"><i></i></div>
+    <button class="gal-btn" type="button" data-dir="1" aria-label="Next photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<section class="rsvp" id="rsvp" aria-label="RSVP">
+  <header class="rsvp-intro">
+    <p class="kicker rv">__WIC{text.rsvp.t1}__</p>
+    <h2 class="rv">__WIC{text.rsvp.t2}__ <br class="m">__WIC{text.rsvp.t3}__</h2>
+    <p class="rsvp-lede rv">__WIC{text.rsvp.t4}__</p>
+  </header>
+
+  <form class="rsvp-card rv" novalidate>
+    <div class="rsvp-form">
+      <label class="field"><span>__WIC{text.rsvp.t5}__</span><input name="name" autocomplete="name" required></label>
+      <label class="field"><span>__WIC{text.rsvp.t6}__ <i>__WIC{text.rsvp.t7}__</i></span><input name="phone" type="tel" inputmode="tel" autocomplete="tel"></label>
+
+      <fieldset class="choice">
+        <legend>__WIC{text.rsvp.t8}__</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="attend" value="yes" checked><span>__WIC{text.rsvp.t9}__</span></label>
+          <label class="chip"><input type="radio" name="attend" value="no"><span>__WIC{text.rsvp.t10}__</span></label>
+        </div>
+      </fieldset>
+
+      <div class="if-yes">
+        <fieldset class="choice">
+          <legend>__WIC{text.rsvp.t11}__</legend>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="fn" value="the Mehendi" checked><span>__WIC{text.rsvp.t12}__</span></label>
+            <label class="chip"><input type="checkbox" name="fn" value="the Muhurtham" checked><span>__WIC{text.rsvp.t13}__</span></label>
+            <label class="chip"><input type="checkbox" name="fn" value="the Sadhya" checked><span>__WIC{text.rsvp.t14}__</span></label>
+            <label class="chip"><input type="checkbox" name="fn" value="the Reception" checked><span>__WIC{text.rsvp.t15}__</span></label>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <div class="field stepper">
+            <span id="guests-label">__WIC{text.guests_label.t1}__</span>
+            <div class="step">
+              <button type="button" data-step="-1" aria-label="One fewer guest">−</button>
+              <output name="guests" aria-labelledby="guests-label" aria-live="polite">2</output>
+              <button type="button" data-step="1" aria-label="One more guest">+</button>
+            </div>
+          </div>
+          <fieldset class="choice">
+            <legend>__WIC{text.rsvp.t16}__</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="food" value="vegetarian" checked><span>__WIC{text.rsvp.t17}__</span></label>
+              <label class="chip"><input type="radio" name="food" value="non-vegetarian"><span>__WIC{text.rsvp.t18}__</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <label class="toggle"><input type="checkbox" name="stay"><span class="sw" aria-hidden="true"></span><span>__WIC{text.rsvp.t19}__</span></label>
+      </div>
+
+      <label class="field"><span>__WIC{text.rsvp.t20}__ <i>__WIC{text.rsvp.t21}__</i></span><textarea name="wish" rows="3"></textarea></label>
+
+      <p class="rsvp-error" role="alert"></p>
+      <button class="btn rsvp-send" type="submit">__WIC{text.rsvp.t22}__</button>
+      <p class="rsvp-demo">__WIC{text.rsvp.t23}__</p>
+    </div>
+
+    <div class="rsvp-done" hidden tabindex="-1">
+      <p class="kicker">__WIC{text.rsvp.t24}__</p>
+      <h3>__WIC{text.rsvp.t25}__ <span class="who"></span></h3>
+      <p class="done-msg"></p>
+      <button class="btn outline" type="button" data-again>__WIC{text.rsvp.t26}__</button>
+    </div>
+  </form>
+</section>
+
+<section class="closing" id="closing" aria-label="Closing">
+  <svg class="dusk-lotus" viewBox="-160 -170 320 190" aria-hidden="true">
+    <g class="dl-petals"></g>
+    <path class="dl-water" d="M-150 6H150"/>
+  </svg>
+  <p class="kicker">__WIC{text.closing.t1}__</p>
+  <h2>__WIC{text.closing.t2}__</h2>
+  <p class="closing-line">__WIC_ONE__ &amp; __WIC_TWO__ · Sunday 21 February 2027 · Guruvayur</p>
+  <div class="closing-credit">
+    <p>__WIC{text.closing.t3}__</p>
+    <p class="maker"><img src="assets/img/twic-seal.png" width="44" height="44" alt="">__WIC{text.closing.t4}__</p>
+  </div>
+</section>
+
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+  <img class="lb-img" src="" alt="">
+  <button class="lb-btn lb-close" type="button" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Previous photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="lb-btn lb-next" type="button" aria-label="Next photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <p class="lb-count"></p>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="padg" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#29593F"/><stop offset=".7" stop-color="#1A402F"/><stop offset="1" stop-color="#102A1D"/>
+    </radialGradient>
+    <radialGradient id="padsheen" cx=".3" cy=".25" r=".6">
+      <stop offset="0" stop-color="#CFE8D2" stop-opacity=".14"/><stop offset="1" stop-color="#CFE8D2" stop-opacity="0"/>
+    </radialGradient>
+    <g id="padleaf">
+      <path d="M0 0L99-13.9A100 100 0 1 0 99 13.9Z" fill="url(#padg)"/>
+      <path d="M0 0L99-13.9A100 100 0 1 0 99 13.9Z" fill="url(#padsheen)"/>
+      <path d="M4 0H-94M3-4L-66-70M3 4L-66 70M0-4V-96M0 4V96M2-6L50-86M2 6L50 86M-2-3L-88-38M-2 3L-88 38M2-6L84-50M2 6L84 50" stroke="#0B2418" stroke-opacity=".28" stroke-width="1"/>
+      <path d="M99-13.9A100 100 0 1 0 99 13.9" fill="none" stroke="#9CC7A6" stroke-opacity=".22" stroke-width="1.5"/>
+    </g>
+  </defs>
+</svg>
+
+<button class="sound" type="button" aria-label="Turn sound off" aria-pressed="false" hidden>
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path d="M16 10l4 4M20 10l-4 4"/></svg>
+</button>
+
+<script src="js/config.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/pond.js"></script>
+<script src="assets/js/opening.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

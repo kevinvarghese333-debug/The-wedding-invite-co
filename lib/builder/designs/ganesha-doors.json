@@ -1,0 +1,57 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "bride": {
+    "first": "Ishani",
+    "last": "Mehra"
+   },
+   "groom": {
+    "first": "Rudra",
+    "last": "Thakur"
+   }
+  },
+  "parents": {
+   "bride": "Smt. Meera and Shri Arvind Mehra",
+   "groom": "Smt. Kavita and Shri Vikram Thakur"
+  },
+  "wedding": {
+   "start": "2027-04-24T19:15:00+05:30",
+   "venue": "Triyuginarayan Temple",
+   "place": "Rudraprayag, Uttarakhand",
+   "map": "https://www.google.com/maps/search/?api=1&query=Triyuginarayan+Temple+Rudraprayag"
+  },
+  "ceremonies": [
+   {
+    "day": "Friday, 23 April",
+    "time": "11:00 AM",
+    "title": "Haldi and Mehendi",
+    "place": "Riverside lawn, Sonprayag"
+   },
+   {
+    "day": "Friday, 23 April",
+    "time": "7:30 PM",
+    "title": "Sangeet",
+    "place": "Riverside lawn, Sonprayag"
+   },
+   {
+    "day": "Saturday, 24 April",
+    "time": "4:30 PM",
+    "title": "Baraat",
+    "place": "From the temple gate"
+   },
+   {
+    "day": "Saturday, 24 April",
+    "time": "7:15 PM",
+    "title": "Pheras",
+    "place": "Triyuginarayan Temple"
+   }
+  ],
+  "rsvp": {
+   "deadline": "2027-03-24",
+   "maxGuests": 4,
+   "whatsapp": ""
+  }
+ }
+}

@@ -1,0 +1,184 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "one": {
+    "first": "Aarav",
+    "family": "Bhandari"
+   },
+   "two": {
+    "first": "Tanvi",
+    "family": "Negi"
+   },
+   "joiner": "weds"
+  },
+  "dateLine": "14 · 04 · 2027\nMussoorie",
+  "wedding": {
+   "start": "2027-04-14T18:30:00+05:30",
+   "timezone": "Asia/Kolkata"
+  },
+  "blessing": {
+   "invocation": "॥ ॐ श्री गणेशाय नमः ॥",
+   "line": "With the heavenly blessings of",
+   "elders": "Smt. Savitri Devi & Late Shri Govind Singh Bhandari",
+   "hosts": "Mrs. Rekha & Mr. Pradeep Bhandari",
+   "request": "request the pleasure of your company at the wedding of their son"
+  },
+  "partner": {
+   "label": "Daughter of",
+   "parents": "Mrs. Kavita & Mr. Harish Negi",
+   "next": "On the following events"
+  },
+  "events": [
+   {
+    "name": "Mehendi",
+    "art": "assets/ev-mehendi.webp",
+    "start": "2027-04-12T12:00:00+05:30",
+    "venue": "The Cedar Lawns",
+    "place": "Mussoorie",
+    "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+   },
+   {
+    "name": "Cocktail",
+    "art": "assets/ev-cocktail.webp",
+    "start": "2027-04-12T20:00:00+05:30",
+    "venue": "The Ridge Terrace",
+    "place": "Mussoorie",
+    "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+   },
+   {
+    "name": "Haldi",
+    "art": "assets/ev-haldi.webp",
+    "start": "2027-04-13T10:00:00+05:30",
+    "venue": "The Cedar Lawns",
+    "place": "Mussoorie",
+    "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+   },
+   {
+    "name": "Sangeet",
+    "art": "assets/ev-sangeet.webp",
+    "start": "2027-04-13T19:30:00+05:30",
+    "venue": "The Pine Pavilion",
+    "place": "Mussoorie",
+    "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+   },
+   {
+    "name": "Shaadi",
+    "art": "assets/ev-shaadi.webp",
+    "start": "2027-04-14T18:30:00+05:30",
+    "venue": "The Cedar Lawns",
+    "place": "Mussoorie",
+    "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+   },
+   {
+    "name": "Reception",
+    "art": "assets/ev-reception.webp",
+    "start": "2027-04-15T19:30:00+05:30",
+    "venue": "The Grand Hall",
+    "place": "Mussoorie",
+    "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+   }
+  ],
+  "route": {
+   "title": [
+    "See the",
+    "route"
+   ],
+   "venue": "The Cedar Ridge, Mussoorie",
+   "note": "Tap to open the map",
+   "map": "https://www.google.com/maps/search/?api=1&query=Mussoorie+Uttarakhand"
+  },
+  "meet": {
+   "kicker": "Meet the",
+   "title": [
+    "Bride",
+    "& Groom"
+   ],
+   "note": "We met on a misty morning in these very hills, over a cup of chai that went cold while we talked. Since our roka, the love and blessings you have shown us have meant the world. We would be so happy to have you with us under the stars as we begin our life together.",
+   "photo": "assets/photo-chai.webp",
+   "alt": "Tanvi and Aarav sharing a shawl and chai on a hill-station bench"
+  },
+  "gallery": [
+   {
+    "src": "assets/photo-ridge.webp",
+    "alt": "Walking hand in hand along a pine ridge"
+   },
+   {
+    "src": "assets/photo-lantern.webp",
+    "alt": "Holding a glowing lantern under the stars"
+   },
+   {
+    "src": "assets/photo-train.webp",
+    "alt": "Laughing beside the little hill train"
+   },
+   {
+    "src": "assets/photo-chai.webp",
+    "alt": "Sharing chai on a bench above the valley"
+   }
+  ],
+  "rsvp": {
+   "title": [
+    "Kindly",
+    "RSVP"
+   ],
+   "note": "Tap to reply on WhatsApp",
+   "whatsapp": "",
+   "message": "Hello! {guest} replying to the invitation for {one} & {two}."
+  },
+  "know": {
+   "title": [
+    "Things to",
+    "know"
+   ],
+   "note": "A few thoughtful details so you can relax and enjoy every moment in the hills.",
+   "items": [
+    {
+     "icon": "tag",
+     "title": "Hashtag",
+     "text": "Posting photos? Please use #AaravMeetsTanvi"
+    },
+    {
+     "icon": "cloud",
+     "title": "Weather",
+     "text": "Sunny days near 22°C and chilly nights near 9°C. Do bring a warm shawl."
+    },
+    {
+     "icon": "person",
+     "title": "Staff",
+     "text": "Rooms for accompanying staff are booked at Hotel Pine Crest, 5 minutes away."
+    },
+    {
+     "icon": "car",
+     "title": "Parking",
+     "text": "Valet parking at the gate. The road up is narrow, so please arrive early."
+    }
+   ]
+  },
+  "follow": {
+   "title": [
+    "Follow",
+    "the celebrations"
+   ],
+   "note": "Tap to open our Instagram page",
+   "instagram": "https://www.instagram.com/"
+  },
+  "countdown": {
+   "title": "Under the same stars in",
+   "done": "Today is the day"
+  },
+  "signoff": "With love, the Bhandari and Negi families",
+  "music": "",
+  "colours": {
+   "navy": "#10264a",
+   "navy2": "#1b3a68",
+   "gold": "#dcb76c",
+   "mint": "#d4e9dc",
+   "sage": "#4f7f69",
+   "plum": "#43264f",
+   "butter": "#f6ecc3",
+   "cream": "#fbf4e2",
+   "ink": "#1d2238"
+  }
+ }
+}

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" class="locked" data-stage="gate">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wedding invitation</title>
+<meta name="theme-color" content="#2e0813">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="preload" as="image" href="assets/door-l.webp">
+<link rel="preload" as="image" href="assets/door-r.webp">
+<link rel="preload" as="image" href="assets/gate-frame.webp">
+<link rel="stylesheet" href="css/style.css">
+<noscript><style>.gate,.skip,.sanctum,.shloka,#bloomCanvas,.bloom-line{display:none!important}.temple-img,.shubh,.hn,.rv,.rite-body>*,.tablet-art{opacity:1!important;transform:none!important;clip-path:none!important}.idol{transform:translate(-50%,-50%) scale(var(--s))!important}.idol-art{opacity:1!important;filter:none!important}.bloom{height:auto!important}.bloom-pin{position:static!important;height:auto!important}.bloom-static{display:block!important}html.locked,html.locked body{overflow:auto!important;height:auto!important}</style></noscript>
+</head>
+<body>
+
+<div class="backwash" aria-hidden="true"></div>
+
+<!-- ============ THE TEMPLE DOORS ============ -->
+<div class="gate" id="gate">
+  <div class="gate-art">
+    <div class="gate-light"></div>
+    <div class="leaf leaf-l"></div>
+    <div class="leaf leaf-r"></div>
+    <img class="gate-frame" src="assets/gate-frame.webp" alt="" width="1296" height="2808">
+    <i class="lamp lamp-l" aria-hidden="true"></i>
+    <i class="lamp lamp-r" aria-hidden="true"></i>
+    <button class="seal" id="seal" type="button" aria-label="Touch the door to open your invitation">
+      <span class="seal-ring" aria-hidden="true"></span>
+      <span class="seal-ring seal-ring-2" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="gate-scrim"></div>
+  <div class="gate-text">
+    <p class="gate-mantra" lang="sa">॥ श्री गणेशाय नमः ॥</p>
+    <p class="gate-touch" data-plain>Touch the door</p>
+    <p class="gate-sub">to seek Shri Ganesh's blessings</p>
+  </div>
+</div>
+
+<!-- ============ THE INVITATION ============ -->
+<main class="col" id="main">
+
+  <section class="hero" id="hero">
+    <div class="backdrop" aria-hidden="true"><img id="backdrop" src="assets/backdrop.webp" alt="" width="1416" height="3330"></div>
+    <div class="sanctum" aria-hidden="true"><div class="rays"></div></div>
+
+    <div class="temple" id="temple">
+      <img class="temple-img" src="assets/temple.webp" alt="A marble temple gateway with Mount Kilimanjaro seen through its arch" width="1416" height="2517">
+      <span class="niche-ring" aria-hidden="true"></span>
+
+      <div class="idol" id="idol">
+        <div class="idol-halo" aria-hidden="true"></div>
+        <img class="idol-art" src="assets/ganapati.webp" alt="Shri Ganesh seated on a golden lotus" width="705" height="1100">
+        <canvas class="line-glow" id="lineGlow" aria-hidden="true"></canvas>
+        <canvas class="line-main" id="lineMain" aria-hidden="true"></canvas>
+        <canvas class="line-spark" id="lineSpark" aria-hidden="true"></canvas>
+      </div>
+
+      <div class="arch-text">
+        <p class="shubh" lang="hi">॥ शुभ विवाह ॥</p>
+        <h1 class="hero-names" tabindex="-1"><span class="hn" data-bind="brideFirst">__WIC_ONE__</span> <span class="hn amp">&amp;</span> <span class="hn" data-bind="groomFirst">__WIC_TWO__</span></h1>
+      </div>
+    </div>
+
+    <div class="shloka">
+      <p class="shloka-sa" lang="sa">वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।<br>निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</p>
+      <p class="shloka-en">Lord of the curved trunk, radiant as a million suns, remove every obstacle from all that we begin.</p>
+    </div>
+
+    <canvas class="petals" id="petals" aria-hidden="true"></canvas>
+    <button class="skip" id="skip" type="button">Skip</button>
+    <a class="cue" href="#invite" aria-label="Scroll to the invitation"><i></i></a>
+  </section>
+
+  <section class="sec invite" id="invite">
+    <p class="lead rv">With the blessings of Shri Ganesh and our elders,</p>
+    <p class="family rv" data-bind="brideParents">Smt. Meera and Shri Arvind Mehra</p>
+    <p class="lead rv">invite you to the wedding of their daughter</p>
+    <h2 class="name" data-split data-bind="brideFirst">__WIC_ONE__</h2>
+    <p class="with rv">with</p>
+    <h2 class="name" data-split data-bind="groomFirst">__WIC_TWO__</h2>
+    <p class="lead rv">son of <span data-bind="groomParents">Smt. Kavita and Shri Vikram Thakur</span></p>
+  </section>
+
+  <section class="sec when">
+    <i class="rule rv" aria-hidden="true"></i>
+    <div class="date rv" id="date">
+      <span class="date-side" id="dateDay">Saturday</span>
+      <span class="date-num" id="dateNum">24</span>
+      <span class="date-side" id="dateMonth">April 2027</span>
+    </div>
+    <p class="when-time rv" id="dateTime">Pheras at 7:15 PM</p>
+    <p class="venue rv" data-bind="venue">Triyuginarayan Temple</p>
+    <p class="lead rv" data-bind="place">Rudraprayag, Uttarakhand</p>
+    <a class="link rv" id="map" href="#" target="_blank" rel="noopener">Get directions</a>
+  </section>
+
+  <section class="sec count">
+    <div class="framed rv">
+      <h2 class="title" data-plain>Until the pheras</h2>
+      <div class="ticks" id="ticks" role="timer" aria-label="Time until the wedding">
+        <div class="tick"><span class="num" id="cdD">0</span><span class="unit">days</span></div>
+        <div class="tick"><span class="num" id="cdH">00</span><span class="unit">hours</span></div>
+        <div class="tick"><span class="num" id="cdM">00</span><span class="unit">minutes</span></div>
+        <div class="tick"><span class="num" id="cdS">00</span><span class="unit">seconds</span></div>
+      </div>
+      <p class="count-done" id="cdDone" hidden>The wedding day is here</p>
+    </div>
+  </section>
+
+  <section class="sec rites-sec">
+    <h2 class="title" data-split>The ceremonies</h2>
+    <ol class="rites" id="rites"></ol>
+  </section>
+
+  <section class="bloom" id="bloom">
+    <div class="bloom-pin">
+      <div class="bloom-line" id="bloomLine" aria-hidden="true"><i></i></div>
+      <div class="bloom-stage" id="bloomStage">
+        <div class="bloom-glow" aria-hidden="true"></div>
+        <canvas id="bloomCanvas" aria-hidden="true"></canvas>
+        <img class="bloom-static" id="bloomStatic" src="assets/lotus.webp" alt="A pink lotus in full bloom" width="1272" height="1466" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="sec rsvp" id="rsvp">
+    <div class="tablet" id="tablet">
+      <div class="tablet-art" aria-hidden="true"></div>
+      <div class="tablet-in">
+      <h2 class="title" data-split>Will you join us?</h2>
+      <p class="rsvp-by rv" id="rsvpBy"></p>
+
+      <form class="rv" id="rsvpForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="rsvpName">Your name</label>
+          <input class="field-input" id="rsvpName" name="name" type="text" autocomplete="name" maxlength="120">
+        </div>
+        <fieldset class="choice">
+          <legend class="field-label">Your reply</legend>
+          <div class="choice-row">
+            <label class="pill"><input type="radio" id="rsvpYes" name="attending" value="yes"><span>Joyfully accepts</span></label>
+            <label class="pill"><input type="radio" id="rsvpNo" name="attending" value="no"><span>Regretfully declines</span></label>
+          </div>
+        </fieldset>
+        <div class="field" id="rsvpGuestsRow" hidden>
+          <span class="field-label" id="rsvpGuestsLabel">Number of guests</span>
+          <div class="stepper" role="group" aria-labelledby="rsvpGuestsLabel">
+            <button class="step" id="rsvpLess" type="button" aria-label="One fewer guest">&minus;</button>
+            <output class="step-count" id="rsvpCount" aria-live="polite">1</output>
+            <button class="step" id="rsvpMore" type="button" aria-label="One more guest">+</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="rsvpNote">Dietary needs or a note for us</label>
+          <textarea class="field-input" id="rsvpNote" name="message" rows="2" maxlength="600"></textarea>
+        </div>
+        <p class="rsvp-error" id="rsvpError" role="alert" hidden></p>
+        <button class="send" id="rsvpSend" type="submit">Send RSVP on WhatsApp</button>
+      </form>
+
+      <div class="rsvp-done" id="rsvpDone" tabindex="-1" hidden>
+        <p class="rsvp-done-title" data-plain>Almost done</p>
+        <p class="rsvp-done-text" id="rsvpDoneText"></p>
+        <a class="send" id="rsvpReopen" href="#" target="_blank" rel="noopener">Open WhatsApp again</a>
+        <button class="link" id="rsvpChange" type="button">Change my reply</button>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <img class="closing-art" src="assets/kilimanjaro.webp" alt="Mount Kilimanjaro at dusk above the savanna" width="1296" height="2304" loading="lazy">
+    <div class="closing-text">
+      <p class="closing-line rv">We can't wait to celebrate with you</p>
+      <p class="closing-names" data-split><span data-bind="brideFirst">__WIC_ONE__</span> &amp; <span data-bind="groomFirst">__WIC_TWO__</span></p>
+    </div>
+  </section>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/lines.js"></script>
+<script src="js/bloom.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

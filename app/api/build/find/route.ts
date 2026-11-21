@@ -1,8 +1,7 @@
 import { after } from "next/server";
 import { clean, emailOk, json } from "@/lib/builder/api";
-import { listByEmail, siteData } from "@/lib/builder/sites";
+import { listByEmail, siteSummary } from "@/lib/builder/sites";
 import { clientIp, editLink } from "@/lib/builder/server";
-import { coupleNames } from "@/lib/builder/render";
 import { sendMailTo, simpleEmail } from "@/lib/notify";
 import { rateLimited } from "@/lib/auth";
 
@@ -19,7 +18,7 @@ export async function POST(req: Request) {
   after(async () => {
     const sites = listByEmail(email);
     if (!sites.length) return;
-    const lines = sites.map((s) => `${coupleNames(siteData(s))}: ${editLink(s)}`);
+    const lines = sites.map((s) => `${siteSummary(s).names}: ${editLink(s)}`);
     await sendMailTo(
       email,
       "Your invitation links",

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" class="is-locked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wedding invitation</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#E0D9C9">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<script>
+  history.scrollRestoration = 'manual';
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('reduced');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&family=Sometype+Mono:wght@400;500;700&family=WindSong:wght@500&display=swap">
+<link rel="preload" as="image" href="assets/paper.jpg">
+<link rel="stylesheet" href="css/style.css">
+<noscript><style>.cover,.story,.print,.knot,.skip{display:none!important}html.is-locked{overflow:auto!important}.nojs{display:block!important}</style></noscript>
+</head>
+<body>
+
+<!-- ============ THE FOLDED LETTER ============ -->
+<div class="cover" id="cover" role="dialog" aria-label="Your invitation, tied with a bow">
+  <div class="fold fold-top">
+    <p class="cover-to" id="coverTo"></p>
+    <p class="cover-names script" data-bind="names"></p>
+    <i class="fold-shade"></i>
+  </div>
+  <div class="fold fold-bot">
+    <p class="cover-date" data-bind="dateLong"></p>
+    <p class="cover-hint pen" id="coverHint">tap the bow to untie it</p>
+    <i class="fold-shade"></i>
+  </div>
+  <svg class="string" id="string" aria-hidden="true"></svg>
+  <button class="bow-btn" id="bowBtn" type="button" aria-label="Untie the bow to open your invitation">
+    <svg class="bow-art" id="bowArt" viewBox="0 0 100 100" aria-hidden="true"></svg>
+  </button>
+</div>
+
+<main id="main">
+
+  <!-- ============ THE NAMES ============ -->
+  <section class="hero" id="hero">
+    <div class="art" aria-hidden="true">
+      <svg class="dd" data-d="disco"    style="--x:71%;--y:-1.500%;--s:clamp(84px,13svh,136px);--r:4deg"></svg>
+      <svg class="dd" data-d="rings"    style="--x:6%;--y:9%;--s:clamp(62px,9.500svh,104px);--r:-8deg"></svg>
+      <svg class="dd" data-d="sparkles" style="--x:44%;--y:13%;--s:clamp(40px,6svh,70px);--r:0deg"></svg>
+      <svg class="dd" data-d="coupe"    style="--x:8%;--y:74%;--s:clamp(62px,10svh,108px);--r:-7deg"></svg>
+      <svg class="dd" data-d="letter"   style="--x:72%;--y:72%;--s:clamp(62px,9.500svh,104px);--r:8deg"></svg>
+      <svg class="dd" data-d="heart"    style="--x:80%;--y:24%;--s:clamp(26px,4svh,44px);--r:12deg"></svg>
+    </div>
+    <div class="hero-words">
+      <h1 class="names script" id="names">
+        <span class="wipe" data-bind="one">__WIC_ONE__</span>
+        <span class="wipe amp"><span>&amp;</span> <span data-bind="two">__WIC_TWO__</span></span>
+      </h1>
+      <p class="hero-line" id="heroLine">are getting married</p>
+      <p class="hero-date" id="heroDate"><span data-bind="dateLong"></span><br><span data-bind="place"></span></p>
+    </div>
+    <div class="cue" id="cue" aria-hidden="true"><svg class="dd" data-d="pull"></svg></div>
+  </section>
+
+  <!-- ============ TWO LINES, ONE HEART ============ -->
+  <section class="track story" id="story" aria-label="How it started">
+    <div class="stage">
+      <svg class="lines" id="storyLines" aria-hidden="true"></svg>
+      <div class="story-notes pen" id="storyNotes"></div>
+    </div>
+  </section>
+
+  <!-- ============ THE PRINTER ============ -->
+  <section class="track print" id="print" aria-label="The receipts">
+    <div class="stage" id="printStage">
+      <div class="art" aria-hidden="true">
+        <svg class="dd" data-d="coffee"    style="--x:85%;--y:31%;--s:clamp(44px,6.500svh,80px);--r:9deg"></svg>
+        <svg class="dd" data-d="bow"       style="--x:0%;--y:53%;--s:clamp(50px,7.500svh,90px);--r:-8deg"></svg>
+        <svg class="dd" data-d="sparkles"  style="--x:3%;--y:30%;--s:clamp(34px,5svh,60px);--r:0deg"></svg>
+        <svg class="dd" data-d="cat"       style="--x:-3%;--y:40%;--s:clamp(70px,10svh,120px);--r:-6deg"></svg>
+        <svg class="dd" data-d="spiral"    style="--x:87%;--y:44%;--s:clamp(54px,8svh,92px);--r:0deg"></svg>
+        <svg class="dd" data-d="xoxo"      style="--x:-2%;--y:62%;--s:clamp(78px,12svh,130px);--r:-9deg"></svg>
+        <svg class="dd" data-d="croissant" style="--x:84%;--y:66%;--s:clamp(58px,9svh,104px);--r:12deg"></svg>
+        <svg class="dd" data-d="bunny"     style="--x:2%;--y:79%;--s:clamp(62px,9svh,104px);--r:-4deg"></svg>
+        <svg class="dd" data-d="teddy"     style="--x:76%;--y:79%;--s:clamp(120px,21svh,220px);--r:-3deg"></svg>
+      </div>
+      <svg class="lines" id="feedLines" aria-hidden="true"></svg>
+
+      <header class="p-head" id="pHead">
+        <h2 class="p-title script"><span class="wipe" id="pTitle">the receipts</span></h2>
+      </header>
+
+      <div class="printer" id="printer">
+        <p class="p-label" id="pLabel">Get your receipts here</p>
+        <div class="p-body" id="pBody">
+          <span class="led" id="led"></span>
+          <span class="p-status" id="pStatus" aria-hidden="true">Ready</span>
+          <button class="p-sound" id="soundBtn" type="button" aria-pressed="true" aria-label="Printer sound">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5.500 6.600 9H3.600v6h3L11 18.500v-13Z"/><path class="wave" d="M14.600 9.400a3.800 3.800 0 0 1 0 5.200M17.200 7a7.200 7.200 0 0 1 0 10"/><path class="mute" d="m15 9.500 5 5M20 9.500l-5 5"/></svg>
+          </button>
+          <span class="slot" id="slot"></span>
+        </div>
+      </div>
+
+      <div class="papers" id="papers"></div>
+      <p class="pen p-note" id="pProof"></p>
+      <p class="pen p-note" id="pMore"></p>
+
+      <!-- The long receipt. It lives here so it can roll out of the printer,
+           then scrolls with the page once it has finished printing. -->
+      <div class="slip-clip" id="slipClip">
+        <article class="slip" id="slip" aria-label="Your invitation">
+
+          <header class="s-head">
+            <h2 class="s-names" data-bind="namesCaps"></h2>
+            <p class="s-kind" data-bind="invTitle"></p>
+          </header>
+          <div class="s-rule"></div>
+          <div class="s-wording" id="wording"></div>
+          <div class="s-rule"></div>
+
+          <dl class="s-facts" id="facts">
+            <div><dt>Date</dt><dd id="factDate"></dd></div>
+            <div><dt>Time</dt><dd id="factTime"></dd></div>
+            <div><dt>Place</dt><dd><span data-bind="venue"></span><br><span data-bind="place"></span></dd></div>
+          </dl>
+          <div class="s-acts" id="mainActs"></div>
+          <div class="stamp" id="stampDate" aria-hidden="true"><span>Save the date</span></div>
+          <div class="s-rule"></div>
+
+          <section class="s-count" aria-label="Time left until the wedding">
+            <h3>Time remaining</h3>
+            <div class="clock" id="clock" role="timer">
+              <div><b id="cdD">000</b><span>days</span></div>
+              <div><b id="cdH">00</b><span>hrs</span></div>
+              <div><b id="cdM">00</b><span>min</span></div>
+              <div><b id="cdS">00</b><span>sec</span></div>
+            </div>
+            <p class="s-done" id="cdDone" hidden>Today is the day.</p>
+          </section>
+          <div class="s-rule"></div>
+
+          <section aria-label="The weekend">
+            <h3>The weekend</h3>
+            <ol class="s-days" id="days"></ol>
+          </section>
+          <div class="s-rule"></div>
+
+          <section class="s-reply" id="rsvp" aria-label="Your reply">
+            <h3>Your reply</h3>
+            <p class="s-by" id="rsvpBy"></p>
+            <form id="rsvpForm" novalidate>
+              <label class="f-line"><span>Name</span><input id="rsvpName" name="name" type="text" autocomplete="name" maxlength="120" required></label>
+              <fieldset class="f-pick">
+                <legend>Can you come?</legend>
+                <label><input type="radio" name="attending" value="yes" id="rsvpYes"><i></i><span>Joyfully, yes</span></label>
+                <label><input type="radio" name="attending" value="no"><i></i><span>Sadly, no</span></label>
+              </fieldset>
+              <div class="f-qty" id="rsvpGuestsRow" hidden>
+                <span id="qtyLabel">Guests</span>
+                <button type="button" id="rsvpLess" aria-label="One fewer guest">-</button>
+                <output id="rsvpCount" aria-labelledby="qtyLabel">1</output>
+                <button type="button" id="rsvpMore" aria-label="One more guest">+</button>
+              </div>
+              <label class="f-line"><span>Anything we should know</span><textarea id="rsvpNote" name="message" rows="2" maxlength="600"></textarea></label>
+              <p class="f-err" id="rsvpError" role="alert" hidden></p>
+              <button class="f-send" id="rsvpSend" type="submit">Send my reply</button>
+            </form>
+
+            <div class="ticket" id="ticket" hidden tabindex="-1">
+              <div class="t-in">
+                <p class="t-kind" id="tKind"></p>
+                <p class="t-name" id="tName"></p>
+                <p class="t-line" id="tLine"></p>
+                <p class="t-demo" id="tDemo" hidden>This is a sample invitation, so no reply was sent.</p>
+                <a class="s-btn" id="tOpen" hidden>Open it again</a>
+                <button class="s-btn" id="tChange" type="button">Change my reply</button>
+              </div>
+              <div class="stamp stamp-big" id="stampReply" aria-hidden="true"><span id="stampReplyText"></span></div>
+            </div>
+          </section>
+          <div class="s-rule"></div>
+
+          <footer class="s-foot">
+            <p>Thank you. Please come again.</p>
+            <svg class="s-code" id="code" aria-hidden="true"></svg>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </section>
+  <div class="slip-room" id="slipRoom">
+    <div class="art side-art" id="sideArt" aria-hidden="true">
+      <svg class="dd" data-d="calendar" style="--x:12%;--y:3%;--s:clamp(90px,9vw,132px);--r:-6deg"></svg>
+      <svg class="dd" data-d="plane"    style="--x:77%;--y:10%;--s:clamp(90px,9vw,132px);--r:6deg"></svg>
+      <svg class="dd" data-d="camera"   style="--x:9%;--y:36%;--s:clamp(90px,9vw,132px);--r:5deg"></svg>
+      <svg class="dd" data-d="cake"     style="--x:79%;--y:44%;--s:clamp(90px,9vw,132px);--r:-4deg"></svg>
+      <svg class="dd" data-d="pen"      style="--x:13%;--y:69%;--s:clamp(84px,8vw,120px);--r:-3deg"></svg>
+      <svg class="dd" data-d="house"    style="--x:76%;--y:78%;--s:clamp(96px,10vw,142px);--r:3deg"></svg>
+    </div>
+  </div>
+
+  <!-- ============ TYING THE KNOT ============ -->
+  <section class="track knot" id="knot" aria-label="See you there">
+    <div class="stage">
+      <svg class="lines" id="knotLines" aria-hidden="true"></svg>
+      <div class="knot-words">
+        <p class="pen" id="knotNote"></p>
+        <p class="knot-names script"><span class="wipe" id="knotNames" data-bind="names"></span></p>
+        <p class="knot-line" id="knotLine"></p>
+        <img class="maker" id="maker" src="assets/twic-seal.png" alt="" width="72" height="72" loading="lazy">
+      </div>
+    </div>
+  </section>
+</main>
+
+<a class="skip" id="skip" href="#slip">Skip to the details</a>
+
+<div class="nojs" hidden>
+  <h1>__WIC_ONE__ &amp; __WIC_TWO__</h1>
+  <p>Saturday, 13 February 2027 at The Banyan House, Assagao, Goa. This invitation needs JavaScript to open.</p>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
+<script src="js/doodles.js"></script>
+<script src="js/print.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

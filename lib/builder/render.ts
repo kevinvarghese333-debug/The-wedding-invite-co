@@ -6,6 +6,7 @@ import { fontStack, fontsHref } from "@/lib/builder/fonts";
 import { type Palette, type Template, isDark, paletteFor } from "@/lib/builder/templates";
 import * as art from "@/lib/builder/art";
 import { RUNTIME } from "@/lib/builder/runtime";
+import { greetingBanner } from "@/lib/builder/studio";
 
 export type RenderMode = "live" | "preview" | "editor" | "thumb";
 export type RenderOpts = {
@@ -526,7 +527,7 @@ export function renderParts(t: Template, d: InviteData, o: RenderOpts): Rendered
 }
 
 /** A full HTML document: what guests open from WhatsApp. */
-export function renderDocument(t: Template, d: InviteData, o: RenderOpts) {
+export function renderDocument(t: Template, d: InviteData, o: RenderOpts & { greeting?: string }) {
   const r = renderParts(t, d, o);
   const site = (o.siteUrl || "").replace(/\/$/, "");
   const desc = `${d.eyebrow ? d.eyebrow + ", " : ""}${coupleNames(d)} invite you to celebrate their wedding${d.date ? " on " + dayMonth(d.date) : ""}${d.city ? " in " + d.city : ""}. Tap to open.`;
@@ -556,6 +557,7 @@ ${art.DEFS}
 <div id="wic-root">${r.html}</div>
 <div id="fx" aria-hidden="true"></div>
 <script>${RUNTIME}</script>
+${o.greeting ? greetingBanner(o.greeting) : ""}
 </body>
 </html>`;
 }

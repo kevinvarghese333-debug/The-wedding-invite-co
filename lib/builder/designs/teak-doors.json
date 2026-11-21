@@ -1,0 +1,101 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "bride": "Priya",
+  "groom": "Rohan",
+  "hashtag": "#PriyaWedsRohan",
+  "families": {
+   "bride": "",
+   "groom": ""
+  },
+  "rsvpBy": "2026-12-20",
+  "rsvpEndpoint": "",
+  "whatsapp": "",
+  "music": "",
+  "events": [
+   {
+    "id": "haldi",
+    "name": "Haldi",
+    "sub": "Ceremony",
+    "date": "2027-01-03",
+    "start": "10:00",
+    "end": "13:00",
+    "venue": "",
+    "address": "",
+    "map": "",
+    "dress": "Shades of yellow",
+    "blurb": "A morning of turmeric, marigolds and laughter as both families bless the couple."
+   },
+   {
+    "id": "engagement",
+    "name": "Engagement",
+    "sub": "Ring ceremony",
+    "date": "2027-01-15",
+    "start": "18:30",
+    "end": "22:00",
+    "venue": "",
+    "address": "",
+    "map": "",
+    "dress": "Pastels",
+    "blurb": "Rings, promises and the first toast to the two of them."
+   },
+   {
+    "id": "sangeet",
+    "name": "Sangeet",
+    "sub": "Night",
+    "date": "2027-01-21",
+    "start": "19:00",
+    "end": "23:30",
+    "venue": "",
+    "address": "",
+    "map": "",
+    "dress": "Bright colours and dancing shoes",
+    "blurb": "An evening of music, dance and shared memories. Come ready to dance."
+   },
+   {
+    "id": "wedding",
+    "name": "Wedding",
+    "sub": "Shubh Vivah",
+    "date": "2027-01-26",
+    "start": "10:30",
+    "end": "14:00",
+    "venue": "",
+    "address": "",
+    "map": "",
+    "dress": "Traditional",
+    "blurb": "The sacred pheras under the mandap, with the people they love most around them."
+   },
+   {
+    "id": "reception",
+    "name": "Reception",
+    "sub": "Evening",
+    "date": "2027-01-27",
+    "start": "19:00",
+    "end": "23:00",
+    "venue": "",
+    "address": "",
+    "map": "",
+    "dress": "Evening formal",
+    "blurb": "Dinner, music and a night to celebrate the newlyweds."
+   }
+  ],
+  "story": [
+   {
+    "h": "Where it began",
+    "yr": "Spring 2021",
+    "p": "Priya and Rohan met at a cousin's sangeet, where both had been volunteered for the same dance and neither knew the steps. They spent the evening laughing at their own mistakes."
+   },
+   {
+    "h": "How it grew",
+    "yr": "2021 – 2025",
+    "p": "Rehearsals turned into long phone calls, then Sunday coffees across the city. He learned how she takes her chai. She learned that he hums old film songs when he's nervous."
+   },
+   {
+    "h": "Two families, one table",
+    "yr": "2026",
+    "p": "When their parents finally met over lunch, the conversation ran four hours and ended with both mothers swapping recipes. The dates were set before dessert."
+   }
+  ]
+ }
+}

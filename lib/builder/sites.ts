@@ -5,6 +5,8 @@ import { getDb } from "@/lib/db";
 import { SAMPLES } from "@/lib/samples";
 import { normalize, type InviteData } from "@/lib/builder/types";
 import { templateOrDefault } from "@/lib/builder/templates";
+import { findDesign, type Config } from "@/lib/builder/designs";
+import { cleanConfig, startingConfig, studioSummary } from "@/lib/builder/studio";
 
 export type SiteStatus = "draft" | "live" | "paused";
 export type Site = {
@@ -30,6 +32,9 @@ export type Site = {
   views: number;
   claim_ref: string | null; // UPI transaction id the couple gave us
   claimed_at: string | null;
+  addons: string | null; // JSON: add-ons chosen (before paying) or bought (after)
+  links: string | null; // JSON: guest links
+  live_until: string | null; // the invitation stays live until this date
 };
 
 export type Rsvp = {
@@ -38,10 +43,11 @@ export type Rsvp = {
   created_at: string;
   name: string;
   phone: string | null;
-  attending: "yes" | "no";
+  attending: "yes" | "no" | "wish"; // "wish": a blessing or message, not a reply
   guests: number;
   events: string | null;
   message: string | null;
+  via: string | null; // which guest link the reply came through
 };
 
 export type Order = { id: string; site_id: string; amount: number; status: "created" | "paid"; payment_id: string | null; created_at: string; paid_at: string | null };
@@ -110,6 +116,9 @@ function db() {
     const cols = (d.prepare("PRAGMA table_info(sites)").all() as { name: string }[]).map((c) => c.name);
     if (!cols.includes("claim_ref")) d.exec("ALTER TABLE sites ADD COLUMN claim_ref TEXT");
     if (!cols.includes("claimed_at")) d.exec("ALTER TABLE sites ADD COLUMN claimed_at TEXT");
+    for (const c of ["addons", "links", "live_until"]) if (!cols.includes(c)) d.exec(`ALTER TABLE sites ADD COLUMN ${c} TEXT`);
+    const rcols = (d.prepare("PRAGMA table_info(site_rsvps)").all() as { name: string }[]).map((c) => c.name);
+    if (!rcols.includes("via")) d.exec("ALTER TABLE site_rsvps ADD COLUMN via TEXT");
   }
   return d;
 }
@@ -121,11 +130,19 @@ export function newSiteId() {
   return crypto.randomBytes(8).toString("base64url").replace(/[-_]/g, "x").slice(0, 10).toLowerCase();
 }
 
-export function createSite(templateId: string, ip: string, palette?: string) {
-  const t = templateOrDefault(templateId);
+export function createSite(templateId: string, ip: string, palette?: string, addons: string[] = []) {
   const id = newSiteId();
+  const withAddons = () => addons.length && setAddons(id, addons);
+  const design = findDesign(templateId);
+  if (design) {
+    db().prepare("INSERT INTO sites (id, template, data, ip) VALUES (?, ?, ?, ?)").run(id, design.id, JSON.stringify(startingConfig(design)), ip);
+    withAddons();
+    return id;
+  }
+  const t = templateOrDefault(templateId);
   const data = palette && t.palettes.some((p) => p.id === palette) ? { ...t.sample, style: { ...t.sample.style, palette } } : t.sample;
   db().prepare("INSERT INTO sites (id, template, data, ip) VALUES (?, ?, ?, ?)").run(id, t.id, JSON.stringify(data), ip);
+  withAddons();
   return id;
 }
 
@@ -142,7 +159,38 @@ export function getSiteBySlug(slug: string): Site | undefined {
   return db().prepare("SELECT * FROM sites WHERE slug = ?").get(slug) as Site | undefined;
 }
 
-/** The couple's working copy, cleaned. */
+/** A studio design (one of our real invitations) rather than a builder template? */
+export const isStudio = (s: Pick<Site, "template">) => !!findDesign(s.template);
+
+/** The settings of a studio design site: the working copy, or what guests see. */
+export function studioConfig(s: Site, which: "draft" | "live" = "draft"): Config | null {
+  const design = findDesign(s.template);
+  const raw = which === "live" ? s.live_data : s.data;
+  if (!design || !raw) return null;
+  try {
+    return cleanConfig(design, JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+export type Summary = { one: string; two: string; names: string; date: string; place: string; events: string[] };
+
+/** Names, date and place, whichever kind of design the site uses. */
+export function siteSummary(s: Site): Summary {
+  const design = findDesign(s.template);
+  if (design) {
+    const c = studioConfig(s) ?? design.sample;
+    const x = studioSummary(design, c);
+    const evs = (c as Record<string, unknown>).events;
+    const events = Array.isArray(evs) ? evs.map((e) => String((e as Record<string, unknown>)?.name ?? (e as Record<string, unknown>)?.title ?? "")).filter(Boolean) : [];
+    return { ...x, names: [x.one, x.two].filter(Boolean).join(" & ") || "Our wedding", events };
+  }
+  const d = siteData(s);
+  return { one: d.one, two: d.two, names: [d.one.trim(), d.two.trim()].filter(Boolean).join(" & ") || "Our wedding", date: d.date, place: d.city, events: d.events.map((e) => e.name).filter(Boolean) };
+}
+
+/** The couple's working copy, cleaned (builder templates only; see studioConfig for studio designs). */
 export function siteData(s: Site): InviteData {
   const t = templateOrDefault(s.template);
   try {
@@ -163,7 +211,7 @@ export function liveData(s: Site): InviteData | null {
   }
 }
 
-export function saveDraft(id: string, template: string, data: InviteData) {
+export function saveDraft(id: string, template: string, data: InviteData | Config) {
   db().prepare("UPDATE sites SET template = ?, data = ?, updated_at = ? WHERE id = ?").run(template, JSON.stringify(data), now(), id);
 }
 
@@ -198,7 +246,7 @@ export function slugProblem(slug: string, siteId: string): string | null {
   return null;
 }
 
-export function suggestSlug(d: InviteData, siteId: string) {
+export function suggestSlug(d: Pick<Summary, "one" | "two" | "date">, siteId: string) {
   const a = cleanSlug(d.one);
   const b = cleanSlug(d.two);
   const year = d.date ? d.date.slice(0, 4) : "";
@@ -222,18 +270,37 @@ export function claimPayment(id: string, ref: string) {
 }
 
 /** Marks the site paid and puts the current design live. Safe to call twice. */
-export function markPaid(id: string, p: { amount: number; ref: string; method: "razorpay" | "manual" | "free" }) {
+export function markPaid(id: string, p: { amount: number; ref: string; method: "razorpay" | "manual" | "free"; addons?: string[] }) {
   const s = getSite(id);
   if (!s) return undefined;
   if (s.paid_at) return s;
   const t = now();
+  const addons = p.addons ?? JSON.parse(s.addons || "[]");
+  const until = new Date();
+  until.setFullYear(until.getFullYear() + (addons.includes("year") ? 2 : 1)); // a year live, two with the add-on
   db()
     .prepare(
-      "UPDATE sites SET paid_at = ?, amount = ?, payment_ref = ?, payment_method = ?, status = 'live', live_data = data, published_at = COALESCE(published_at, ?), updated_at = ? WHERE id = ?"
+      "UPDATE sites SET paid_at = ?, amount = ?, payment_ref = ?, payment_method = ?, status = 'live', live_data = data, published_at = COALESCE(published_at, ?), addons = ?, live_until = COALESCE(live_until, ?), updated_at = ? WHERE id = ?"
     )
-    .run(t, p.amount, p.ref, p.method, t, t, id);
+    .run(t, p.amount, p.ref, p.method, t, JSON.stringify(addons), until.toISOString().slice(0, 10), t, id);
   return getSite(id);
 }
+
+/** Add-ons chosen before paying (from the design page or the publish page). Locked once paid, except from Admin. */
+export function setAddons(id: string, addons: string[]) {
+  db().prepare("UPDATE sites SET addons = ? WHERE id = ?").run(JSON.stringify(addons), id);
+}
+
+export function setLinks(id: string, links: unknown[]) {
+  db().prepare("UPDATE sites SET links = ?, updated_at = ? WHERE id = ?").run(JSON.stringify(links), now(), id);
+}
+
+export function setLiveUntil(id: string, date: string | null) {
+  db().prepare("UPDATE sites SET live_until = ? WHERE id = ?").run(date, id);
+}
+
+/** Past its live-until date? */
+export const expired = (s: Pick<Site, "live_until">) => !!s.live_until && s.live_until < new Date().toISOString().slice(0, 10);
 
 /** Puts the latest edits live (only once paid). */
 export function publishChanges(id: string) {
@@ -315,12 +382,18 @@ export function markOrderPaid(id: string, paymentId: string) {
 /* ---------- RSVPs ---------- */
 export function addRsvp(r: Omit<Rsvp, "id" | "created_at">) {
   db()
-    .prepare("INSERT INTO site_rsvps (site_id, name, phone, attending, guests, events, message) VALUES (?, ?, ?, ?, ?, ?, ?)")
-    .run(r.site_id, r.name, r.phone, r.attending, r.guests, r.events, r.message);
+    .prepare("INSERT INTO site_rsvps (site_id, name, phone, attending, guests, events, message, via) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+    .run(r.site_id, r.name, r.phone, r.attending, r.guests, r.events, r.message, r.via ?? null);
 }
 
 export function listRsvps(siteId: string): Rsvp[] {
   return db().prepare("SELECT * FROM site_rsvps WHERE site_id = ? ORDER BY created_at DESC").all(siteId) as Rsvp[];
+}
+
+export function listWishes(siteId: string, limit = 60) {
+  return db()
+    .prepare("SELECT name, message, created_at FROM site_rsvps WHERE site_id = ? AND attending = 'wish' AND message IS NOT NULL AND message != '' ORDER BY created_at DESC LIMIT ?")
+    .all(siteId, limit) as { name: string; message: string; created_at: string }[];
 }
 
 export function deleteRsvp(siteId: string, id: number) {

@@ -1,0 +1,124 @@
+{
+ "var": "CONFIG",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "groom": "Joel",
+   "bride": "Anna"
+  },
+  "weddingStart": "2027-03-07T17:00:00+05:30",
+  "dateLine": "5 to 7 March 2027 · Goa",
+  "blessing": {
+   "verse": "Love never fails",
+   "verseRef": "1 Corinthians 13:8",
+   "lead": "With the heavenly blessings of",
+   "elders": "Mrs. Annamma & Mr. Thomas Mathew",
+   "hosts": "Mrs. Susan & Mr. George Mathew",
+   "verb": "Invite",
+   "ask": "you to join us in the wedding celebrations of",
+   "brideLine": "Daughter of",
+   "brideParents": "Mrs. Mary & Mr. Philip Joseph"
+  },
+  "venue": {
+   "name": "Taj Exotica Resort, Goa",
+   "map": "https://www.google.com/maps/search/?api=1&query=Taj+Exotica+Resort+Goa"
+  },
+  "events": [
+   {
+    "id": "welcome",
+    "title": "Welcome Dinner",
+    "date": "Friday, 5 March 2027",
+    "time": "7pm onwards"
+   },
+   {
+    "id": "shower",
+    "title": "Bridal Shower",
+    "date": "Saturday, 6 March 2027",
+    "time": "11am onwards"
+   },
+   {
+    "id": "rehearsal",
+    "title": "Rehearsal",
+    "date": "Saturday, 6 March 2027",
+    "time": "5pm onwards"
+   },
+   {
+    "id": "cocktail",
+    "title": "Cocktail",
+    "date": "Saturday, 6 March 2027",
+    "time": "8pm onwards"
+   },
+   {
+    "id": "matrimony",
+    "title": "Holy Matrimony",
+    "date": "Sunday, 7 March 2027",
+    "time": "5pm at sunset"
+   },
+   {
+    "id": "reception",
+    "title": "Reception",
+    "date": "Sunday, 7 March 2027",
+    "time": "8.30pm onwards"
+   }
+  ],
+  "message": "Thank you for being part of our story. Every call, every blessing and every piece of advice since our engagement has meant more to us than we can say. Our wedding would not feel complete without you, so come to the sea, dance with us and stay for the sunset.",
+  "photos": [
+   {
+    "src": "veil",
+    "alt": "The couple under a veil at sunset"
+   },
+   {
+    "src": "spin",
+    "alt": "He lifts her in a spin on the beach"
+   },
+   {
+    "src": "walk",
+    "alt": "Walking hand in hand along the shore"
+   },
+   {
+    "src": "run",
+    "alt": "Running across the sand toward the sea"
+   },
+   {
+    "src": "rock",
+    "alt": "Sitting together by the waves"
+   },
+   {
+    "src": "hands",
+    "alt": "Hands held, with wedding rings"
+   }
+  ],
+  "rsvp": {
+   "whatsapp": "",
+   "text": "Hello! I would love to join Joel and Anna's wedding."
+  },
+  "know": {
+   "lead": "A few small details to help you settle in and enjoy every moment of the celebrations.",
+   "items": [
+    {
+     "icon": "hash",
+     "title": "Hashtag",
+     "text": "Share your photos with #JoelAndAnna so we can find every one of them."
+    },
+    {
+     "icon": "weather",
+     "title": "Weather",
+     "text": "Expect warm, clear days around 31°C and a soft breeze by the sea at night."
+    },
+    {
+     "icon": "driver",
+     "title": "Staff",
+     "text": "Rooms for your drivers and staff are available at a lodge close to the venue."
+    },
+    {
+     "icon": "car",
+     "title": "Parking",
+     "text": "Valet parking is available for all our guests at the venue."
+    }
+   ]
+  },
+  "instagram": "https://www.instagram.com/",
+  "closing": "Our families are so happy you can be with us. We cannot wait to celebrate with you by the sea.",
+  "music": ""
+ }
+}

@@ -1,0 +1,2 @@
+/* Written by tools/cut.py: sizes of the cut art, and where things sit inside it as shares of each picture. */
+window.LAYOUT = {"palace": {"size": [2600, 1462], "domeTop": 0.0005787037037037037, "roof": 0.19936342592592593}, "couple": [1100, 1806], "foliage": [1400, 1399], "moon": [1200, 1170], "frame": {"size": [900, 1600], "inner": [0.08180201541197392, 0.09469823274424809, 0.9247184350918791, 0.8856285428476158]}, "lanterns": [[360, 823], [360, 493], [360, 654], [360, 559], [360, 563], [360, 708], [360, 458], [360, 629]]};

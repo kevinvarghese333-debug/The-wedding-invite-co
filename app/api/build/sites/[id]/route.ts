@@ -1,5 +1,7 @@
 import { editable, json } from "@/lib/builder/api";
 import { saveDraft, siteData } from "@/lib/builder/sites";
+import { findDesign } from "@/lib/builder/designs";
+import { cleanConfig } from "@/lib/builder/studio";
 import { findTemplate } from "@/lib/builder/templates";
 import { normalize } from "@/lib/builder/types";
 
@@ -20,6 +22,11 @@ export async function PUT(req: Request, { params }: P) {
     body = JSON.parse(raw);
   } catch {
     return json({ ok: false, error: "Invalid request." }, 400);
+  }
+  const design = findDesign(site.template);
+  if (design) {
+    saveDraft(site.id, design.id, cleanConfig(design, body.data));
+    return json({ ok: true, savedAt: new Date().toISOString() });
   }
   const t = findTemplate(String(body.template || site.template));
   if (!t) return json({ ok: false, error: "Unknown design." }, 400);

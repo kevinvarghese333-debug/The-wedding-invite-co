@@ -1,0 +1,223 @@
+{
+ "var": "INVITE",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "groom": {
+    "first": "Ross",
+    "last": "Geller"
+   },
+   "bride": {
+    "first": "Rachel",
+    "last": "Green"
+   }
+  },
+  "event": {
+   "date": "2027-02-02",
+   "start": "2027-02-02T16:00:00-05:00",
+   "venue": "Venue Name",
+   "place": "City, State"
+  },
+  "music": {
+   "title": "Canon in D",
+   "artist": "Pachelbel · music box",
+   "seconds": 56,
+   "file": "/builder/music/canon.mp3",
+   "appleTrackId": 0,
+   "link": ""
+  },
+  "rsvp": {
+   "deadline": "2027-01-02",
+   "maxGuests": 4,
+   "endpoint": "",
+   "whatsapp": "",
+   "email": ""
+  },
+  "defaultLanguage": "en",
+  "languages": {
+   "en": {
+    "code": "EN",
+    "name": "English",
+    "locale": "en-US",
+    "flag": "gb",
+    "hint": "Tap the seal to open",
+    "openLabel": "Break the wax seal to open your invitation",
+    "together": "Together with their families",
+    "invite": "invite you to celebrate their wedding",
+    "scroll": "Scroll",
+    "reception": "Reception to follow",
+    "countdownTitle": "Countdown",
+    "countdownSub": "To the most special day of our lives",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "scheduleTitle": "Wedding Day",
+    "schedule": [
+     {
+      "time": "3:30 PM",
+      "title": "Arrival",
+      "text": "Find your seat and settle in before the ceremony begins."
+     },
+     {
+      "time": "4:00 PM",
+      "title": "Ceremony",
+      "text": "{groom} and {bride} exchange their vows and rings."
+     },
+     {
+      "time": "To follow",
+      "title": "Reception",
+      "text": "Dinner, toasts and dancing, straight after the ceremony."
+     }
+    ],
+    "songTitle": "Our Song",
+    "songSub": "The one we always come back to",
+    "listen": "Listen to the full song",
+    "rsvpTitle": "Kindly Respond",
+    "rsvpBy": "Please reply by {date}",
+    "rsvpName": "Your name",
+    "rsvpAttending": "Will you join us?",
+    "rsvpYes": "Joyfully accepts",
+    "rsvpNo": "Regretfully declines",
+    "rsvpGuests": "Number of guests",
+    "rsvpNote": "Dietary needs or a note for us",
+    "rsvpSend": "Send my reply",
+    "rsvpSending": "Sending",
+    "rsvpThanks": "Thank you",
+    "rsvpDoneYes": "We can't wait to see you, {name}.",
+    "rsvpDoneNo": "We'll miss you, {name}. Thank you for letting us know.",
+    "rsvpAlmost": "Almost done",
+    "rsvpHandoff": "Your reply is written. Press send in the app that opened.",
+    "rsvpOpenApp": "Open it again",
+    "rsvpChange": "Change my reply",
+    "rsvpErrName": "Please enter your name.",
+    "rsvpErrAttending": "Please choose whether you can come.",
+    "rsvpErrSend": "Your reply didn't send. Check your connection and try again.",
+    "closing": "We can't wait to celebrate with you",
+    "signature": "With love,"
+   },
+   "es": {
+    "code": "ES",
+    "name": "Español",
+    "locale": "es-ES",
+    "flag": "es",
+    "hint": "Toca el sello para abrir",
+    "openLabel": "Rompe el sello de cera para abrir tu invitación",
+    "together": "Junto a sus familias",
+    "invite": "los invitan a celebrar su boda",
+    "scroll": "Desliza",
+    "reception": "Seguido de recepción",
+    "countdownTitle": "Cuenta atrás",
+    "countdownSub": "Para el día más especial de nuestras vidas",
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "scheduleTitle": "El gran día",
+    "schedule": [
+     {
+      "time": "15:30",
+      "title": "Llegada",
+      "text": "Busca tu asiento y acomódate antes de que empiece la ceremonia."
+     },
+     {
+      "time": "16:00",
+      "title": "Ceremonia",
+      "text": "{groom} y {bride} intercambian sus votos y anillos."
+     },
+     {
+      "time": "A continuación",
+      "title": "Recepción",
+      "text": "Cena, brindis y baile justo después de la ceremonia."
+     }
+    ],
+    "songTitle": "Nuestra canción",
+    "songSub": "La que siempre nos acompaña",
+    "listen": "Escuchar la canción completa",
+    "rsvpTitle": "Confirmación",
+    "rsvpBy": "Responde antes del {date}",
+    "rsvpName": "Tu nombre",
+    "rsvpAttending": "¿Nos acompañas?",
+    "rsvpYes": "Acepto con alegría",
+    "rsvpNo": "Lo siento, no podré",
+    "rsvpGuests": "Número de invitados",
+    "rsvpNote": "Alergias o un mensaje para nosotros",
+    "rsvpSend": "Enviar mi respuesta",
+    "rsvpSending": "Enviando",
+    "rsvpThanks": "Gracias",
+    "rsvpDoneYes": "Tenemos muchas ganas de verte, {name}.",
+    "rsvpDoneNo": "Te echaremos de menos, {name}. Gracias por avisarnos.",
+    "rsvpAlmost": "Casi listo",
+    "rsvpHandoff": "Tu respuesta ya está escrita. Pulsa enviar en la aplicación que se abrió.",
+    "rsvpOpenApp": "Abrir de nuevo",
+    "rsvpChange": "Cambiar mi respuesta",
+    "rsvpErrName": "Escribe tu nombre.",
+    "rsvpErrAttending": "Indica si podrás venir.",
+    "rsvpErrSend": "Tu respuesta no se envió. Revisa tu conexión e inténtalo de nuevo.",
+    "closing": "Estamos deseando celebrarlo con ustedes",
+    "signature": "Con cariño,"
+   },
+   "fr": {
+    "code": "FR",
+    "name": "Français",
+    "locale": "fr-FR",
+    "flag": "fr",
+    "hint": "Touchez le sceau pour ouvrir",
+    "openLabel": "Brisez le sceau de cire pour ouvrir votre invitation",
+    "together": "Avec leurs familles",
+    "invite": "vous invitent à célébrer leur mariage",
+    "scroll": "Faites défiler",
+    "reception": "Suivi d'une réception",
+    "countdownTitle": "Compte à rebours",
+    "countdownSub": "Avant le plus beau jour de notre vie",
+    "days": "Jours",
+    "hours": "Heures",
+    "minutes": "Minutes",
+    "seconds": "Secondes",
+    "scheduleTitle": "Le grand jour",
+    "schedule": [
+     {
+      "time": "15h30",
+      "title": "Arrivée",
+      "text": "Prenez place et installez-vous avant le début de la cérémonie."
+     },
+     {
+      "time": "16h00",
+      "title": "Cérémonie",
+      "text": "{groom} et {bride} échangent leurs vœux et leurs alliances."
+     },
+     {
+      "time": "Ensuite",
+      "title": "Réception",
+      "text": "Dîner, toasts et danse, juste après la cérémonie."
+     }
+    ],
+    "songTitle": "Notre chanson",
+    "songSub": "Celle qui nous ramène toujours l'un à l'autre",
+    "listen": "Écouter la chanson entière",
+    "rsvpTitle": "Votre réponse",
+    "rsvpBy": "Merci de répondre avant le {date}",
+    "rsvpName": "Votre nom",
+    "rsvpAttending": "Serez-vous des nôtres ?",
+    "rsvpYes": "Avec plaisir",
+    "rsvpNo": "Hélas, je ne peux pas",
+    "rsvpGuests": "Nombre d'invités",
+    "rsvpNote": "Régime alimentaire ou un mot pour nous",
+    "rsvpSend": "Envoyer ma réponse",
+    "rsvpSending": "Envoi",
+    "rsvpThanks": "Merci",
+    "rsvpDoneYes": "Nous avons hâte de vous voir, {name}.",
+    "rsvpDoneNo": "Vous nous manquerez, {name}. Merci de nous avoir prévenus.",
+    "rsvpAlmost": "C'est presque fini",
+    "rsvpHandoff": "Votre réponse est prête. Appuyez sur Envoyer dans l'application qui s'est ouverte.",
+    "rsvpOpenApp": "Ouvrir à nouveau",
+    "rsvpChange": "Modifier ma réponse",
+    "rsvpErrName": "Veuillez saisir votre nom.",
+    "rsvpErrAttending": "Veuillez indiquer si vous pouvez venir.",
+    "rsvpErrSend": "Votre réponse n'a pas été envoyée. Vérifiez votre connexion et réessayez.",
+    "closing": "Nous avons hâte de fêter ce jour avec vous",
+    "signature": "Avec tout notre amour,"
+   }
+  }
+ }
+}

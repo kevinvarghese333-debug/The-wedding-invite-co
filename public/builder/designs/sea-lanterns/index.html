@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wedding invitation</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#14123c">
+<link rel="icon" href="assets/icon.png">
+<script>history.scrollRestoration = 'manual'</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Cormorant+Upright:wght@400;500;600&display=swap">
+<link rel="preload" as="image" href="assets/img/hero.webp">
+<link rel="preload" as="image" href="assets/img/lantern-cover.webp">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="locked">
+
+<!-- Clip shapes for the curtain that rises over the hero -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <clipPath id="clipValance" clipPathUnits="objectBoundingBox"><path d="M0,.34 C.18,.14 .34,.03 .5,0 C.66,.03 .82,.14 1,.34 L1,1 L0,1 Z"/></clipPath>
+  <clipPath id="clipBell" clipPathUnits="objectBoundingBox"><path d="M0,1 C.15,.97 .27,.7 .34,.42 C.39,.21 .45,.11 .5,.11 C.55,.11 .61,.21 .66,.42 C.73,.7 .85,.97 1,1 Z"/></clipPath>
+  <clipPath id="clipBellWide" clipPathUnits="objectBoundingBox"><path d="M0,.92 C.03,.66 .09,.42 .2,.27 C.3,.15 .42,.11 .5,.11 C.58,.11 .7,.15 .8,.27 C.91,.42 .97,.66 1,.92 L1,1 L0,1 Z"/></clipPath>
+</defs></svg>
+
+<canvas id="lanterns" aria-hidden="true"></canvas>
+
+<button id="sound" type="button" aria-label="Pause music" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/><path class="i-play" d="M8 5l11 7-11 7z"/></svg>
+</button>
+
+<!-- Names sit above the lanterns, so they live outside the hero -->
+<div id="names">
+  <h1 aria-label="__WIC_ONE__ weds __WIC_TWO__">
+    <span class="n" data-chars data-t="couple.groom"></span>
+    <span class="w">weds</span>
+    <span class="n" data-chars data-t="couple.bride"></span>
+  </h1>
+  <p class="date" data-t="dateLine"></p>
+</div>
+
+<div id="cover">
+  <div class="dusk"></div>
+  <div class="stars"></div>
+  <div class="cover__top">
+    <p class="cover__dear" id="dear" hidden></p>
+    <p class="cover__eyebrow">You are invited to the wedding of</p>
+    <p class="cover__names"><span data-t="couple.groom"></span> <em>&amp;</em> <span data-t="couple.bride"></span></p>
+  </div>
+  <button id="light" type="button" aria-label="Light the lantern to open the invitation">
+    <span class="halo"></span>
+    <img src="assets/img/lantern-cover.webp" alt="" width="650" height="716">
+    <span class="flame"></span>
+  </button>
+  <p class="cover__hint">Tap the lantern to light it</p>
+</div>
+
+<main id="top">
+
+  <div class="hero-run">
+    <section class="hero" aria-label="A beach wedding at sunset">
+      <img class="hero__art" id="heroArt" src="assets/img/hero.webp" alt="A bride walks up a petal-covered aisle on her father's arm toward the groom, on a beach at sunset" width="1280" height="1260">
+      <canvas class="hero__art" id="heroGL" aria-hidden="true"></canvas>
+      <div class="hero__sun" aria-hidden="true"></div>
+      <div class="cue" id="cue"><span>Scroll to begin</span><i></i></div>
+    </section>
+  </div>
+
+  <section id="invite">
+    <div class="curtain" aria-hidden="true">
+      <div class="curtain__o"></div>
+      <div class="curtain__p tile tile--purple"></div>
+    </div>
+    <div class="invite__body tile tile--purple">
+      <div class="invite__text">
+        <p class="mantra" data-rise data-t="blessing.verse"></p>
+        <p class="mantra__ref" data-rise data-t="blessing.verseRef"></p>
+        <div class="cross" id="cross" role="img" aria-label="Line drawing of a cross with roses and a dove"></div>
+        <p class="lead" data-rise data-t="blessing.lead"></p>
+        <p class="family" data-rise data-t="blessing.elders"></p>
+        <span class="rule" data-rule></span>
+        <p class="family" data-rise data-t="blessing.hosts"></p>
+        <h2 class="verb" data-chars data-t="blessing.verb"></h2>
+        <p class="lead" data-rise data-t="blessing.ask"></p>
+        <p class="big" data-chars data-t="couple.groom"></p>
+        <p class="amp" data-rise>&amp;</p>
+        <p class="big" data-chars data-t="couple.bride"></p>
+        <p class="lead lead--tight" data-rise data-t="blessing.brideLine"></p>
+        <p class="family" data-rise data-t="blessing.brideParents"></p>
+        <p class="lead lead--gap" data-rise>On the following events</p>
+      </div>
+
+      <div class="events" id="events"></div>
+
+      <a class="seal" id="route" target="_blank" rel="noopener">
+        <span class="seal__disc"><img src="assets/img/seal.webp" alt="" width="860" height="882" loading="lazy"><i class="seal__shine"></i></span>
+        <span class="seal__text"><strong>See the route</strong><small>Tap to open the map</small></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="room room--day" id="meet" aria-label="Meet the bride and groom">
+    <div class="room__view">
+      <div class="room__box">
+        <div class="room__back">
+          <img src="assets/img/sea-day.webp" alt="" loading="lazy">
+          <canvas data-sea="assets/img/sea-day.webp" data-horizon=".325" aria-hidden="true"></canvas>
+        </div>
+        <i class="room__left"></i><i class="room__right"></i><i class="room__floor"></i><i class="room__ceil"></i>
+        <i class="room__shadow"></i>
+        <div class="room__figure">
+          <img src="assets/img/figurine.webp" alt="Figurine of a bride and groom holding hands on a carved ivory and gold stage" loading="lazy">
+        </div>
+      </div>
+      <canvas class="room__petals" id="petals" aria-hidden="true"></canvas>
+      <div class="room__title">
+        <p>Meet the</p>
+        <h2>Bride <em>&amp;</em> Groom</h2>
+      </div>
+      <i class="room__lip"></i>
+    </div>
+  </section>
+
+  <section class="tile tile--teal" id="message">
+    <div class="note">
+      <h2 data-chars>A message from the couple</h2>
+      <p id="messageText"></p>
+    </div>
+    <div class="reel" id="reel" tabindex="0" aria-label="Photos of the couple"></div>
+    <div class="reel__nav">
+      <button type="button" id="reelPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="reel__dots" id="reelDots"></div>
+      <button type="button" id="reelNext" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+
+    <div class="shell" id="shell">
+      <div class="shell__hinge">
+        <img class="shell__top" src="assets/img/shell-top.webp" alt="" width="1200" height="935" loading="lazy">
+        <div class="shell__words">
+          <h2>We cannot wait to see you</h2>
+          <p>Tap the pearl to RSVP</p>
+        </div>
+      </div>
+      <img class="shell__bottom" src="assets/img/shell-bottom.webp" alt="" width="1300" height="388" loading="lazy">
+      <a class="pearl" id="pearl" target="_blank" rel="noopener" aria-label="RSVP on WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="tile tile--purple" id="know">
+    <h2 data-chars>Things to know</h2>
+    <p class="know__lead" id="knowLead" data-rise></p>
+    <div class="know__grid" id="knowGrid"></div>
+    <a class="moon" id="moon" target="_blank" rel="noopener" aria-label="Follow the wedding on Instagram">
+      <img class="moon__still" src="assets/img/moon-still.webp" alt="" width="720" height="720" loading="lazy">
+      <canvas class="moon__gl" id="moonGL" aria-hidden="true"></canvas>
+      <span class="moon__text">
+        <strong>Follow<br>the action</strong>
+        <small>Tap to open Instagram</small>
+        <i class="moon__ic"></i>
+      </span>
+    </a>
+  </section>
+
+  <section class="room room--night" id="ring" aria-label="The couple pulling a giant ring down from the night sky">
+    <div class="room__view">
+      <div class="room__box">
+        <div class="room__back">
+          <img src="assets/img/sea-night.webp" alt="" loading="lazy">
+          <canvas data-sea="assets/img/sea-night.webp" data-horizon=".43" aria-hidden="true"></canvas>
+        </div>
+        <i class="room__left"></i><i class="room__right"></i><i class="room__floor"></i><i class="room__ceil"></i>
+        <i class="room__shadow"></i>
+        <div class="room__figure room__figure--ring">
+          <div class="pull" id="pull">
+            <div class="sway" id="sway">
+              <img src="assets/img/ring-top.webp" alt="" width="760" height="1140" loading="lazy">
+              <i class="glint"></i>
+            </div>
+          </div>
+          <img src="assets/img/ring-couple.webp" alt="Figurine of a couple pulling a rope tied to a giant diamond ring" width="760" height="1140" loading="lazy">
+        </div>
+      </div>
+      <div class="room__title room__title--names">
+        <h2><span data-t="couple.groom"></span> <em>&amp;</em> <span data-t="couple.bride"></span></h2>
+      </div>
+      <i class="room__lip"></i>
+    </div>
+  </section>
+
+  <section class="tile tile--blue" id="count">
+    <h2 data-chars>The countdown begins</h2>
+    <div class="clock" id="clock" role="timer" aria-label="Time until the wedding"></div>
+    <p class="count__note" id="closing" data-rise></p>
+    <footer>
+      <img src="assets/twic-seal.png" alt="" width="64" height="64" loading="lazy">
+      <p>Made by The Wedding Invite Co.</p>
+    </footer>
+  </section>
+</main>
+
+<audio id="music" loop preload="none"></audio>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/lanterns.js"></script>
+<script src="js/gl.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

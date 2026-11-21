@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, CircleAlert, ExternalLink, Eye, Loader2, Smartphone, Sparkles, X } from "lucide-react";
+import { ArrowLeft, Check, CircleAlert, ExternalLink, Eye, Link2, Loader2, Smartphone, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -178,6 +178,11 @@ export function Editor({ site, initial, library, price, siteUrl, builderUrl }: {
             Save my design
           </Button>
         ) : null}
+        <Button variant="outline" size="sm" asChild className="max-md:hidden">
+          <Link href={`${base}/links/${site.id}`} onClick={() => void ensureSaved()}>
+            <Link2 /> Guest links
+          </Link>
+        </Button>
         {site.paid ? (
           <>
             <Button variant="outline" size="sm" asChild className="max-sm:hidden">
@@ -308,7 +313,7 @@ export function Editor({ site, initial, library, price, siteUrl, builderUrl }: {
   );
 }
 
-function ContactDialog({
+export function ContactDialog({
   open,
   onOpenChange,
   siteId,

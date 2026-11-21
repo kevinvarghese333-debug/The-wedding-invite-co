@@ -1,0 +1,91 @@
+{
+ "var": "CONFIG",
+ "file": "js/config.js",
+ "config": {
+  "couple": {
+   "bride": "Neha",
+   "groom": "Ashutosh"
+  },
+  "weddingStart": "2027-02-28T10:30:00+05:30",
+  "dateLong": "Sunday · 28 February 2027",
+  "dateShort": "28 · 02 · 2027",
+  "place": "Rawla Lohgarh · Kota",
+  "blessing": "॥ श्री गणेशाय नमः ॥",
+  "invitation": {
+   "kicker": "With the blessings of our elders",
+   "lead": "we joyfully invite you to celebrate the wedding of",
+   "brideParents": "",
+   "groomParents": "",
+   "close": "Your presence and blessings will make our day complete."
+  },
+  "portrait": {
+   "src": "",
+   "alt": "Neha and Ashutosh",
+   "line": "Two hearts, one forever"
+  },
+  "venue": {
+   "name": "Rawla Lohgarh",
+   "address": [
+    "Ramnagar Road, Nagpur Bhimpura,",
+    "Kaithun, Kota, Rajasthan"
+   ],
+   "map": "https://www.google.com/maps/search/?api=1&query=Rawla%20Lohgarh%2C%20Kaithun%2C%20Kota"
+  },
+  "events": [
+   {
+    "id": "phere",
+    "icon": "garland",
+    "date": "2027-02-28",
+    "time": "10:30 AM – 1:00 PM",
+    "title": "Varmala & Phere",
+    "note": "The exchange of garlands and the seven sacred rounds",
+    "start": "2027-02-28T10:30:00+05:30",
+    "end": "2027-02-28T13:00:00+05:30"
+   },
+   {
+    "id": "reception",
+    "icon": "lantern",
+    "date": "2027-02-28",
+    "time": "5:00 PM – 11:00 PM",
+    "title": "Reception & Dinner",
+    "note": "An evening of music, food and celebration",
+    "start": "2027-02-28T17:00:00+05:30",
+    "end": "2027-02-28T23:00:00+05:30"
+   }
+  ],
+  "photos": [
+   {
+    "src": "",
+    "alt": ""
+   },
+   {
+    "src": "",
+    "alt": ""
+   },
+   {
+    "src": "",
+    "alt": ""
+   },
+   {
+    "src": "",
+    "alt": ""
+   },
+   {
+    "src": "",
+    "alt": ""
+   },
+   {
+    "src": "",
+    "alt": ""
+   }
+  ],
+  "rsvp": {
+   "by": "",
+   "maxGuests": 6,
+   "endpoint": "",
+   "whatsapp": ""
+  },
+  "signoff": "With love, from both our families",
+  "music": ""
+ }
+}

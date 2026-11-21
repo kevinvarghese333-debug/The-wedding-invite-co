@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5a1626">
+  <meta name="robots" content="noindex">
+  <title>Wedding invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/paper.jpg">
+  <link rel="preload" as="image" href="assets/art/arch.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/art/arch.webp">
+  <link rel="stylesheet" href="assets/css/journey.css?v=20261119d">
+</head>
+<body>
+  <div class="device">
+    <main class="stage" id="stage">
+      <!-- The whole invite is one paper world. Scenes sit side by side
+           on it; the camera glides and a heart follows a dashed trail. -->
+      <div class="paper-bg" id="paperBg" aria-hidden="true"></div>
+      <div class="world" id="world">
+        <svg class="trail" id="trail" aria-hidden="true"></svg>
+        <div class="scenes" id="scenes"></div>
+        <div class="heart" id="heart" aria-hidden="true">
+          <svg viewBox="0 0 32 30"><defs>
+            <radialGradient id="hg" cx="38%" cy="30%" r="80%"><stop offset="0" stop-color="#f05a6e"/><stop offset=".55" stop-color="#c8162f"/><stop offset="1" stop-color="#8e0d22"/></radialGradient>
+          </defs><path d="M16 28.5C6.5 21.6 1.5 16.4 1.5 9.6 1.5 5 5 1.5 9.3 1.5c2.8 0 5.2 1.5 6.7 3.8 1.5-2.3 3.9-3.8 6.7-3.8 4.3 0 7.8 3.5 7.8 8.1 0 6.8-5 12-14.5 18.9z" fill="url(#hg)"/>
+          <path d="M8 6.2c-1.6.6-2.6 2-2.8 3.6" stroke="#fff" stroke-opacity=".55" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+          <b class="heart-num"></b>
+        </div>
+      </div>
+
+      <canvas class="petals" id="petals" aria-hidden="true"></canvas>
+
+      <header class="hud">
+        <button class="round-btn" id="musicBtn" aria-label="Pause music" hidden>
+          <svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><line class="mute" x1="3" y1="3" x2="21" y2="21"/></svg>
+        </button>
+        <button class="round-btn" id="menuBtn" aria-label="Open the menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="16" x2="19" y2="16"/></svg>
+        </button>
+      </header>
+
+      <nav class="controls" id="controls">
+        <button class="btn btn-ghost" id="backBtn" aria-label="Back" hidden>
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Back</span>
+        </button>
+        <button class="btn btn-wine" id="nextBtn">
+          <span>Open invitation</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </nav>
+
+      <div class="menu" id="menu" hidden>
+        <div class="menu-card">
+          <p class="menu-eyebrow">The invitation</p>
+          <p class="menu-title">Our Journey</p>
+          <ol class="menu-list" id="menuList"></ol>
+        </div>
+      </div>
+
+      <audio id="music" loop preload="none"></audio>
+    </main>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/js/config.js?v=20261119d"></script>
+  <script src="assets/js/petals.js?v=20261119d"></script>
+  <script src="assets/js/journey.js?v=20261119d"></script>
+</body>
+</html>
