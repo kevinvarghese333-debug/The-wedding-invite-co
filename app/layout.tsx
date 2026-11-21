@@ -1,18 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import "./fonts.css";
 import "./globals.css";
-
-const siteUrl = process.env.SITE_URL || "http://localhost:3000";
+import { siteUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteUrl()),
   title: {
     default: "Wedding Invitation Website in Kerala | WhatsApp Invites with RSVP · The Wedding Invite Co.",
     template: "%s · The Wedding Invite Co.",
   },
   description:
     "Custom wedding invitation websites from Kerala, sent on WhatsApp. RSVP for every function, maps, your story and photos in one link. From ₹4,999, designed for you.",
-  alternates: { canonical: siteUrl },
   openGraph: {
     title: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",
     description: "Custom wedding invitation websites sent on WhatsApp: every function, maps and RSVP in one link. From ₹4,999.",
@@ -37,13 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display&family=Bodoni+Moda:opsz,wght@6..96,400&family=Pinyon+Script&family=Mrs+Saint+Delafield&family=Anton&display=swap"
-        />
+        {/* The two fonts above the fold; the rest load only when a section uses them. */}
+        <link rel="preload" href="/fonts/dm-sans-latin-opsz-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
+        <link rel="preload" href="/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body>
         {children}
