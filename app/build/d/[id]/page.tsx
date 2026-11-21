@@ -140,8 +140,8 @@ export default async function DesignPage({ params, searchParams }: Props) {
                 </li>
               ))}
             </ol>
-            <p className="mt-8 flex flex-wrap items-center gap-2 text-[17px]">
-              <Headset className="text-primary size-5" aria-hidden />
+            <p className="mt-8 text-[17px]">
+              <Headset className="text-primary mr-2 inline size-5 align-[-4px]" aria-hidden />
               Not sure yet?{" "}
               <a href={sup.call} target="_blank" rel="noopener" className="text-primary font-medium hover:underline">
                 Book a free call with us
