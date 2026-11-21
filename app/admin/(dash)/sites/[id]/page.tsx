@@ -7,11 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SiteBadge } from "@/components/admin/site-badge";
-import { getSite, hasUnpublishedChanges, listRsvps, siteSummary, suggestSlug } from "@/lib/builder/sites";
+import { expired, getSite, hasUnpublishedChanges, listRsvps, siteSummary, suggestSlug } from "@/lib/builder/sites";
+import { ADDONS, linkLimit, parseAddons, parseLinks, totalFor } from "@/lib/builder/addons";
 import { findDesign } from "@/lib/builder/designs";
-import { builderPrice, editLink, liveUrl } from "@/lib/builder/server";
+import { editLink, liveUrl, prices } from "@/lib/builder/server";
 import { templateOrDefault } from "@/lib/builder/templates";
-import { deleteSiteAction, markPaidAction, publishChangesAction, revokeAction, setSlugAction, setStatusAction } from "@/app/admin/site-actions";
+import { deleteSiteAction, markPaidAction, publishChangesAction, revokeAction, setPlanAction, setSlugAction, setStatusAction } from "@/app/admin/site-actions";
 import { fmtDate, fmtDateTime, fmtPhone, rupees } from "@/lib/format";
 import { whatsappHref } from "@/lib/whatsapp";
 
@@ -27,6 +28,9 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
   const rsvps = listRsvps(s.id);
   const link = editLink(s);
   const slug = s.slug || suggestSlug(d, s.id);
+  const addons = parseAddons(s.addons);
+  const links = parseLinks(s.links, addons);
+  const pr = prices();
   const rows: [string, React.ReactNode][] = [
     ["Design", t.name],
     ["Wedding", d.date ? fmtDate(d.date) : "Not set"],
@@ -38,6 +42,9 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
     ["Asked to publish", s.publish_requested_at ? fmtDateTime(s.publish_requested_at) : "No"],
     ["Says they paid", s.claim_ref ? `UTR ${s.claim_ref} · ${fmtDateTime(s.claimed_at)}` : "No"],
     ["Paid", s.paid_at ? `${rupees(s.amount)} · ${s.payment_method}${s.payment_ref ? ` · ${s.payment_ref}` : ""} · ${fmtDateTime(s.paid_at)}` : "Not yet"],
+    ["Add-ons", addons.length ? addons.map((a) => ADDONS.find((x) => x.id === a)!.title).join(", ") : "None"],
+    ["Live until", s.live_until ? `${fmtDate(s.live_until)}${expired(s) ? " (ended)" : ""}` : s.paid_at ? "No end date" : "Starts when paid"],
+    ["Guest links", `${links.length} of ${linkLimit(addons)}`],
     ["Opens", String(s.views)],
     ["RSVPs", String(rsvps.length)],
   ];
@@ -104,7 +111,7 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
                 </div>
                 <div className="grid gap-1.5">
                   <Label htmlFor="m-amount">Amount received (₹)</Label>
-                  <Input id="m-amount" name="amount" inputMode="numeric" defaultValue={String(builderPrice())} />
+                  <Input id="m-amount" name="amount" inputMode="numeric" defaultValue={String(totalFor(pr, addons))} />
                 </div>
                 <div className="grid gap-1.5">
                   <Label htmlFor="m-method">How</Label>
@@ -146,6 +153,33 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
               </form>
             </Card>
           )}
+          <Card className="gap-4 p-5">
+            <div>
+              <h2 className="text-lg font-semibold">Plan</h2>
+              <p className="text-muted-foreground text-sm">
+                Add-ons they chose{s.paid_at ? " and paid for" : ""}. Change them here for an upgrade paid on WhatsApp. Your own web address and building from WhatsApp messages are done by hand.
+              </p>
+            </div>
+            <form action={setPlanAction} className="grid gap-3">
+              <input type="hidden" name="id" value={s.id} />
+              <fieldset className="grid gap-2">
+                <legend className="sr-only">Add-ons</legend>
+                {ADDONS.map((a) => (
+                  <label key={a.id} className="flex items-center gap-2.5 text-sm">
+                    <input type="checkbox" name="addons" value={a.id} defaultChecked={addons.includes(a.id)} className="accent-primary size-4" />
+                    <span className="flex-1">{a.title}</span>
+                    <span className="text-muted-foreground lining-nums">{rupees(pr[a.id])}</span>
+                  </label>
+                ))}
+              </fieldset>
+              <div className="grid gap-1.5 sm:max-w-xs">
+                <Label htmlFor="p-until">Live until</Label>
+                <Input id="p-until" name="live_until" type="date" defaultValue={s.live_until || ""} />
+                <p className="text-muted-foreground text-xs">After this date guests see a short note. Leave empty to keep it live.</p>
+              </div>
+              <Button type="submit" variant="outline" className="justify-self-start">Save plan</Button>
+            </form>
+          </Card>
           <Card className="gap-3 p-5">
             <h2 className="text-lg font-semibold">The couple&apos;s edit link</h2>
             <p className="text-muted-foreground text-sm">Anyone with this link can edit the invitation. Send it if they lost theirs.</p>

@@ -18,6 +18,8 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
   if (!site || !(await canEdit(site))) redirect(`${base}/edit/${id}`);
   const d = siteSummary(site);
   const rows = listRsvps(site.id);
+  // which guest link each reply came through (its name is saved with the reply)
+  const showLink = !!site.links && site.links !== "[]" || rows.some((r) => r.via);
   const wishes = rows.filter((r) => r.attending === "wish");
   const replies = rows.filter((r) => r.attending !== "wish");
   const yes = replies.filter((r) => r.attending === "yes");
@@ -88,6 +90,7 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
                   <TableHead>Celebrations</TableHead>
                   <TableHead>Phone</TableHead>
                   <TableHead>Note</TableHead>
+                  {showLink ? <TableHead>Link</TableHead> : null}
                   <TableHead>When</TableHead>
                 </TableRow>
               </TableHeader>
@@ -100,6 +103,7 @@ export default async function RsvpsPage({ params }: { params: Promise<{ id: stri
                     <TableCell className="max-w-[200px] whitespace-normal">{r.events || ""}</TableCell>
                     <TableCell>{r.phone ? (/^\d{10,15}$/.test(r.phone) ? fmtPhone(r.phone) : r.phone) : ""}</TableCell>
                     <TableCell className="max-w-[260px] whitespace-normal">{r.message || ""}</TableCell>
+                    {showLink ? <TableCell className="whitespace-nowrap">{r.via || "Main link"}</TableCell> : null}
                     <TableCell className="text-muted-foreground whitespace-nowrap">{fmtDateTime(r.created_at)}</TableCell>
                   </TableRow>
                 ))}

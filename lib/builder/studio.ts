@@ -140,6 +140,37 @@ export function samplePhotoCount(design: Design, config: Config) {
   return n;
 }
 
+/* ---------- guest links ---------- */
+/** The path of a design's list of functions, if it has one guests can be shown a part of. */
+export function eventsPath(design: Design) {
+  const p = design.events || "events";
+  return Array.isArray(getPath(design.sample, p)) ? p : null;
+}
+
+export const eventName = (e: Json) => (e && typeof e === "object" && !Array.isArray(e) ? String((e as Record<string, Json>).name ?? (e as Record<string, Json>).title ?? "") : "");
+
+/** Function names in a studio design's settings. */
+export function studioEvents(design: Design, config: Config) {
+  const p = eventsPath(design);
+  const list = p ? getPath(config, p) : null;
+  return Array.isArray(list) ? list.map(eventName).filter(Boolean) : [];
+}
+
+/** Keeps only the named functions (all of them when the list is empty). */
+export function onlyEvents(design: Design, config: Config, names: string[]): Config {
+  const p = eventsPath(design);
+  const list = p ? getPath(config, p) : null;
+  if (!p || !Array.isArray(list) || !names.length) return config;
+  return setPath(config, p, list.filter((e) => names.includes(eventName(e))));
+}
+
+/** "Dear Sharma family", shown at the top of a personal link until the guest scrolls. */
+export function greetingBanner(text: string) {
+  if (!text) return "";
+  const t = text.replace(/[<>&"]/g, "");
+  return `<div id="wic-greet" role="note" style="position:fixed;left:50%;top:max(14px,env(safe-area-inset-top));transform:translateX(-50%);z-index:2147483646;background:rgba(255,253,249,.94);color:#4a0f16;border:1px solid rgba(74,15,22,.15);box-shadow:0 10px 30px rgba(0,0,0,.18);border-radius:999px;padding:9px 20px;font:italic 500 17px/1.2 Georgia,serif;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;transition:opacity .6s,transform .6s">Dear ${t},</div><script>(function(){var g=document.getElementById("wic-greet");function hide(){g.style.opacity="0";g.style.transform="translate(-50%,-12px)"}addEventListener("scroll",function(){if(scrollY>160)hide()},{passive:true});setTimeout(hide,9000)})();</script>`;
+}
+
 /* ---------- rendering ---------- */
 export type StudioOpts = {
   mode: "live" | "preview" | "editor" | "thumb";

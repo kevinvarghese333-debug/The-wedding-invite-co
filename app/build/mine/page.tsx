@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ExternalLink, Eye, Pencil, Users } from "lucide-react";
+import { ExternalLink, Eye, Link2, Pencil, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -63,6 +63,11 @@ export default async function MinePage() {
                         <Button size="sm" variant="outline" asChild>
                           <Link href={`${base}/rsvps/${s.id}`}>
                             <Users /> Replies ({rsvps})
+                          </Link>
+                        </Button>
+                        <Button size="sm" variant="outline" asChild>
+                          <Link href={`${base}/links/${s.id}`}>
+                            <Link2 /> Guest links
                           </Link>
                         </Button>
                       </>

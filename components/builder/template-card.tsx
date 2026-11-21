@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, Expand, Loader2 } from "lucide-react";
-import { useFormStatus } from "react-dom";
+import Link from "next/link";
+import { ArrowRight, Expand } from "lucide-react";
+import { PriceTag } from "@/components/builder/price-tag";
 import { Button } from "@/components/ui/button";
 import { useBase } from "@/components/builder/base";
 import { cn } from "@/lib/utils";
@@ -13,21 +14,12 @@ type Props = {
   blurb: string;
   tags: string[];
   palettes: { id: string; label: string; bg: string; accent: string; ink: string }[];
-  action: (fd: FormData) => Promise<void>;
+  price: number;
+  was: number;
 };
 
-function Submit() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" className="flex-1" disabled={pending}>
-      {pending ? <Loader2 className="animate-spin" /> : null}
-      Use this design {pending ? null : <ArrowRight />}
-    </Button>
-  );
-}
-
 /* A design in the gallery: the real invitation running in a small phone, with its colour options. */
-export function TemplateCard({ id, name, blurb, tags, palettes, action }: Props) {
+export function TemplateCard({ id, name, blurb, tags, palettes, price, was }: Props) {
   const base = useBase();
   const [palette, setPalette] = React.useState(palettes[0].id);
   const src = `${base}/thumb/${id}?p=${palette}`;
@@ -84,11 +76,14 @@ export function TemplateCard({ id, name, blurb, tags, palettes, action }: Props)
           ))}
           <span className="text-muted-foreground ml-1 text-xs">{palettes.find((p) => p.id === palette)?.label}</span>
         </div>
-        <form action={action} className="mt-auto flex gap-2">
-          <input type="hidden" name="template" value={id} />
-          <input type="hidden" name="palette" value={palette} />
-          <Submit />
-        </form>
+        <div className="mt-auto grid gap-3">
+          <PriceTag base={price} was={was} size="sm" />
+          <Button asChild>
+            <Link href={`${base}/d/${id}?p=${palette}`}>
+              Choose this design <ArrowRight />
+            </Link>
+          </Button>
+        </div>
       </div>
     </article>
   );

@@ -3,7 +3,7 @@
 /* The editor for studio designs: a form built from the design's own settings, next to the real design. */
 import * as React from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowLeft, ArrowUp, Check, CircleAlert, ExternalLink, Eye, ImagePlus, Loader2, Plus, RotateCcw, Sparkles, Trash2, Upload, X } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowUp, Check, CircleAlert, ExternalLink, Eye, ImagePlus, Link2, Loader2, Plus, RotateCcw, Sparkles, Trash2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -216,6 +216,11 @@ export function StudioEditor({
             Save my design
           </Button>
         ) : null}
+        <Button variant="outline" size="sm" asChild className="max-md:hidden">
+          <Link href={`${base}/links/${site.id}`} onClick={() => void ensureSaved()}>
+            <Link2 /> Guest links
+          </Link>
+        </Button>
         {site.paid ? (
           <>
             <Button variant="outline" size="sm" asChild className="max-sm:hidden">

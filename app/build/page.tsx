@@ -8,8 +8,9 @@ import { TemplateCard } from "@/components/builder/template-card";
 import { StudioCard } from "@/components/builder/studio-card";
 import { DESIGNS, designThumb } from "@/lib/builder/designs";
 import { TEMPLATES } from "@/lib/builder/templates";
-import { builderPrice, getBase } from "@/lib/builder/server";
-import { startDesign } from "@/app/build/actions";
+import { builderPrice, getBase, prices, support } from "@/lib/builder/server";
+import { SupportSection } from "@/components/builder/support";
+import { PriceTag } from "@/components/builder/price-tag";
 import { publicWhatsApp, siteUrl } from "@/lib/config";
 import { whatsappHref } from "@/lib/whatsapp";
 import { rupees } from "@/lib/format";
@@ -39,6 +40,8 @@ const FAQ: [string, string][] = [
 export default async function BuilderHome({ searchParams }: { searchParams: Promise<{ busy?: string }> }) {
   const base = await getBase();
   const price = builderPrice();
+  const pr = prices();
+  const sup = support();
   const sp = await searchParams;
   const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
   return (
@@ -48,7 +51,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
         <section className="border-b py-[clamp(48px,7vw,96px)]">
           <div className={`${wrap} grid items-center gap-10 text-center`}>
             <div className="mx-auto max-w-3xl">
-              <Badge variant="clay">Do it yourself · {rupees(price)}</Badge>
+              <Badge variant="clay">Do it yourself · {pr.was > price ? `${Math.round((1 - price / pr.was) * 100)}% off, now ${rupees(price)}` : rupees(price)}</Badge>
               <h1 className="heading mt-5 text-[clamp(42px,6.4vw,80px)] leading-[0.98] text-balance">
                 Make your wedding invitation website, <em className="text-clay-ink font-normal">yourself.</em>
               </h1>
@@ -112,7 +115,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
             ) : null}
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {DESIGNS.map((d) => (
-                <StudioCard key={d.id} id={d.id} name={d.name} blurb={d.blurb} tags={d.tags} thumb={designThumb(d.id)} base={base} action={startDesign} />
+                <StudioCard key={d.id} id={d.id} name={d.name} blurb={d.blurb} tags={d.tags} thumb={designThumb(d.id)} base={base} price={pr.base} was={pr.was} />
               ))}
             </div>
             <div className="mx-auto mt-20 max-w-2xl text-center">
@@ -121,7 +124,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {TEMPLATES.map((t) => (
-                <TemplateCard key={t.id} id={t.id} name={t.name} blurb={t.blurb} tags={t.tags} palettes={t.palettes.map(({ id, label, bg, accent, ink }) => ({ id, label, bg, accent, ink }))} action={startDesign} />
+                <TemplateCard key={t.id} id={t.id} name={t.name} blurb={t.blurb} tags={t.tags} palettes={t.palettes.map(({ id, label, bg, accent, ink }) => ({ id, label, bg, accent, ink }))} price={pr.base} was={pr.was} />
               ))}
             </div>
           </div>
@@ -147,10 +150,10 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
             <Card className="border-primary gap-0 border-2 p-7 shadow-[0_24px_60px_rgba(74,15,22,0.12)]">
               <h3 className="text-lg font-semibold">Do it yourself</h3>
               <p className="text-muted-foreground mt-1 text-sm">You design it, we host it.</p>
-              <p className="mt-5 flex items-baseline gap-2">
-                <span className="heading text-[52px] leading-none font-semibold lining-nums">{rupees(price)}</span>
-                <span className="text-muted-foreground text-sm">one-time</span>
-              </p>
+              <div className="mt-5">
+                <PriceTag base={pr.base} was={pr.was} size="lg" />
+                <p className="text-muted-foreground mt-1 text-sm">one-time, when you publish</p>
+              </div>
               <Button className="mt-6 w-full" size="lg" asChild>
                 <a href="#designs">Choose a design</a>
               </Button>
@@ -190,6 +193,11 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
                 </a>
               </Button>
             </p>
+          </div>
+        </section>
+        <section className="border-t py-[clamp(56px,7vw,96px)]">
+          <div className={wrap}>
+            <SupportSection {...sup} />
           </div>
         </section>
       </main>

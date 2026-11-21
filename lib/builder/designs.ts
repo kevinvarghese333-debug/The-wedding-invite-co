@@ -43,6 +43,8 @@ export type Design = {
   demo?: string;
   /** the music file setting */
   music?: string;
+  /** where the list of functions lives, for guest links that show only some of them (default "events") */
+  events?: string;
   /** settings couples shouldn't see or change */
   hide?: string[];
   /** a short note shown at the top of the editor */

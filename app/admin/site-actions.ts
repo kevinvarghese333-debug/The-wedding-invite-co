@@ -3,9 +3,10 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
-import { cleanSlug, deleteSite, getSite, publishChanges, revokeLinks, setSlug, setStatus, siteSummary, slugProblem, suggestSlug, addLibraryTrack, deleteLibraryTrack } from "@/lib/builder/sites";
+import { cleanSlug, deleteSite, getSite, publishChanges, revokeLinks, setAddons, setLiveUntil, setSlug, setStatus, siteSummary, slugProblem, suggestSlug, addLibraryTrack, deleteLibraryTrack } from "@/lib/builder/sites";
+import { cleanAddons, parseAddons, totalFor } from "@/lib/builder/addons";
 import { completePayment } from "@/lib/builder/publish";
-import { builderPrice, musicDir, saveMusic, MUSIC_RE } from "@/lib/builder/server";
+import { musicDir, prices, saveMusic, MUSIC_RE } from "@/lib/builder/server";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -26,9 +27,21 @@ export async function markPaidAction(fd: FormData) {
   if (problem) back(id, "?error=" + encodeURIComponent(`Web address: ${problem}`));
   setSlug(s.id, slug);
   const method = fd.get("method") === "free" ? "free" : "manual";
-  const amount = method === "free" ? 0 : Math.max(0, Number.parseInt(str(fd, "amount", 10), 10) || builderPrice());
+  const amount = method === "free" ? 0 : Math.max(0, Number.parseInt(str(fd, "amount", 10), 10) || totalFor(prices(), parseAddons(s.addons)));
   await completePayment(s.id, { amount, ref: str(fd, "ref", 80), method });
   back(id, "?saved=" + encodeURIComponent("Marked paid and published."));
+}
+
+/* Add-ons and how long it stays live: for upgrades paid on WhatsApp, or a favour. */
+export async function setPlanAction(fd: FormData) {
+  await requireAdmin();
+  const id = str(fd, "id", 20);
+  const s = getSite(id);
+  if (!s) redirect("/admin/sites");
+  setAddons(id, cleanAddons(fd.getAll("addons")));
+  const until = str(fd, "live_until", 10);
+  setLiveUntil(id, /^\d{4}-\d{2}-\d{2}$/.test(until) ? until : null);
+  back(id, "?saved=" + encodeURIComponent("Plan saved."));
 }
 
 export async function setSlugAction(fd: FormData) {

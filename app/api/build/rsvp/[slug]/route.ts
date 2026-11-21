@@ -1,5 +1,6 @@
 import { clean, cleanPhone, json } from "@/lib/builder/api";
 import { addRsvp, getSiteBySlug, listWishes } from "@/lib/builder/sites";
+import { parseAddons, parseLinks } from "@/lib/builder/addons";
 import { clientIp } from "@/lib/builder/server";
 import { rateLimited } from "@/lib/auth";
 
@@ -72,7 +73,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     .map(([k, v]) => `${clean(k, 30)}: ${clean(String(v), 200)}`);
   const message = [clean(String(pick(b, MESSAGE) ?? ""), 600), ...extra].filter(Boolean).join("\n") || null;
   const phoneRaw = pick(b, PHONE);
-  addRsvp({ site_id: site.id, name, phone: phoneRaw ? cleanPhone(phoneRaw) || clean(String(phoneRaw), 20) : null, attending, guests: attending === "yes" ? guests : 1, events: events || null, message });
+  const code = new URL(req.url).searchParams.get("via");
+  const link = code ? parseLinks(site.links, parseAddons(site.addons)).find((l) => l.code === code) : undefined;
+  addRsvp({ site_id: site.id, name, phone: phoneRaw ? cleanPhone(phoneRaw) || clean(String(phoneRaw), 20) : null, attending, guests: attending === "yes" ? guests : 1, events: events || null, message, via: link ? link.label : null });
   return json({ ok: true });
 }
 

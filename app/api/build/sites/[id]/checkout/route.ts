@@ -1,7 +1,9 @@
 import { after } from "next/server";
 import { clean, cleanPhone, editable, emailOk, json } from "@/lib/builder/api";
-import { addOrder, cleanSlug, getSite, requestPublish, setContact, setSlug, siteSummary, slugProblem } from "@/lib/builder/sites";
-import { builderPrice, liveUrl } from "@/lib/builder/server";
+import { addOrder, cleanSlug, getSite, requestPublish, setAddons, setContact, setSlug, siteSummary, slugProblem } from "@/lib/builder/sites";
+import { ADDONS, cleanAddons, totalFor } from "@/lib/builder/addons";
+import { upiPayment } from "@/lib/builder/upi";
+import { liveUrl, prices } from "@/lib/builder/server";
 import { createRazorpayOrder, razorpayKeyId, razorpayReady } from "@/lib/builder/razorpay";
 import { onContactSaved } from "@/lib/builder/publish";
 import { notifyStudio } from "@/lib/notify";
@@ -34,26 +36,30 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!email || !emailOk(email)) errors.email = "Please enter your email for the receipt and your link.";
   if (Object.keys(errors).length) return json({ ok: false, errors }, 422);
 
+  const addons = cleanAddons(body.addons);
   setSlug(site.id, slug);
+  setAddons(site.id, addons);
   const emailChanged = email !== (site.email || "");
   setContact(site.id, { name, email, phone });
   const fresh = getSite(site.id)!;
   if (!site.lead_id || emailChanged) after(() => onContactSaved(fresh));
 
   const names = siteSummary(fresh).names;
-  const amount = builderPrice();
+  const amount = totalFor(prices(), addons);
+  const extras = addons.map((a) => ADDONS.find((x) => x.id === a)!.title);
 
   if (!razorpayReady()) {
     const first = !site.publish_requested_at;
     requestPublish(site.id);
+    const upi = await upiPayment(amount, site.id);
     if (first)
       after(() =>
         notifyStudio(
           `Ready to publish: ${names} · ${rupees(amount)}`,
-          `${name} (+${phone}, ${email}) finished "${names}" and wants it live at ${liveUrl(slug)}.\nThey're paying ${rupees(amount)} by UPI (note "Invitation ${site.id}"). Once it's in your account, press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`
+          `${name} (+${phone}, ${email}) finished "${names}" and wants it live at ${liveUrl(slug)}.\n${extras.length ? `Add-ons: ${extras.join(", ")}.\n` : ""}They're paying ${rupees(amount)} by UPI (note "Invitation ${site.id}"). Once it's in your account, press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`
         )
       );
-    return json({ ok: true, mode: "manual", amount, whatsapp: publicWhatsApp(), url: liveUrl(slug) });
+    return json({ ok: true, mode: "manual", amount, upi, whatsapp: publicWhatsApp(), url: liveUrl(slug) });
   }
 
   try {
@@ -67,7 +73,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       amount: order.amount,
       currency: "INR",
       name: STUDIO,
-      description: `Wedding invitation · ${names}`,
+      description: `Wedding invitation · ${names}${extras.length ? ` + ${extras.length} add-on${extras.length > 1 ? "s" : ""}` : ""}`,
       prefill: { name, email, contact: `+${phone}` },
       url: liveUrl(slug),
     });

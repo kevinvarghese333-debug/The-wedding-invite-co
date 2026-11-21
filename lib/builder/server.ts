@@ -4,12 +4,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { cookies, headers } from "next/headers";
 import { isAdmin } from "@/lib/auth";
-import { builderUrl, siteUrl } from "@/lib/config";
+import { builderUrl, publicWhatsApp, siteUrl } from "@/lib/config";
+import { ADDONS, type Prices } from "@/lib/builder/addons";
 import { getSettings } from "@/lib/settings";
 import { BUILT_IN, trackSrc, type Track } from "@/lib/builder/music";
 import { listByIds, listLibraryTracks, siteData, siteSummary, studioConfig, liveData, type Site } from "@/lib/builder/sites";
 import { findDesign, designThumb } from "@/lib/builder/designs";
-import { renderStudio } from "@/lib/builder/studio";
+import { greetingBanner, onlyEvents, renderStudio, studioEvents } from "@/lib/builder/studio";
+import type { GuestLink } from "@/lib/builder/addons";
 import { dayMonth } from "@/lib/builder/render";
 import { templateOrDefault } from "@/lib/builder/templates";
 import { renderDocument, type RenderMode } from "@/lib/builder/render";
@@ -98,6 +100,33 @@ export async function getBase() {
 export const liveUrl = (slug: string) => `${siteUrl()}/i/${slug}`;
 
 /* ---------- money ---------- */
+export function prices(): Prices {
+  const s = getSettings();
+  const num = (v: string | undefined, d: number) => {
+    const n = Number(String(v || "").replace(/[^\d]/g, ""));
+    return Number.isFinite(n) && n > 0 ? n : d;
+  };
+  const wasRaw = String(s.builder_price_was ?? "").trim();
+  const p = { base: builderPrice(), was: wasRaw === "0" ? 0 : num(wasRaw, 3999) } as Prices;
+  for (const a of ADDONS) p[a.id] = num(s[a.setting], a.price);
+  return p;
+}
+
+export type Support = { phone: string; hours: string; email: string; call: string };
+/** How couples reach the studio, from Admin → Settings with sensible fallbacks. */
+export function support(): Support {
+  const s = getSettings();
+  const phone = (s.support_phone || "").replace(/\D/g, "") || publicWhatsApp();
+  const email = (s.support_email || "").trim() || (process.env.NOTIFY_EMAIL || "").split(",")[0].trim();
+  return { phone, hours: s.support_hours?.trim() || "Mon to Sat, 10:00 AM to 7:00 PM IST", email, call: callLink(phone) };
+}
+
+/** "Book a free call": a booking link from Admin → Settings, or a WhatsApp message to the support number. */
+export function callLink(phone = (getSettings().support_phone || "").replace(/\D/g, "") || publicWhatsApp()) {
+  const l = getSettings().call_link;
+  return l && /^https?:\/\//.test(l) ? l : `https://wa.me/${phone}?text=${encodeURIComponent("Hi! I'd like to book a free 15-minute call about the invitation builder.")}`;
+}
+
 export function builderPrice() {
   const n = Number(String(getSettings().builder_price || "").replace(/[^\d]/g, ""));
   return Number.isFinite(n) && n > 0 ? n : 1999;
@@ -143,12 +172,14 @@ export function designHtml(id: string) {
 }
 
 /** A site as a full HTML page: its draft (previews) or its published copy (live). Empty when there's nothing to show. */
-export function renderSite(s: Site, mode: RenderMode) {
+export function renderSite(s: Site, mode: RenderMode, link?: GuestLink) {
   const which = mode === "live" ? "live" : "draft";
   const design = findDesign(s.template);
+  const rsvpUrl = s.slug ? `/api/build/rsvp/${s.slug}${link ? `?via=${link.code}` : ""}` : "";
   if (design) {
-    const config = studioConfig(s, which);
+    let config = studioConfig(s, which);
     if (!config) return "";
+    if (link) config = onlyEvents(design, config, link.events);
     const x = siteSummary(s);
     const names = [x.one, x.two].filter(Boolean).join(" & ") || "Our wedding";
     return renderStudio(design, designHtml(design.id), config, {
@@ -156,25 +187,34 @@ export function renderSite(s: Site, mode: RenderMode) {
       title: x.date ? `${names} · ${dayMonth(x.date)}` : names,
       description: `${names} invite you to celebrate their wedding${x.date ? " on " + dayMonth(x.date) : ""}${x.place ? " in " + x.place : ""}. Tap to open.`,
       image: `${siteUrl()}${designThumb(design.id).replace(".jpg", "-og.jpg")}`,
-      pageUrl: s.slug ? liveUrl(s.slug) : undefined,
-      rsvpUrl: s.slug ? `/api/build/rsvp/${s.slug}` : "",
-    });
+      pageUrl: s.slug ? liveUrl(s.slug) + (link ? `/${link.code}` : "") : undefined,
+      rsvpUrl,
+    }).replace(/<\/body>/i, `${link?.greeting ? greetingBanner(link.greeting) : ""}</body>`);
   }
-  const data = which === "live" ? liveData(s) : siteData(s);
+  let data = which === "live" ? liveData(s) : siteData(s);
   if (!data) return "";
-  return renderEngine(s, data, mode);
+  if (link?.events.length) data = { ...data, events: data.events.filter((e) => link.events.includes(e.name)) };
+  return renderEngine(s, data, mode, link, rsvpUrl);
+}
+
+/** The functions a site has, by name: what guest links choose from. */
+export function siteEvents(s: Site) {
+  const design = findDesign(s.template);
+  if (design) return studioEvents(design, studioConfig(s) ?? design.sample);
+  return siteData(s).events.map((e) => e.name).filter(Boolean);
 }
 
 
-function renderEngine(s: Site, data: InviteData, mode: RenderMode) {
+function renderEngine(s: Site, data: InviteData, mode: RenderMode, link?: GuestLink, rsvpUrl?: string) {
   const t = templateOrDefault(s.template);
   return renderDocument(t, data, {
     mode,
     musicSrc: mode === "thumb" ? "" : trackSrc(data.music.track, library()),
-    rsvpUrl: s.slug ? `/api/build/rsvp/${s.slug}` : "",
+    rsvpUrl,
+    greeting: link?.greeting,
     siteUrl: siteUrl(),
     builderUrl: builderUrl(),
-    pageUrl: mode === "live" && s.slug ? liveUrl(s.slug) : undefined,
+    pageUrl: mode === "live" && s.slug ? liveUrl(s.slug) + (link ? `/${link.code}` : "") : undefined,
   });
 }
 

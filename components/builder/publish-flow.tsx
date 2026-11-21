@@ -8,12 +8,15 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useBase } from "@/components/builder/base";
+import { AddonPicker } from "@/components/builder/funnel";
+import { ADDONS, totalFor, type AddonId, type Prices } from "@/lib/builder/addons";
 import { cn } from "@/lib/utils";
 
 type Props = {
   siteId: string;
   names: string;
-  price: number;
+  prices: Prices;
+  addons: AddonId[];
   host: string; // theweddinginviteco.xyz/i/
   initialSlug: string;
   contact: { name: string; email: string; phone: string };
@@ -58,6 +61,9 @@ export function PublishFlow(p: Props) {
   const [error, setError] = React.useState("");
   const [url, setUrl] = React.useState(p.liveUrl);
   const [copied, setCopied] = React.useState(false);
+  const [addons, setAddons] = React.useState<AddonId[]>(p.addons);
+  const [upi, setUpi] = React.useState(p.upi);
+  const total = totalFor(p.prices, addons);
 
   React.useEffect(() => {
     if (stage !== "form") return;
@@ -76,7 +82,7 @@ export function PublishFlow(p: Props) {
     setError("");
     setErrors({});
     setStage("paying");
-    const r = await fetch(`/api/build/sites/${p.siteId}/checkout`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, ...f }) });
+    const r = await fetch(`/api/build/sites/${p.siteId}/checkout`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, ...f, addons }) });
     const j = await r.json().catch(() => ({}));
     if (!r.ok || !j.ok) {
       setStage("form");
@@ -91,6 +97,7 @@ export function PublishFlow(p: Props) {
     }
     setUrl(j.url);
     if (j.mode === "manual") {
+      if (j.upi) setUpi(j.upi);
       setStage("manual");
       return;
     }
@@ -167,6 +174,9 @@ export function PublishFlow(p: Props) {
                 </a>
               </Button>
               <Button variant="outline" asChild>
+                <Link href={`${base}/links/${p.siteId}`}>Guest links</Link>
+              </Button>
+              <Button variant="outline" asChild>
                 <a href={url} target="_blank" rel="noopener">
                   <ExternalLink /> Open it
                 </a>
@@ -178,14 +188,14 @@ export function PublishFlow(p: Props) {
             <p className="text-muted-foreground text-sm">We&apos;ve emailed you the link and a receipt.</p>
           </Card>
         ) : stage === "manual" ? (
-          p.upi ? (
-            <UpiPay siteId={p.siteId} price={p.price} url={url} upi={p.upi} email={f.email} claimRef={p.claimRef} askUs={askUs} onChangeLink={() => setStage("form")} />
+          upi ? (
+            <UpiPay siteId={p.siteId} price={total} url={url} upi={upi} email={f.email} claimRef={p.claimRef} askUs={askUs} onChangeLink={() => setStage("form")} />
           ) : (
             <Card className="gap-5 p-7">
               <div>
                 <h1 className="heading text-4xl">Almost there.</h1>
                 <p className="text-muted-foreground mt-2">
-                  Message us on WhatsApp and we&apos;ll send you the payment details for {rupee(p.price)}. We publish it as soon as the payment arrives, usually within the hour, and email you when it&apos;s live.
+                  Message us on WhatsApp and we&apos;ll send you the payment details for {rupee(total)}. We publish it as soon as the payment arrives, usually within the hour, and email you when it&apos;s live.
                 </p>
               </div>
               <div className="bg-muted rounded-lg border p-4 text-sm">
@@ -259,14 +269,21 @@ export function PublishFlow(p: Props) {
               ))}
             </Card>
             <Card className="gap-4 p-6">
-              <h2 className="font-semibold">3. Pay and publish</h2>
+              <div>
+                <h2 className="font-semibold">3. Anything extra? (optional)</h2>
+                <p className="text-muted-foreground mt-1 text-sm">Every plan already has 3 guest links that show different functions to different guests.</p>
+              </div>
+              <AddonPicker prices={p.prices} initial={p.addons} onChange={setAddons} mode="publish" />
+            </Card>
+            <Card className="gap-4 p-6">
+              <h2 className="font-semibold">4. Pay and publish</h2>
               {error ? (
                 <p role="alert" className="bg-destructive/10 text-destructive rounded-lg px-3 py-2 text-sm">
                   {error}
                 </p>
               ) : null}
               <Button type="submit" size="lg" disabled={stage === "paying" || !slugState.ok}>
-                {stage === "paying" ? <Loader2 className="animate-spin" /> : <Lock />} {p.razorpay ? `Pay ${rupee(p.price)} and publish` : `Continue to pay ${rupee(p.price)}`}
+                {stage === "paying" ? <Loader2 className="animate-spin" /> : <Lock />} {p.razorpay ? `Pay ${rupee(total)} and publish` : `Continue to pay ${rupee(total)}`}
               </Button>
               <p className="text-muted-foreground text-xs">
                 {p.razorpay ? "UPI, cards and net banking through Razorpay." : "Pay by UPI from any app: Google Pay, PhonePe, Paytm or BHIM."} One-time payment, no subscription.
@@ -290,9 +307,24 @@ export function PublishFlow(p: Props) {
               </li>
             ))}
           </ul>
-          <p className="mt-1 flex items-baseline justify-between border-t pt-3">
+          <div className="mt-1 grid gap-1.5 border-t pt-3">
+            <p className="flex items-baseline justify-between gap-3">
+              <span>Invitation</span>
+              <span className="lining-nums">
+                {p.prices.was > p.prices.base ? <s className="text-muted-foreground mr-1.5">{rupee(p.prices.was)}</s> : null}
+                {rupee(p.prices.base)}
+              </span>
+            </p>
+            {addons.map((a) => (
+              <p key={a} className="text-muted-foreground flex items-baseline justify-between gap-3">
+                <span>{ADDONS.find((x) => x.id === a)?.title}</span>
+                <span className="text-foreground lining-nums">{rupee(p.prices[a])}</span>
+              </p>
+            ))}
+          </div>
+          <p className="flex items-baseline justify-between border-t pt-3">
             <span>Total</span>
-            <span className="heading text-2xl font-semibold lining-nums">{rupee(p.price)}</span>
+            <span className="heading text-2xl font-semibold lining-nums">{rupee(total)}</span>
           </p>
         </Card>
       </aside>

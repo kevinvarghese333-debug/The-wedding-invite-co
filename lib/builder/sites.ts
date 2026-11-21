@@ -32,6 +32,9 @@ export type Site = {
   views: number;
   claim_ref: string | null; // UPI transaction id the couple gave us
   claimed_at: string | null;
+  addons: string | null; // JSON: add-ons chosen (before paying) or bought (after)
+  links: string | null; // JSON: guest links
+  live_until: string | null; // the invitation stays live until this date
 };
 
 export type Rsvp = {
@@ -44,6 +47,7 @@ export type Rsvp = {
   guests: number;
   events: string | null;
   message: string | null;
+  via: string | null; // which guest link the reply came through
 };
 
 export type Order = { id: string; site_id: string; amount: number; status: "created" | "paid"; payment_id: string | null; created_at: string; paid_at: string | null };
@@ -112,6 +116,9 @@ function db() {
     const cols = (d.prepare("PRAGMA table_info(sites)").all() as { name: string }[]).map((c) => c.name);
     if (!cols.includes("claim_ref")) d.exec("ALTER TABLE sites ADD COLUMN claim_ref TEXT");
     if (!cols.includes("claimed_at")) d.exec("ALTER TABLE sites ADD COLUMN claimed_at TEXT");
+    for (const c of ["addons", "links", "live_until"]) if (!cols.includes(c)) d.exec(`ALTER TABLE sites ADD COLUMN ${c} TEXT`);
+    const rcols = (d.prepare("PRAGMA table_info(site_rsvps)").all() as { name: string }[]).map((c) => c.name);
+    if (!rcols.includes("via")) d.exec("ALTER TABLE site_rsvps ADD COLUMN via TEXT");
   }
   return d;
 }
@@ -123,16 +130,19 @@ export function newSiteId() {
   return crypto.randomBytes(8).toString("base64url").replace(/[-_]/g, "x").slice(0, 10).toLowerCase();
 }
 
-export function createSite(templateId: string, ip: string, palette?: string) {
+export function createSite(templateId: string, ip: string, palette?: string, addons: string[] = []) {
   const id = newSiteId();
+  const withAddons = () => addons.length && setAddons(id, addons);
   const design = findDesign(templateId);
   if (design) {
     db().prepare("INSERT INTO sites (id, template, data, ip) VALUES (?, ?, ?, ?)").run(id, design.id, JSON.stringify(startingConfig(design)), ip);
+    withAddons();
     return id;
   }
   const t = templateOrDefault(templateId);
   const data = palette && t.palettes.some((p) => p.id === palette) ? { ...t.sample, style: { ...t.sample.style, palette } } : t.sample;
   db().prepare("INSERT INTO sites (id, template, data, ip) VALUES (?, ?, ?, ?)").run(id, t.id, JSON.stringify(data), ip);
+  withAddons();
   return id;
 }
 
@@ -260,18 +270,37 @@ export function claimPayment(id: string, ref: string) {
 }
 
 /** Marks the site paid and puts the current design live. Safe to call twice. */
-export function markPaid(id: string, p: { amount: number; ref: string; method: "razorpay" | "manual" | "free" }) {
+export function markPaid(id: string, p: { amount: number; ref: string; method: "razorpay" | "manual" | "free"; addons?: string[] }) {
   const s = getSite(id);
   if (!s) return undefined;
   if (s.paid_at) return s;
   const t = now();
+  const addons = p.addons ?? JSON.parse(s.addons || "[]");
+  const until = new Date();
+  until.setFullYear(until.getFullYear() + (addons.includes("year") ? 2 : 1)); // a year live, two with the add-on
   db()
     .prepare(
-      "UPDATE sites SET paid_at = ?, amount = ?, payment_ref = ?, payment_method = ?, status = 'live', live_data = data, published_at = COALESCE(published_at, ?), updated_at = ? WHERE id = ?"
+      "UPDATE sites SET paid_at = ?, amount = ?, payment_ref = ?, payment_method = ?, status = 'live', live_data = data, published_at = COALESCE(published_at, ?), addons = ?, live_until = COALESCE(live_until, ?), updated_at = ? WHERE id = ?"
     )
-    .run(t, p.amount, p.ref, p.method, t, t, id);
+    .run(t, p.amount, p.ref, p.method, t, JSON.stringify(addons), until.toISOString().slice(0, 10), t, id);
   return getSite(id);
 }
+
+/** Add-ons chosen before paying (from the design page or the publish page). Locked once paid, except from Admin. */
+export function setAddons(id: string, addons: string[]) {
+  db().prepare("UPDATE sites SET addons = ? WHERE id = ?").run(JSON.stringify(addons), id);
+}
+
+export function setLinks(id: string, links: unknown[]) {
+  db().prepare("UPDATE sites SET links = ?, updated_at = ? WHERE id = ?").run(JSON.stringify(links), now(), id);
+}
+
+export function setLiveUntil(id: string, date: string | null) {
+  db().prepare("UPDATE sites SET live_until = ? WHERE id = ?").run(date, id);
+}
+
+/** Past its live-until date? */
+export const expired = (s: Pick<Site, "live_until">) => !!s.live_until && s.live_until < new Date().toISOString().slice(0, 10);
 
 /** Puts the latest edits live (only once paid). */
 export function publishChanges(id: string) {
@@ -353,8 +382,8 @@ export function markOrderPaid(id: string, paymentId: string) {
 /* ---------- RSVPs ---------- */
 export function addRsvp(r: Omit<Rsvp, "id" | "created_at">) {
   db()
-    .prepare("INSERT INTO site_rsvps (site_id, name, phone, attending, guests, events, message) VALUES (?, ?, ?, ?, ?, ?, ?)")
-    .run(r.site_id, r.name, r.phone, r.attending, r.guests, r.events, r.message);
+    .prepare("INSERT INTO site_rsvps (site_id, name, phone, attending, guests, events, message, via) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+    .run(r.site_id, r.name, r.phone, r.attending, r.guests, r.events, r.message, r.via ?? null);
 }
 
 export function listRsvps(siteId: string): Rsvp[] {
