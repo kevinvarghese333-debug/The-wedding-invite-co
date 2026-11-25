@@ -3,7 +3,7 @@ import { BuilderHeader } from "@/components/builder/header";
 import { PublishFlow } from "@/components/builder/publish-flow";
 import { getSite, siteSummary, suggestSlug } from "@/lib/builder/sites";
 import { canEdit, getBase, liveUrl, prices } from "@/lib/builder/server";
-import { parseAddons, totalFor } from "@/lib/builder/addons";
+import { isOffered, parseAddons, totalFor } from "@/lib/builder/addons";
 import { publicWhatsApp, siteUrl } from "@/lib/config";
 import { razorpayReady } from "@/lib/builder/razorpay";
 import { upiPayment } from "@/lib/builder/upi";
@@ -18,7 +18,7 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
   const d = siteSummary(site);
   const slug = site.slug || suggestSlug(d, site.id);
   const pr = prices();
-  const addons = parseAddons(site.addons);
+  const addons = parseAddons(site.addons).filter(isOffered);
   const rzp = razorpayReady();
   const upi = rzp ? null : await upiPayment(totalFor(pr, addons), site.id);
   return (

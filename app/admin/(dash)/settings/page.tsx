@@ -11,8 +11,8 @@ export const dynamic = "force-dynamic";
 
 const GROUPS: [string, string[]][] = [
   ["Support (shown in the builder)", ["support_phone", "support_hours", "support_email", "call_link"]],
-  ["Builder payments", ["builder_price", "builder_price_was", "addon_b_links", "addon_b_domain", "addon_b_year", "addon_b_build", "upi_id", "upi_name"]],
-  ["Prices", ["offer_ends", "addon_domain", "addon_language", "addon_chapters", "addon_pages", "bundle_price", "bundle_note"]],
+  ["Builder payments", ["builder_price", "builder_price_was", "addon_b_links", "addon_b_domain", "addon_b_year", "upi_id", "upi_name"]],
+  ["Prices", ["addon_year", "addon_links", "addon_domain", "addon_language", "addon_pages", "bundle_price", "bundle_note"]],
   ["Good to know (shown under the packages)", ["turnaround", "payment_terms", "revisions", "refund_policy"]],
   ["Numbers", ["stats_invites", "stats_guests"]],
   ["Founder and social", ["founder_name", "founder_story", "instagram_url"]],

@@ -38,7 +38,7 @@ export async function setPlanAction(fd: FormData) {
   const id = str(fd, "id", 20);
   const s = getSite(id);
   if (!s) redirect("/admin/sites");
-  setAddons(id, cleanAddons(fd.getAll("addons")));
+  setAddons(id, cleanAddons(fd.getAll("addons"), true));
   const until = str(fd, "live_until", 10);
   setLiveUntil(id, /^\d{4}-\d{2}-\d{2}$/.test(until) ? until : null);
   back(id, "?saved=" + encodeURIComponent("Plan saved."));

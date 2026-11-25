@@ -10,7 +10,7 @@ import { findDesign } from "@/lib/builder/designs";
 import { findTemplate } from "@/lib/builder/templates";
 import { getBase, prices, support } from "@/lib/builder/server";
 import { startDesign } from "@/app/build/actions";
-import { builderUrl } from "@/lib/config";
+import { builderUrl, siteUrl } from "@/lib/config";
 import { rupees } from "@/lib/format";
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ p?: string }> };
@@ -88,7 +88,12 @@ export default async function DesignPage({ params, searchParams }: Props) {
                 </a>
               </Button>
             </div>
-            <p className="text-muted-foreground -mt-2 text-sm">No payment needed. Your invitation opens for editing straight away.</p>
+            <p className="text-muted-foreground -mt-2 text-sm">
+              No payment needed. Your invitation opens for editing straight away. Rather have our team set it up?{" "}
+              <a href={`${siteUrl()}/#studio`} className="text-primary font-medium underline-offset-4 hover:underline">
+                See The Studio
+              </a>
+            </p>
           </form>
 
           <section aria-labelledby="links-h">

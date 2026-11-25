@@ -157,17 +157,20 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
             <div>
               <h2 className="text-lg font-semibold">Plan</h2>
               <p className="text-muted-foreground text-sm">
-                Add-ons they chose{s.paid_at ? " and paid for" : ""}. Change them here for an upgrade paid on WhatsApp. Your own web address and building from WhatsApp messages are done by hand.
+                Add-ons they chose{s.paid_at ? " and paid for" : ""}. Change them here for an upgrade paid on WhatsApp. Your own web address is set up by hand.
               </p>
             </div>
             <form action={setPlanAction} className="grid gap-3">
               <input type="hidden" name="id" value={s.id} />
               <fieldset className="grid gap-2">
                 <legend className="sr-only">Add-ons</legend>
-                {ADDONS.map((a) => (
+                {ADDONS.filter((a) => a.offered !== false || addons.includes(a.id)).map((a) => (
                   <label key={a.id} className="flex items-center gap-2.5 text-sm">
                     <input type="checkbox" name="addons" value={a.id} defaultChecked={addons.includes(a.id)} className="accent-primary size-4" />
-                    <span className="flex-1">{a.title}</span>
+                    <span className="flex-1">
+                      {a.title}
+                      {a.offered === false ? <span className="text-muted-foreground"> (no longer offered)</span> : null}
+                    </span>
                     <span className="text-muted-foreground lining-nums">{rupees(pr[a.id])}</span>
                   </label>
                 ))}

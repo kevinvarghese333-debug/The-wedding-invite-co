@@ -10,20 +10,26 @@ export type Addon = {
   /** Admin → Settings key holding the price in rupees */
   setting: "addon_b_domain" | "addon_b_year" | "addon_b_build" | "addon_b_links";
   price: number;
+  /** false: no longer sold, but kept so invitations that already have it still show it */
+  offered?: boolean;
 };
 
 export const ADDONS: Addon[] = [
   { id: "links", title: "A personal link for every guest", blurb: "Up to 50 separate links. Each opens with “Dear Sharma family” and shows only the functions you pick for them.", setting: "addon_b_links", price: 999 },
-  { id: "domain", title: "Your own web address", blurb: "A .in or .com of your own, like annaandjoel.in, set up by our team.", setting: "addon_b_domain", price: 1499 },
+  { id: "domain", title: "Your own web address", blurb: "A .in or .com of your own, like annaandjoel.in, set up by our team. Subject to availability.", setting: "addon_b_domain", price: 1599 },
   { id: "year", title: "One more year live", blurb: "Keep the invitation, photos and replies online for a second year.", setting: "addon_b_year", price: 499 },
-  { id: "build", title: "We build it from your WhatsApp messages", blurb: "Too busy? Send us your details and photos on WhatsApp and we put it all together for you.", setting: "addon_b_build", price: 2999 },
+  { id: "build", title: "We build it from your WhatsApp messages", blurb: "Too busy? Send us your details and photos on WhatsApp and we put it all together for you.", setting: "addon_b_build", price: 2999, offered: false },
 ];
 
+/** What couples can choose now. Team setup ("build") is The Studio package on the main site instead. */
+export const OFFERED = ADDONS.filter((a) => a.offered !== false);
 export const isAddon = (x: unknown): x is AddonId => ADDONS.some((a) => a.id === x);
-export const cleanAddons = (v: unknown): AddonId[] => (Array.isArray(v) ? Array.from(new Set(v.filter(isAddon))) : []);
+export const isOffered = (x: unknown): x is AddonId => OFFERED.some((a) => a.id === x);
+/** Add-ons from a form or request. Only ones on sale, unless `all` (Admin, and what's already stored). */
+export const cleanAddons = (v: unknown, all = false): AddonId[] => (Array.isArray(v) ? Array.from(new Set(v.filter(all ? isAddon : isOffered))) : []);
 export const parseAddons = (raw: string | null | undefined): AddonId[] => {
   try {
-    return cleanAddons(JSON.parse(raw || "[]"));
+    return cleanAddons(JSON.parse(raw || "[]"), true);
   } catch {
     return [];
   }

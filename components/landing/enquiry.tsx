@@ -14,26 +14,47 @@ import { track } from "@/lib/track";
 import { CtaText, getCtaVariant } from "@/components/landing/cta";
 
 type Pkg = "classic" | "story" | "unsure";
-type Ctx = { open: (pkg?: Pkg, origin?: string) => void; whatsapp: string };
+/* preview: the general "free preview" form. setup: The Studio, for a chosen design. brief: The Signature's creative brief. */
+export type EnquiryVariant = "preview" | "setup" | "brief";
+type Opts = { variant?: EnquiryVariant; design?: string };
+type Ctx = { open: (pkg?: Pkg, origin?: string, opts?: Opts) => void; whatsapp: string };
+
+const HEAD: Record<EnquiryVariant, (design?: string) => [string, string]> = {
+  preview: () => ["Your free preview", "Just your names and WhatsApp number. We reply with ideas and a preview of your invitation. No payment, no obligation."],
+  setup: (design) => [
+    "Set it up with our team",
+    `Your names and WhatsApp number are enough to start. We reply with a private preview${design ? ` of ${design}` : ""} with your details. No payment, no obligation.`,
+  ],
+  brief: () => ["Start your creative brief", "Tell us a little about the two of you. We reply on WhatsApp with ideas and a first preview. No payment, no obligation."],
+};
 const EnquiryContext = React.createContext<Ctx>({ open: () => {}, whatsapp: "" });
 export const useEnquiry = () => React.useContext(EnquiryContext);
 
 export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; children: React.ReactNode }) {
-  const [state, setState] = React.useState<{ open: boolean; pkg: Pkg; origin: string }>({ open: false, pkg: "unsure", origin: "" });
-  const open = React.useCallback((pkg: Pkg = "unsure", origin = "") => {
-    setState({ open: true, pkg, origin });
+  const [state, setState] = React.useState<{ open: boolean; pkg: Pkg; origin: string; variant: EnquiryVariant; design?: string }>({ open: false, pkg: "unsure", origin: "", variant: "preview" });
+  const open = React.useCallback((pkg: Pkg = "unsure", origin = "", opts: Opts = {}) => {
+    setState({ open: true, pkg, origin, variant: opts.variant ?? "preview", design: opts.design });
     track("InitiateCheckout", { content_name: pkg, origin });
   }, []);
+  const [title, description] = HEAD[state.variant](state.design);
   return (
     <EnquiryContext.Provider value={{ open, whatsapp }}>
       {children}
       <Dialog open={state.open} onOpenChange={(o) => setState((s) => ({ ...s, open: o }))}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="heading text-3xl font-medium">Your free preview</DialogTitle>
-            <DialogDescription>Just your names and WhatsApp number. We reply with ideas and a preview of your invitation. No payment, no obligation.</DialogDescription>
+            <DialogTitle className="heading text-3xl font-medium">{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <EnquiryForm key={`${state.pkg}-${state.origin}-${state.open}`} defaultPackage={state.pkg} origin={state.origin} whatsapp={whatsapp} compact />
+          <EnquiryForm
+            key={`${state.pkg}-${state.origin}-${state.variant}-${state.design}-${state.open}`}
+            defaultPackage={state.pkg}
+            origin={state.origin}
+            whatsapp={whatsapp}
+            variant={state.variant}
+            design={state.design}
+            compact
+          />
         </DialogContent>
       </Dialog>
     </EnquiryContext.Provider>
@@ -62,11 +83,16 @@ export function EnquiryForm({
   origin = "page",
   whatsapp,
   compact = false,
+  variant = "preview",
+  design,
 }: {
   defaultPackage?: Pkg;
   origin?: string;
   whatsapp: string;
   compact?: boolean;
+  variant?: EnquiryVariant;
+  /** the design they picked, kept with the enquiry so we know where to start */
+  design?: string;
 }) {
   const [status, setStatus] = React.useState<"idle" | "sending" | "done">("idle");
   const [errors, setErrors] = React.useState<Errors>({});
@@ -79,7 +105,8 @@ export function EnquiryForm({
     const data = Object.fromEntries(form.entries()) as Record<string, string>;
     const params = new URLSearchParams(window.location.search);
     const utm = ["utm_source", "utm_medium", "utm_campaign"].map((k) => params.get(k)).filter(Boolean).join(" / ");
-    data.source = [origin, `cta-${getCtaVariant()}`, utm, document.referrer ? `from ${document.referrer}` : ""].filter(Boolean).join(" · ");
+    data.source = [origin, variant === "preview" ? `cta-${getCtaVariant()}` : `form-${variant}`, utm, document.referrer ? `from ${document.referrer}` : ""].filter(Boolean).join(" · ");
+    if (design) data.message = [`Design: ${design}`, data.message].filter(Boolean).join("\n\n");
     setStatus("sending");
     setErrors({});
     try {
@@ -139,6 +166,19 @@ export function EnquiryForm({
           {err("phone")}
         </div>
       </div>
+      {design ? (
+        <p className="bg-muted rounded-lg px-3 py-2 text-sm">
+          Design: <strong className="font-semibold">{design}</strong> <span className="text-muted-foreground">· you can change it later</span>
+        </p>
+      ) : null}
+      {variant === "brief" ? (
+        <div className="grid gap-2">
+          <Label htmlFor={`${id}-story`}>
+            A few lines about your story <span className="text-muted-foreground font-normal">(optional)</span>
+          </Label>
+          <Textarea id={`${id}-story`} name="message" rows={4} placeholder="How you met, places that matter to you, the feel you'd like" />
+        </div>
+      ) : null}
       <details className="group rounded-lg border border-dashed px-4 py-3 open:pb-4">
         <summary className="text-muted-foreground cursor-pointer list-none text-sm font-medium select-none [&::-webkit-details-marker]:hidden">
           <span className="group-open:hidden">+ Add your date and more (optional)</span>
@@ -154,8 +194,8 @@ export function EnquiryForm({
         <div className="grid gap-2">
           <Label htmlFor={`${id}-pkg`}>Package</Label>
           <NativeSelect id={`${id}-pkg`} name="package" defaultValue={defaultPackage}>
-            <option value="classic">The Classic Invitation</option>
-            <option value="story">The Signature Invitation</option>
+            <option value="classic">The Studio</option>
+            <option value="story">The Signature</option>
             <option value="unsure">Not sure yet</option>
           </NativeSelect>
         </div>
@@ -186,12 +226,12 @@ export function EnquiryForm({
             </Label>
             <Input id={`${id}-loc`} name="location" placeholder="Kochi" />
           </div>
-          <div className="grid gap-2">
+          {variant === "brief" ? null : <div className="grid gap-2">
             <Label htmlFor={`${id}-msg`}>
               Anything else? <span className="text-muted-foreground font-normal">(optional)</span>
             </Label>
             <Textarea id={`${id}-msg`} name="message" rows={3} placeholder="How you met, the look you like, questions for us" />
-          </div>
+          </div>}
         </div>
       </details>
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -207,7 +247,7 @@ export function EnquiryForm({
       <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
         <Button type="submit" size="lg" disabled={status === "sending"} className="sm:min-w-48">
           {status === "sending" ? <Loader2 className="animate-spin" /> : null}
-          {status === "sending" ? "Sending" : <CtaText />}
+          {status === "sending" ? "Sending" : variant === "setup" ? "Request my preview" : variant === "brief" ? "Send my brief" : <CtaText />}
         </Button>
         <p className="text-muted-foreground text-xs leading-relaxed">No payment, no obligation. We only use your details to reply about your invitation. <a href="/privacy" className="underline underline-offset-2">Privacy</a></p>
       </div>

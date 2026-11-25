@@ -68,7 +68,7 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
                 or send your names here
               </EnquireButton>
             </div>
-            <p className="mt-6 text-sm text-[#F7E6DC]/70">The Classic Invitation ₹4,999 · The Signature Invitation ₹8,490 · one-time</p>
+            <p className="mt-6 text-sm text-[#F7E6DC]/70">The Studio ₹4,999 · The Signature from ₹8,490 · one-time</p>
           </div>
         </section>
 

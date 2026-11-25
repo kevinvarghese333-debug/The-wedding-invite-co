@@ -107,7 +107,8 @@ export function prices(): Prices {
     return Number.isFinite(n) && n > 0 ? n : d;
   };
   const wasRaw = String(s.builder_price_was ?? "").trim();
-  const p = { base: builderPrice(), was: wasRaw === "0" ? 0 : num(wasRaw, 3999) } as Prices;
+  // A crossed-out "original" price only shows when one is set in Admin.
+  const p = { base: builderPrice(), was: wasRaw ? num(wasRaw, 0) : 0 } as Prices;
   for (const a of ADDONS) p[a.id] = num(s[a.setting], a.price);
   return p;
 }
