@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   ArrowRight,
   CalendarPlus,
@@ -46,6 +47,7 @@ import { AUDIENCES } from "@/lib/audiences";
 const rupeesPlain = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const CHAPTERS = [
   { img: "/media/sc-church.jpg", alt: "Kerala Christian wedding invitation website: watercolour church chapter", text: "Every day, the bells rang at Don Bosco Church." },

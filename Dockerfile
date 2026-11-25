@@ -10,6 +10,9 @@ RUN npm ci --no-audit --no-fund
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+# Static pages (the landing pages, privacy) bake their canonical URL in at build time, so the build needs the address.
+ARG SITE_URL=https://theweddinginviteco.xyz
+ENV SITE_URL=$SITE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build

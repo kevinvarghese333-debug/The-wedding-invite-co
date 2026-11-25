@@ -1,7 +1,10 @@
 # The Wedding Invite Co. · runs as its own container behind the Traefik already on the VPS.
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-https://theweddinginviteco.xyz}
     image: wedding-invite-co:latest
     container_name: wedding-invite-co
     restart: unless-stopped

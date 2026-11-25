@@ -1,7 +1,7 @@
 import { Logo } from "@/components/landing/art";
 import { STUDIO } from "@/lib/config";
 
-export const metadata = { title: { absolute: `Privacy · ${STUDIO}` }, description: "How The Wedding Invite Co. stores guest names, numbers and RSVPs." };
+export const metadata = { title: { absolute: `Privacy · ${STUDIO}` }, description: "How The Wedding Invite Co. stores guest names, numbers and RSVPs.", alternates: { canonical: "/privacy" } };
 
 export default function Privacy() {
   const sections: [string, string[]][] = [

@@ -1,7 +1,12 @@
 export const STUDIO = "The Wedding Invite Co.";
 
+/** The live address, used for canonical tags and the sitemap. Static pages read this at build time,
+    so a production build falls back to the real domain rather than localhost when SITE_URL isn't set. */
+export const PRODUCTION_URL = "https://theweddinginviteco.xyz";
+
 export function siteUrl() {
-  return (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  const fallback = process.env.NODE_ENV === "production" ? PRODUCTION_URL : "http://localhost:3000";
+  return (process.env.SITE_URL || fallback).replace(/\/$/, "");
 }
 
 /** The number couples chat with on WhatsApp (shown on the website). Digits only, with country code. */
