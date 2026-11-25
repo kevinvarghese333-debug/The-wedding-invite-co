@@ -144,16 +144,15 @@ If no UPI ID is set, couples are asked to message you on WhatsApp for payment de
 
 **Prices, add-ons and guest links**
 
-Every design card shows the price with the original struck through (₹1,999, ~~₹3,999~~, 50% off). Tapping a
-design opens its page (`build.<domain>/d/<design>`): the sample in a phone, the price, the add-ons, a demo of
+Every design card shows the price (₹1,999). A crossed-out "original price" only appears if you set one in Admin,
+and should only be a real earlier price. Tapping a design opens its page (`build.<domain>/d/<design>`): the sample in a phone, the price, the add-ons, a demo of
 guest links, what every plan includes, what happens next, "book a free call" and the support section.
 
 | Add-on | Default | What happens |
 | --- | --- | --- |
 | A personal link for every guest | ₹999 | Up to 50 links instead of 3. Each opens with "Dear Sharma family" and shows only the functions chosen for them. Automatic. |
-| Your own web address | ₹1,499 | **By hand:** the alert says "TO DO". Buy the domain they want and point it at the invitation. |
+| Your own web address | ₹1,599 | **By hand,** subject to availability: the alert says "TO DO". Buy the domain they want and point it at the invitation. |
 | One more year live | ₹499 | Live for 2 years instead of 1. Automatic. |
-| We build it from your WhatsApp messages | ₹2,999 | **By hand:** collect their details and photos on WhatsApp and fill in the invitation from "Edit as studio". |
 
 - Couples can tick add-ons on the design page and change them on the publish page. The total is charged by
   Razorpay or put in the UPI QR, and is the default amount under "Mark paid and publish".
@@ -161,10 +160,24 @@ guest links, what every plan includes, what happens next, "book a free call" and
   the reception). Couples make them at **Guest links** in the editor; each reply shows which link it came from.
 - An invitation stays live for a year from payment (two with the add-on). After that guests see a short note.
   Change the date or the add-ons on the invitation's page in **Admin → Builder → Plan**.
-- All prices are in **Admin → Settings → Builder payments**. "Original price, shown struck through" sets the crossed-out price;
-  set it to 0 to hide it.
+- All prices are in **Admin → Settings → Builder payments**.
+- "We build it from your WhatsApp messages" is no longer sold; couples who want our team to set it up are sent to
+  **The Studio**. Invitations that already bought it still show it in Admin.
 - **Admin → Settings → Support** sets the WhatsApp/phone number, hours and email shown in the support
   section. "Book a free call" opens WhatsApp, or a booking page if you add a link (Calendly, Cal.com…).
+
+**Packages on the main site** (`#pricing`). Three cards, one open at a time, with a phone preview beside them:
+
+| Package | Price | Who makes it | Button |
+| --- | --- | --- | --- |
+| The Collection | builder price (₹1,999) | The couple, in the builder | Opens the chosen design's page in the builder |
+| The Studio | ₹4,999 | Our team, on one of our designs | Enquiry form "Set it up with our team", with the design noted on the lead |
+| The Signature | from ₹8,490 | Our team, around their story | Enquiry form "Start your creative brief", with a box for their story |
+
+The Studio and The Signature stay live until a week after the last function. Their extras (one more year ₹399,
+personal links for up to 15 special guests ₹999, own web address ₹1,599, save-the-date pages, Malayalam wording)
+are in **Admin → Settings → Prices**. The card copy is in `app/page.tsx` (`packageList`) and the cards are in
+`components/landing/packages.tsx`. Links like `/#studio` open that package.
 
 **Admin → Builder** lists every design with its status (draft, wants to publish, live, paused), contact
 details, opens and RSVP counts. On each one you can preview, edit as the studio, mark paid, publish the

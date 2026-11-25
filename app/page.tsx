@@ -16,7 +16,6 @@ import {
   Sparkles,
   Timer,
   Instagram,
-  Minus,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
@@ -34,8 +33,12 @@ import { StickyCta, TrustStrip, InlineCta } from "@/components/landing/funnel";
 import { WhatsAppMoment } from "@/components/landing/whatsapp-chat";
 import { CoupleWords } from "@/components/landing/couple-words";
 import { builderUrl, publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
-import { builderPrice } from "@/lib/builder/server";
-import { fmtLongDate, getSettings, offerActive } from "@/lib/settings";
+import { prices } from "@/lib/builder/server";
+import { DESIGNS, findDesign } from "@/lib/builder/designs";
+import { TEMPLATES } from "@/lib/builder/templates";
+import { sampleHref } from "@/lib/samples";
+import { Packages, type PackageInfo } from "@/components/landing/packages";
+import { getSettings } from "@/lib/settings";
 import { LivePreview } from "@/components/landing/live-preview";
 import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { AUDIENCES } from "@/lib/audiences";
@@ -61,31 +64,6 @@ const COLLAGE = [
   [["ph-p1", "aspect-[3/4]"], ["cover-floral", "aspect-[3/4]"]],
 ];
 
-const CLASSIC_POINTS = [
-  "An elegant animated opening",
-  "Your photos, video and song",
-  "Every function with maps, calendar and timings",
-  "Live countdown to the day",
-  "RSVP for each function, with your own questions",
-  "A separate link for each guest list",
-  "Password protection and a QR code for cards",
-  "WhatsApp preview with your names",
-];
-const STORY_POINTS = [
-  "An opening designed only for you",
-  "Your story in chapters, in the style you choose",
-  "Custom moments, like a photo that develops as guests watch",
-  "Bride's side and groom's side versions",
-  "Save-the-date and thank-you pages",
-];
-const CLASSIC_MISSING = ["Your story told in chapters", "An opening designed only for you", "Bride's side and groom's side versions", "Save-the-date and thank-you pages"];
-const ADDONS: [string, "addon_domain" | "addon_language" | "addon_chapters" | "addon_pages"][] = [
-  ["Your own web address", "addon_domain"],
-  ["Malayalam or bilingual wording", "addon_language"],
-  ["Extra story chapters", "addon_chapters"],
-  ["Save-the-date and thank-you pages for The Classic Invitation", "addon_pages"],
-];
-
 const FAQ = [
   ["Do our guests need to download anything?", "No. It opens in the browser on any phone, straight from WhatsApp. Grandparents included."],
   ["Can different guests see different functions?", "Yes. We make a separate link for each guest list, so office friends see the reception while close family sees everything. Each link has its own RSVP choices and its own WhatsApp preview."],
@@ -93,7 +71,7 @@ const FAQ = [
   ["We're printing cards too. Can they link to it?", "Yes. You get a QR code to print on your cards. Guests scan it and land on the invitation with maps and RSVP."],
   ["How do the RSVPs reach us?", "On a private page only you can open. See headcounts, read guests' notes and answers, filter by link and download everything to Excel for the caterer."],
   ["What if something changes after we send it?", "Tell us and we update it. Guests keep the same link, so they always see the latest time and venue."],
-  ["What do you need from us?", "Your names and your parents' names, each function with its time and venue, your photos or a video, and the song you love. For The Signature Invitation, a few lines on how you met."],
+  ["What do you need from us?", "Your names and your parents' names, each function with its time and venue, your photos or a video, and the song you love. For The Signature, a few lines on how you met."],
   ["Where are our guests' names and replies stored?", "On our own server in a private database, never in a public spreadsheet. Only the two of you (and we, to help you) can see the guest list and RSVPs. We never sell or share them, and we delete them on request after the wedding."],
   ["How early should we start?", "As soon as your dates and venues are fixed. Message us your first function date and we'll tell you honestly what we can do in that time."],
 ];
@@ -114,18 +92,96 @@ function IconBox({ children }: { children: React.ReactNode }) {
   return <span aria-hidden className="bg-card grid size-10 flex-none place-items-center rounded-md border [&_svg]:size-[18px]">{children}</span>;
 }
 
-function Checklist({ items, first }: { items: string[]; first?: React.ReactNode }) {
-  return (
-    <ul className="grid flex-1 content-start gap-3 text-sm">
-      {first}
-      {items.map((p) => (
-        <li key={p} className="flex gap-2.5">
-          <Check className="text-sage mt-0.5 size-4 flex-none" strokeWidth={2.4} aria-hidden />
-          {p}
-        </li>
-      ))}
-    </ul>
-  );
+/* The three packages. Prices and extras come from Admin → Settings; nothing here is promised that isn't delivered today. */
+const PICKER = ["hill-station", "lotus-pond", "floral-seal", "sea-lanterns"];
+
+function packageList(st: ReturnType<typeof getSettings>, pr: ReturnType<typeof prices>, designCount: number, studioCount: number): PackageInfo[] {
+  const ask = (v?: string) => v?.trim() || "Ask us";
+  const domain = ask(st.addon_domain);
+  const live = "Live until a week after your last function";
+  return [
+    {
+      id: "collection",
+      name: "The Collection",
+      label: "Personalise it yourself",
+      price: rupeesPlain(pr.base),
+      priceNote: "one-time, when you publish",
+      description: `Choose one of our ${designCount} designs and make it yours in the builder, watching every change as you type.`,
+      includes: [
+        `${designCount} designs, each with its own opening; ${studioCount} are adapted from invitations we made for couples`,
+        "Names, families, wording, functions and venue map links, all edited by you",
+        "Photos where the design has room, and music: one of our tracks or your own song",
+        "Story sections only where the design already has them, in your own words",
+        "Countdown and blessings wall where the design includes them",
+        "RSVP for every function, with a list you can download",
+        "3 guest-group links, each showing only the functions you choose",
+        "Live as soon as your payment is confirmed, at theweddinginviteco.xyz/i/your-names",
+        "Live for a year from publishing; change it yourself whenever you like",
+      ],
+      extras: [
+        ["Personal links for up to 50 guests, made by you", rupeesPlain(pr.links)],
+        ["Your own web address, subject to availability", rupeesPlain(pr.domain)],
+        ["A second year live", rupeesPlain(pr.year)],
+      ],
+      missing: ["Setup by our team", "Password protection and QR code", "Bride's side and groom's side versions"],
+      reassurance: "Free to design, with no account. You pay only when you publish.",
+    },
+    {
+      id: "studio",
+      name: "The Studio",
+      label: "We personalise it for you",
+      price: "₹4,999",
+      priceNote: "one-time",
+      description: "Choose one of our designs and send us your details. Our team writes it up, sets every function and sends you a private preview.",
+      includes: [
+        "Built on one of our designs, with its animated opening",
+        "Names, families and wording written up from your details",
+        "Every function with timings, maps and add-to-calendar",
+        "Your photos, video and song",
+        "A live countdown to the day",
+        "RSVP for each function, with your own questions",
+        "A separate link for each guest list",
+        "Password protection and a QR code for printed cards",
+        "WhatsApp preview with your names",
+        "A private preview before guests see it",
+        "Changes until the wedding day, on the same link",
+        live,
+      ],
+      extras: [
+        ["One more year live", ask(st.addon_year)],
+        ["Personal links for up to 15 special guests", ask(st.addon_links)],
+        ["Your own web address, subject to availability", domain],
+        ["Save-the-date and thank-you pages", ask(st.addon_pages)],
+        ["Malayalam or bilingual wording", ask(st.addon_language)],
+      ],
+      missing: ["Your story in chapters", "An opening designed for you", "Bride's side and groom's side versions"],
+      reassurance: "Preview within 24 hours and the finished invitation within 48 hours of receiving your details.",
+    },
+    {
+      id: "signature",
+      name: "The Signature",
+      label: "Created around your story",
+      price: "From ₹8,490",
+      priceNote: "one-time; the final price follows the scope we agree",
+      description: "Your story becomes the invitation: an opening made for you, then chapters in the illustration style you choose.",
+      lead: "Everything in The Studio, plus:",
+      includes: [
+        "An opening designed for you, in place of a ready-made one",
+        "Your story in as many chapters as you like, developed from what you tell us",
+        "Custom moments, like a photo that develops as guests watch",
+        "Bride's side and groom's side versions",
+        "Save-the-date and thank-you pages",
+      ],
+      extras: [
+        ["One more year live", ask(st.addon_year)],
+        ["Personal links for up to 15 special guests", ask(st.addon_links)],
+        ["Your own web address, subject to availability", domain],
+        ["Malayalam or bilingual wording", ask(st.addon_language)],
+      ],
+      missing: [],
+      reassurance: "We agree the scope and price with you first. Preview within 24 hours and the finished invitation within 48 hours of receiving your details.",
+    },
+  ];
 }
 
 export default function Home() {
@@ -133,7 +189,8 @@ export default function Home() {
   const chat = whatsappHref(wa, "Hi! We'd like a free preview of our wedding invitation. Our names are ");
   const wrap = "mx-auto w-full max-w-[1200px] px-[clamp(16px,5vw,40px)]";
   const st = getSettings();
-  const offer = offerActive(st);
+  const designCount = DESIGNS.length + TEMPLATES.length;
+  const packages = packageList(st, prices(), designCount, DESIGNS.length);
   const founderLabel = /&| and /i.test(st.founder_name || "") ? "Founders" : "Founder";
   const goodToKnow = ([["Turnaround", st.turnaround], ["Payment", st.payment_terms], ["Changes", st.revisions], ["If it's not right", st.refund_policy]] as [string, string | undefined][]).filter(([, v]) => v);
   const faqLd = {
@@ -150,11 +207,12 @@ export default function Home() {
     image: `${siteUrl()}/og.jpg`,
     description: "Custom wedding invitation websites from Kerala, sent on WhatsApp, with RSVP for every function.",
     areaServed: ["Kerala", "India", "United Arab Emirates", "United Kingdom"],
-    priceRange: "₹4,999 to ₹8,490",
+    priceRange: `${rupeesPlain(prices().base)} to ₹8,490+`,
     sameAs: st.instagram_url ? [st.instagram_url] : undefined,
     makesOffer: [
-      { "@type": "Offer", name: "The Classic Invitation", price: "4999", priceCurrency: "INR" },
-      { "@type": "Offer", name: "The Signature Invitation", price: "8490", priceCurrency: "INR" },
+      { "@type": "Offer", name: "The Collection", price: String(prices().base), priceCurrency: "INR" },
+      { "@type": "Offer", name: "The Studio", price: "4999", priceCurrency: "INR" },
+      { "@type": "Offer", name: "The Signature", priceSpecification: { "@type": "PriceSpecification", minPrice: "8490", priceCurrency: "INR" } },
     ],
   };
 
@@ -262,7 +320,7 @@ export default function Home() {
         <section id="story" aria-labelledby="story-h" className="bg-primary text-primary-foreground py-[clamp(72px,9vw,120px)]">
           <div className={`${wrap} flex flex-wrap items-end justify-between gap-6`}>
             <div className="max-w-[700px] flex-[1_1_520px]">
-              <Badge className="border-[#F8F1EA33] bg-[#F8F1EA1a] text-[#F8F1EA]">The Signature Invitation</Badge>
+              <Badge className="border-[#F8F1EA33] bg-[#F8F1EA1a] text-[#F8F1EA]">The Signature</Badge>
               <h2 id="story-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
                 Your story, <em className="font-normal text-[#E9C29A]">the way you want to tell it.</em>
               </h2>
@@ -473,117 +531,35 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing */}
+        {/* Packages */}
         <section id="pricing" aria-labelledby="pricing-h" className="py-[clamp(72px,9vw,120px)]">
           <div className={wrap}>
             <div className="mx-auto max-w-[740px] text-center">
               <Badge variant="outline">Packages</Badge>
-              <h2 id="pricing-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02]">
-                Simple, one-time <em className="text-clay-ink font-normal">pricing.</em>
+              <h2 id="pricing-h" className="heading mt-4 text-[clamp(40px,5vw,64px)] leading-[1.02] text-balance">
+                Three ways to <em className="text-clay-ink font-normal">make it yours.</em>
               </h2>
-              <p className="text-muted-foreground mt-4 text-[17px]">Pay once. We design it, you share it. No subscriptions, no hidden costs.</p>
+              <p className="text-muted-foreground mt-4 text-[17px]">
+                Personalise a design yourself, have our team complete one for you, or commission an invitation around your story. Every price is paid once.
+              </p>
             </div>
-            <div className={`mx-auto mt-12 grid gap-5 ${st.bundle_price ? "max-w-[1200px] lg:grid-cols-3 md:grid-cols-2" : "max-w-[920px] md:grid-cols-2"}`}>
-              <Card className="gap-0 p-7">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">The Classic Invitation</h3>
-                  <Badge variant="secondary">Elegant and quick</Badge>
-                </div>
-                <p className="text-muted-foreground mt-1.5 text-sm">Everything guests need, beautifully laid out.</p>
-                <p className="mt-6 flex items-baseline gap-2">
-                  <span className="heading text-[52px] leading-none font-semibold">₹4,999</span>
-                  <span className="text-muted-foreground text-sm">one-time</span>
-                </p>
-                <EnquireButton variant="outline" pkg="classic" origin="pricing-classic" className="mt-6 w-full">
-                  <CtaText />
-                </EnquireButton>
-                <Separator className="mt-6 mb-5" />
-                <Checklist items={CLASSIC_POINTS} />
-                <p className="text-muted-foreground mt-5 text-xs font-semibold tracking-[0.14em] uppercase">Not included (in The Signature Invitation)</p>
-                <ul className="text-muted-foreground mt-2.5 grid gap-2 text-sm">
-                  {CLASSIC_MISSING.map((p) => (
-                    <li key={p} className="flex gap-2.5">
-                      <Minus className="mt-0.5 size-4 flex-none opacity-60" aria-hidden />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-              <Card className="border-primary gap-0 border-2 p-7 shadow-[0_24px_60px_rgba(74,15,22,0.16)]">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">The Signature Invitation</h3>
-                  <Badge>Recommended</Badge>
-                </div>
-                <p className="text-muted-foreground mt-1.5 text-sm">Everything in The Classic Invitation, plus your story.</p>
-                <div className="mt-6 flex flex-wrap items-baseline gap-x-2.5 gap-y-1.5">
-                  <span className="heading text-[52px] leading-none font-semibold">₹8,490</span>
-                  {offer ? (
-                    <s className="text-muted-foreground text-lg">
-                      <span className="sr-only">Usually </span>₹9,999
-                    </s>
-                  ) : null}
-                  <span className="text-muted-foreground text-sm">one-time</span>
-                </div>
-                {offer && st.offer_ends ? (
-                  <Badge variant="clay" className="mt-2.5">Introductory price until {fmtLongDate(st.offer_ends)}</Badge>
-                ) : null}
-                <EnquireButton pkg="story" origin="pricing-story" className="mt-4 w-full">
-                  <CtaText /> <ArrowRight />
-                </EnquireButton>
-                <Separator className="mt-6 mb-5" />
-                <Checklist
-                  items={STORY_POINTS}
-                  first={
-                    <li className="flex gap-2.5">
-                      <Check className="text-sage mt-0.5 size-4 flex-none" strokeWidth={2.4} aria-hidden />
-                      <span>
-                        Everything in <strong className="font-semibold">The Classic Invitation</strong>
-                      </span>
-                    </li>
-                  }
-                />
-              </Card>
-              {st.bundle_price ? (
-                <Card className="gap-0 p-7">
-                  <div className="flex items-center justify-between gap-3">
-                    <h3 className="text-lg font-semibold">Invitation + printed cards</h3>
-                    <Badge variant="secondary">For the elders</Badge>
-                  </div>
-                  <p className="text-muted-foreground mt-1.5 text-sm">The website, plus printed cards with your QR code.</p>
-                  <p className="mt-6 flex items-baseline gap-2">
-                    <span className="heading text-[44px] leading-none font-semibold">{st.bundle_price}</span>
-                  </p>
-                  <EnquireButton variant="outline" origin="pricing-bundle" className="mt-6 w-full">
-                    <CtaText />
-                  </EnquireButton>
-                  <Separator className="mt-6 mb-5" />
-                  <Checklist items={(st.bundle_note || "The Classic Invitation\nPrinted cards with your QR code").split(/\n+/).map((x) => x.trim()).filter(Boolean)} />
-                </Card>
-              ) : null}
-            </div>
-            <Card className="bg-clay-soft/60 mx-auto mt-5 max-w-[920px] flex-row flex-wrap items-center justify-between gap-4 px-6 py-5">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold">Prefer to make it yourself?</p>
-                <p className="text-muted-foreground text-sm">Pick one of our designs, type your details and see it change as you go. Free to design, {rupeesPlain(builderPrice())} to publish.</p>
-              </div>
-              <Button variant="outline" asChild>
-                <a href={builderUrl()}>
-                  Open the builder <ArrowRight />
-                </a>
-              </Button>
-            </Card>
-            <Card className="mx-auto mt-5 max-w-[920px] gap-0 px-6 py-2">
-              <p className="mt-3.5 mb-1.5 text-sm font-semibold">Add-ons</p>
-              {ADDONS.map(([a, k]) => (
-                <div key={a} className="flex justify-between gap-4 border-t py-3 text-sm">
-                  <span className="text-muted-foreground">{a}</span>
-                  <span className="font-semibold whitespace-nowrap">{st[k] || "Ask us"}</span>
-                </div>
-              ))}
-            </Card>
-            {goodToKnow.length ? (
-              <Card className="mx-auto mt-5 max-w-[920px] gap-0 px-6 py-2">
+            <Packages
+              packages={packages}
+              designs={PICKER.map((id) => ({ id, name: findDesign(id)?.name ?? id }))}
+              designCount={designCount}
+              builder={builderUrl()}
+              whatsapp={wa}
+              signature={{ video: "/media/story.mp4", poster: "/media/poster-story.jpg", live: sampleHref("keerthy-rosheel") }}
+            />
+            {goodToKnow.length || st.bundle_price ? (
+              <Card className="mx-auto mt-10 max-w-[920px] gap-0 px-6 py-2">
                 <p className="mt-3.5 mb-1.5 text-sm font-semibold">Good to know</p>
+                {st.bundle_price ? (
+                  <div className="flex flex-wrap justify-between gap-x-6 gap-y-1 border-t py-3 text-sm">
+                    <span className="font-medium">Printed cards with your QR code</span>
+                    <span className="text-muted-foreground sm:text-right">{st.bundle_price}. Ask us when you enquire.</span>
+                  </div>
+                ) : null}
                 {goodToKnow.map(([k, v]) => (
                   <div key={k} className="flex flex-wrap justify-between gap-x-6 gap-y-1 border-t py-3 text-sm">
                     <span className="font-medium">{k}</span>
@@ -592,14 +568,6 @@ export default function Home() {
                 ))}
               </Card>
             ) : null}
-            <ul className="text-muted-foreground mx-auto mt-6 flex max-w-[920px] flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
-              {["See a private preview before guests do", "Changes until the wedding day, same link", "Reply within the day on WhatsApp"].map((t) => (
-                <li key={t} className="flex items-center gap-2">
-                  <Check className="text-sage size-4" strokeWidth={2.4} aria-hidden />
-                  {t}
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 

@@ -418,7 +418,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Keerthy &amp; Rosheel</h3>
-                <p className="sub">The Signature Invitation · story in chapters</p>
+                <p className="sub">The Signature · story in chapters</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -447,7 +447,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Nila &amp; Aaron</h3>
-                <p className="sub">The Signature Invitation · New Year&apos;s Eve</p>
+                <p className="sub">The Signature · New Year&apos;s Eve</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -460,7 +460,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Malavika &amp; Hari</h3>
-                <p className="sub">The Signature Invitation · Thamara</p>
+                <p className="sub">The Signature · Thamara</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -480,7 +480,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Ishani &amp; Rudra</h3>
-                <p className="sub">The Signature Invitation · temple in the mountains</p>
+                <p className="sub">The Signature · temple in the mountains</p>
               </div>
               <span className="go">Open invite</span>
             </div>
@@ -493,7 +493,7 @@ export function PaperSamples() {
             <div className="meta">
               <div>
                 <h3>Ross &amp; Rachel</h3>
-                <p className="sub">The Classic Invitation · peonies and roses</p>
+                <p className="sub">The Studio · peonies and roses</p>
               </div>
               <span className="go">Open invite</span>
             </div>

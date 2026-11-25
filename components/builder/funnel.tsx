@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ADDONS, totalFor, type AddonId, type Prices } from "@/lib/builder/addons";
+import { OFFERED, isOffered, totalFor, type AddonId, type Prices } from "@/lib/builder/addons";
 
 const rupee = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
@@ -19,7 +19,7 @@ export function AddonPicker({
   onChange?: (a: AddonId[]) => void;
   mode: "design" | "publish";
 }) {
-  const [picked, setPicked] = React.useState<AddonId[]>(initial);
+  const [picked, setPicked] = React.useState<AddonId[]>(initial.filter(isOffered));
   const toggle = (id: AddonId) => {
     const next = picked.includes(id) ? picked.filter((x) => x !== id) : [...picked, id];
     setPicked(next);
@@ -29,7 +29,7 @@ export function AddonPicker({
   return (
     <div className="grid gap-3">
       {mode === "design" ? <p className="font-semibold">Add-ons</p> : null}
-      {ADDONS.map((a) => {
+      {OFFERED.map((a) => {
         const on = picked.includes(a.id);
         return (
           <label
