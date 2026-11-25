@@ -30,7 +30,7 @@ export default async function SiteAdminPage({ params, searchParams }: Props) {
   const slug = s.slug || suggestSlug(d, s.id);
   const addons = parseAddons(s.addons);
   const links = parseLinks(s.links, addons);
-  const pr = prices();
+  const pr = prices(s.template);
   const rows: [string, React.ReactNode][] = [
     ["Design", t.name],
     ["Wedding", d.date ? fmtDate(d.date) : "Not set"],

@@ -11,8 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/img/paper.jpg">
   <link rel="preload" as="image" href="assets/art/arch.webp" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/art/arch.webp">
-  <link rel="stylesheet" href="assets/css/journey.css?v=20261119d">
+  <link rel="preload" as="image" href="assets/img/opening/hand-one.svg?v=2">
+  <link rel="stylesheet" href="assets/css/journey.css?v=20261126a">
 </head>
 <body>
   <div class="device">
@@ -60,13 +60,54 @@
         </div>
       </div>
 
+      <!-- The folio: a ribbon-tied card. Tap the flap, the bow slips, the card opens. -->
+      <div class="folio-wrap" id="folio">
+        <div class="folio" role="button" tabindex="0" aria-label="Open the invitation">
+          <div class="folio-page">
+            <div class="inside" aria-hidden="true">
+              <img class="fl fl-tl" src="assets/img/opening/floral-a.webp" alt="">
+              <img class="fl fl-tr" src="assets/img/opening/floral-c.webp" alt="">
+              <img class="fl fl-bl" src="assets/img/opening/floral-b.webp" alt="">
+              <img class="fl fl-br" src="assets/img/opening/floral-d.webp" alt="">
+              <div class="in-copy">
+                <div class="hands"><img src="assets/img/opening/hands-two.svg?v=2" alt=""><svg viewBox="0 0 1280 760"><defs><linearGradient id="gd2" x1="0" x2="1"><stop offset="0" stop-color="#b98a3a"/><stop offset=".5" stop-color="#dcb86a"/><stop offset="1" stop-color="#a8792c"/></linearGradient></defs><path class="g" d="M520 357C560 380 640 375 683 331C740 272 815 190 795 135C780 95 715 100 700 200C690 110 630 95 618 150C605 215 650 290 690 340C720 375 770 395 813 391"/><path class="g" d="M520 357C560 380 640 375 683 331C740 272 815 190 795 135C780 95 715 100 700 200C690 110 630 95 618 150C605 215 650 290 690 340C720 375 770 395 813 391"/></svg></div>
+                <p class="mono">__WIC_I2__<span>&amp;</span>__WIC_I1__</p>
+                <p class="rule"><i></i><b></b><i></i></p>
+                <p class="tag">__WIC{opening.line1}__<br><em>__WIC{opening.line2}__</em></p>
+                <p class="rule hr"><i></i><svg viewBox="0 0 24 20"><path d="M12 18C5 13 2 9.6 2 6.2 2 3.6 4 1.8 6.4 1.8c2.2 0 3.8 1.3 5.6 3.6 1.8-2.3 3.4-3.6 5.6-3.6C20 1.8 22 3.6 22 6.2 22 9.6 19 13 12 18z"/></svg><i></i></p>
+                <p class="go">Tap to continue</p>
+              </div>
+            </div>
+            <div class="front">
+              <div class="pen"><img src="assets/img/opening/hand-one.svg?v=2" alt=""><svg viewBox="0 0 1160 680"><defs><linearGradient id="gd1" x1="0" x2="1"><stop offset="0" stop-color="#b98a3a"/><stop offset=".5" stop-color="#dcb86a"/><stop offset="1" stop-color="#a8792c"/></linearGradient></defs><path class="g" d="M640 504C670 520 760 530 840 496C900 470 820 420 816 350C812 300 850 270 872 300C880 312 885 330 887 357C895 320 920 275 958 282C1000 292 985 350 933 407C905 438 880 455 873 460C900 490 960 530 1104 504"/></svg></div>
+              <p class="hint">Tap the left side<br>to open<svg viewBox="0 0 40 10"><path d="M39 5H2M7 1 2 5l5 4"/></svg></p>
+            </div>
+          </div>
+          <div class="flap"></div>
+          <div class="band"></div>
+          <svg class="bow" viewBox="0 0 200 185" aria-hidden="true">
+            <defs>
+              <linearGradient id="sat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8c2233"/><stop offset=".5" stop-color="#5c0f1d"/><stop offset="1" stop-color="#6a1424"/></linearGradient>
+              <radialGradient id="velvet" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="#9a2a3c"/><stop offset=".55" stop-color="#6a1424"/><stop offset="1" stop-color="#430815"/></radialGradient>
+            </defs>
+            <g class="tails"><path d="M95 60C88 85 70 105 74 130C77 150 62 160 52 172L66 176C76 162 92 150 88 128C85 108 100 84 102 62Z"/><path d="M105 60C114 88 132 104 126 128C121 146 134 162 146 172L132 178C120 164 108 148 114 128C120 106 108 86 99 62Z"/>
+              <path class="fold" d="M90 90C82 104 78 116 80 130M112 92C120 104 122 116 120 130"/></g>
+            <g class="loops"><path d="M100 56C82 30 44 16 24 28 10 37 16 64 40 68c22 4 46-4 60-12z"/><path d="M100 56c18-26 56-40 76-28 14 9 8 36-16 40-22 4-46-4-60-12z"/>
+              <path class="fold" d="M100 56C80 44 52 38 34 44M100 56C120 44 148 38 166 44"/>
+              <path class="sheen" d="M36 34c14-6 34 0 50 12M164 34c-14-6-34 0-50 12"/></g>
+            <rect class="knot" x="90" y="46" width="20" height="21" rx="7"/>
+            <path class="rays" d="M100 22V8M82 26l-8-10M118 26l8-10"/>
+          </svg>
+        </div>
+      </div>
+
       <audio id="music" loop preload="none"></audio>
     </main>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
-  <script src="assets/js/config.js?v=20261119d"></script>
-  <script src="assets/js/petals.js?v=20261119d"></script>
-  <script src="assets/js/journey.js?v=20261119d"></script>
+  <script src="assets/js/config.js?v=20261126a"></script>
+  <script src="assets/js/petals.js?v=20261126a"></script>
+  <script src="assets/js/journey.js?v=20261126a"></script>
 </body>
 </html>

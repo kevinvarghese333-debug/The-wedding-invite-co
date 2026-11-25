@@ -17,7 +17,7 @@ export default async function PublishPage({ params }: { params: Promise<{ id: st
   if (!site || !(await canEdit(site))) redirect(`${base}/edit/${id}`);
   const d = siteSummary(site);
   const slug = site.slug || suggestSlug(d, site.id);
-  const pr = prices();
+  const pr = prices(site.template);
   const addons = parseAddons(site.addons).filter(isOffered);
   const rzp = razorpayReady();
   const upi = rzp ? null : await upiPayment(totalFor(pr, addons), site.id);

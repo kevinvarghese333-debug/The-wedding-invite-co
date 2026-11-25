@@ -213,7 +213,7 @@ export const DESIGNS: Design[] = [
     {
       id: "bougainvillea",
       name: "Bougainvillea Arch",
-      blurb: "Stone pillars wrapped in bougainvillea, your story told in photo chapters, and a heart-shaped trail through the day with a blessings wall.",
+      blurb: "A ribboned card opens to your initials drawn in gold, then stone pillars wrapped in bougainvillea, your story in photo chapters, a heart-shaped trail through the day and a blessings wall.",
       tags: ["Christian", "Church", "Story"],
       one: "groom.name",
       two: "bride.name",
@@ -221,7 +221,7 @@ export const DESIGNS: Design[] = [
       place: "welcomePlace",
       endpoint: "sheetUrl",
       music: "music",
-      hide: ["info.forecast"],
+      hide: ["info.forecast", "wallSeed"],
     },
     bougainvillea
   ),

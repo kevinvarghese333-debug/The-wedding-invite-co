@@ -12,6 +12,64 @@
   const heart = $('#heart'), trail = $('#trail'), paperBg = $('#paperBg');
   const nextBtn = $('#nextBtn'), backBtn = $('#backBtn'), controls = $('#controls');
 
+  /* ── the folio: a ribbon-tied card that opens before the invite ── */
+  const folio = document.getElementById('folio');
+  let folioUp = !!folio && !location.hash && !params.has('nofolio');
+  const folioDone = new Promise(done => {
+    if (!folioUp) { folio?.remove(); return done(); }
+    const card = folio.querySelector('.folio');
+    const len = p => p.getTotalLength();
+    // the pen on the cover writes its little heart
+    const pen = folio.querySelector('.front .g');
+    const L0 = len(pen);
+    gsap.fromTo(pen, { strokeDasharray: L0, strokeDashoffset: L0 }, { strokeDashoffset: 0, duration: reduce ? 0 : 2.6, delay: .5, ease: 'power1.inOut' });
+    // a very quiet paper rustle as the flap turns: soft noise in small grains, no swoosh
+    function rustle() {
+      if (reduce) return;
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+        const ac = new AC(), sr = ac.sampleRate, dur = 1.15, n = Math.floor(sr * dur);
+        const buf = ac.createBuffer(1, n, sr), x = buf.getChannelData(0);
+        let grain = 0;
+        for (let i = 0; i < n; i++) {
+          const t = i / n, swell = Math.sin(Math.PI * Math.min(1, t * 1.15)) ** 1.6;
+          if (Math.random() < 45 / sr) grain = .6 + Math.random() * .8;   // the fibres catching
+          grain *= .9993;
+          x[i] = (Math.random() * 2 - 1) * swell * (.28 + grain);
+        }
+        const src = ac.createBufferSource(); src.buffer = buf;
+        const hp = ac.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1800;
+        const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 7000;
+        const g = ac.createGain(); g.gain.value = .05;
+        src.connect(hp).connect(lp).connect(g).connect(ac.destination);
+        src.onended = () => ac.close();
+        src.start(ac.currentTime + .5);
+      } catch (e) { /* silent is fine */ }
+    }
+    let step = 0;
+    function open() {
+      if (step === 0) {
+        step = 1; startMusic(); rustle();
+        card.setAttribute('aria-label', 'Continue to the invitation');
+        folio.classList.add('is-open');
+        // two pens meet in the middle and draw one heart
+        const [g1, g2] = folio.querySelectorAll('.inside .g'), L = len(g1);
+        gsap.set(g1, { strokeDasharray: `${L / 2} ${L}`, strokeDashoffset: L / 2 });
+        gsap.set(g2, { strokeDasharray: `${L} ${L}`, strokeDashoffset: L });
+        const d = reduce ? 0 : 1;
+        gsap.to(g1, { strokeDashoffset: 0, duration: 2 * d, delay: 1.5 * d, ease: 'power1.inOut' });
+        gsap.to(g2, { strokeDashoffset: L * 1.5, duration: 2 * d, delay: 1.5 * d, ease: 'power1.inOut' });
+        setTimeout(() => { step = 2; folio.classList.add('is-ready'); }, reduce ? 0 : 2400);
+      } else if (step === 2) {
+        step = 3; folio.classList.add('is-leaving');
+        setTimeout(() => { folio.remove(); folioUp = false; done(); }, reduce ? 0 : 900);
+      }
+    }
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    card.focus({ preventScroll: true });
+  });
+
   /* ── helpers ─────────────────────────────────────────── */
   const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   const t = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="ph">$1</span>');   // [placeholder] → styled
@@ -26,10 +84,10 @@
     return text.split('\n').map(line => line.split(/\s+/).filter(Boolean)
       .map(w => `<span class="w" style="--i:${i++}">${t(w)}</span>`).join(' ')).join('<br>');
   };
-  const ART = { arch: [731, 863], column: [368, 686], altar: [850, 1156], chapel: [697, 913], reception: [667, 885], corner: [665, 822], bells: [638, 1454], couple: [952, 1111], 'couple-lake': [860, 1137] };
+  const ART = { arch: [731, 863], column: [368, 686], altar: [850, 1156], chapel: [697, 913], reception: [667, 885], corner: [665, 822], bells: [638, 1454], couple: [952, 1111], 'couple-lake': [860, 1137], church: [1100, 614], venue: [1000, 563] };
   // art starts as an empty placeholder of the right shape (so layout never shifts);
   // the real file is swapped in scene by scene, opening first
-  const art = n => `<img class="art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${ART[n][0]} ${ART[n][1]}'/%3E" data-src="assets/art/${n}.webp" width="${ART[n][0]}" height="${ART[n][1]}" alt="" decoding="async">`;
+  const art = n => `<img class="art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${ART[n][0]} ${ART[n][1]}'/%3E" data-src="assets/art/${n}.webp?v=2" width="${ART[n][0]}" height="${ART[n][1]}" alt="" decoding="async">`;
   const loadArt = el => $$('img[data-src]', el).forEach(i => { i.src = i.dataset.src; i.removeAttribute('data-src'); });
   const LEAF = cls => `<svg class="leaf ${cls}" viewBox="0 0 60 16" aria-hidden="true"><path d="M1 8c14 0 30-.5 57 0"/><path d="M15 8c3-5 8-6 12-5-3 4-7 5-12 5zM15 8c3 5 8 6 12 5-3-4-7-5-12-5zM33 8c3-5 8-6 12-5-3 4-7 5-12 5zM33 8c3 5 8 6 12 5-3-4-7-5-12-5z" style="fill:rgba(111,138,106,.22)"/></svg>`;
   const ICON = {
@@ -113,7 +171,7 @@
       ${tree(36, 84)}${tree(48, 88, .8)}${tree(150, 92, .9)}${tree(204, 152)}${tree(282, 120, .85)}${tree(268, 44, .8)}
       ${palm(28, 176, .9)}${palm(134, 180)}${palm(300, 176, .85)}
       <path class="journey" d="M246 62C244 74 238 86 232 97S200 112 165 122S118 118 104 121S90 146 84 156"/>
-      <text class="town" x="14" y="30">Kottayam</text>
+      <text class="town" x="14" y="30">${esc((C.welcomePlace || (evs[0] && evs[0].address) || "").split(",").pop().trim())}</text>
       <g class="compass" transform="translate(298 26)"><circle r="10"/><path d="M0-7l2.6 7H-2.6z"/><text y="-12.5" text-anchor="middle">N</text></g>
       ${evs[0] ? pin(0, 246, 62, false, CHURCH, evs[0].name, hm(evs[0]), -16, -30, 'end') : ''}
       ${evs[1] ? pin(1, 84, 156, true, GLASS, evs[1].name, hm(evs[1]), 16, -16, 'start') : ''}
@@ -170,7 +228,7 @@
       ${art('arch').replace('class="art"', 'class="art arch"')}
       <i data-stop data-hang style="position:absolute;left:50%;top:calc(var(--t) + var(--a) * .312);width:1px;height:1px"></i>
       <div class="copy layer-text">
-        <p class="eyebrow track rv" style="--d:.7s;--tr:.17em">Together with their families</p>
+        <p class="eyebrow track rv" style="--d:.7s;--tr:.17em">Together with the love of our families</p>
         <h1 class="names">
           <span class="script"><span class="ink rv" style="--d:1.1s">${esc(C.groom.name)}</span></span>
           <span class="weds track rv" style="--d:1.9s;--tr:.4em">weds</span>
@@ -178,20 +236,24 @@
         </h1>
         <p class="tagline words rv" style="--d:2.9s">${words(C.tagline)}</p>
       </div>
-      <div class="date layer-text"><span class="caps track rv" style="--d:3.3s;--tr:.34em">${dots}</span><span class="sub fade rv" style="--d:3.7s">${esc(dayLong)}</span></div>` },
+      <div class="scratch fade rv" style="--d:3.2s">
+        <div class="sc-under"><p class="sc-date">${dots}</p></div>
+        <canvas aria-hidden="true"></canvas>
+      </div>
+      <div class="date layer-text"><span class="hint fade rv" style="--d:3.6s">Scratch the gold card to reveal the date</span></div>` },
 
     { id: 'welcome', label: 'Welcome', fixed: true, html: `
-      <div class="col l grow rv" style="--d:.2s">${art('column')}</div>
-      <div class="col r grow rv" style="--d:.35s">${art('column')}</div>
-      <div class="couple rv">${art('couple-lake')}</div>
       <div class="copy layer-text">
         <i data-stop style="position:absolute;right:3cqw;top:2cqh;width:1px;height:1px"></i>
+        <svg class="cross fade rv" style="--d:.1s" viewBox="0 0 40 56" aria-hidden="true"><path class="ln" d="M20 2v39M11 12.5h18"/><path class="st" d="M23 53C15 50.5 8.5 43 7 32M17 53C25 50.5 31.5 43 33 32"/><g><ellipse cx="17.3" cy="48.7" rx="2.4" ry=".95" transform="rotate(-109 17.3 48.7)"/><ellipse cx="15.9" cy="50.8" rx="2.4" ry=".95" transform="rotate(-185 15.9 50.8)"/><ellipse cx="14.4" cy="46.0" rx="2.4" ry=".95" transform="rotate(-98 14.4 46.0)"/><ellipse cx="12.6" cy="47.9" rx="2.4" ry=".95" transform="rotate(-174 12.6 47.9)"/><ellipse cx="12.0" cy="42.7" rx="2.4" ry=".95" transform="rotate(-88 12.0 42.7)"/><ellipse cx="9.9" cy="44.2" rx="2.4" ry=".95" transform="rotate(-164 9.9 44.2)"/><ellipse cx="10.1" cy="38.9" rx="2.4" ry=".95" transform="rotate(-78 10.1 38.9)"/><ellipse cx="7.7" cy="40.0" rx="2.4" ry=".95" transform="rotate(-154 7.7 40.0)"/><ellipse cx="8.7" cy="34.5" rx="2.4" ry=".95" transform="rotate(-68 8.7 34.5)"/><ellipse cx="6.2" cy="35.2" rx="2.4" ry=".95" transform="rotate(-144 6.2 35.2)"/><ellipse cx="6.8" cy="30.2" rx="2.4" ry=".95" transform="rotate(-98 6.8 30.2)"/><ellipse cx="24.1" cy="50.8" rx="2.4" ry=".95" transform="rotate(5 24.1 50.8)"/><ellipse cx="22.7" cy="48.7" rx="2.4" ry=".95" transform="rotate(-71 22.7 48.7)"/><ellipse cx="27.4" cy="47.9" rx="2.4" ry=".95" transform="rotate(-6 27.4 47.9)"/><ellipse cx="25.6" cy="46.0" rx="2.4" ry=".95" transform="rotate(-82 25.6 46.0)"/><ellipse cx="30.1" cy="44.2" rx="2.4" ry=".95" transform="rotate(-16 30.1 44.2)"/><ellipse cx="28.0" cy="42.7" rx="2.4" ry=".95" transform="rotate(-92 28.0 42.7)"/><ellipse cx="32.3" cy="40.0" rx="2.4" ry=".95" transform="rotate(-26 32.3 40.0)"/><ellipse cx="29.9" cy="38.9" rx="2.4" ry=".95" transform="rotate(-102 29.9 38.9)"/><ellipse cx="33.8" cy="35.2" rx="2.4" ry=".95" transform="rotate(-36 33.8 35.2)"/><ellipse cx="31.3" cy="34.5" rx="2.4" ry=".95" transform="rotate(-112 31.3 34.5)"/><ellipse cx="33.2" cy="30.2" rx="2.4" ry=".95" transform="rotate(-82 33.2 30.2)"/></g></svg>
+        ${C.verse ? `<p class="verse fade rv" style="--d:.15s">${esc(C.verse.text)}<cite>${esc(C.verse.ref)}</cite></p>` : ''}
         <p class="hello script"><span class="ink rv" style="--d:.2s">Welcome</span></p>
         <p class="dear rise rv" style="--d:.7s">Dear <b>${esc(guest)}</b></p>
         <p class="fullnames rise rv" style="--d:1s">${t(C.groom.full)}<span class="amp">&amp;</span>${t(C.bride.full)}</p>
         <p class="body words rv" style="--d:1.4s">${words(C.welcome.join('\n'))}</p>
         <div class="when"><strong class="rise rv" style="--d:2s">${esc(dayLong)}</strong><span class="caps track rv" style="--d:2.2s;--tr:.3em">${esc(timeStr)} onwards</span>${C.welcomePlace ? `<span class="place fade rv" style="--d:2.4s">${t(C.welcomePlace)}</span>` : ''}</div>
-      </div>` },
+      </div>
+      ${C.welcomePhoto ? `<div class="tea fade rv" style="--d:1.8s"><img src="${esc(C.welcomePhoto)}" width="765" height="1024" alt="${esc(couple)}" loading="lazy" decoding="async"></div>` : ''}` },
 
     { id: 'savedate', label: 'Save the Date', fixed: true, html: `
       <div class="altar rise rv" style="--d:.6s">${art('altar')}</div>
@@ -210,7 +272,7 @@
 
     { id: 'story', label: 'Our Story', html: `
       <header class="vhead layer-text">
-        <p class="eyebrow track rv" style="--tr:.3em">${esc(C.story.eyebrow)}</p>
+        ${C.story.eyebrow ? `<p class="eyebrow track rv" style="--tr:.3em">${esc(C.story.eyebrow)}</p>` : ''}
         <h2 class="script"><span class="ink rv" style="--d:.3s">Our Story</span></h2>
         <p class="quote words rv" style="--d:.9s">${words(C.story.quote)}</p>
       </header>
@@ -276,7 +338,7 @@
         return `
       <div class="beat">
         <div class="evc">
-          <div class="ev-art bloom rb">
+          <div class="ev-art bloom rb${ART[ev.art || 'chapel'][0] > ART[ev.art || 'chapel'][1] ? ' wide' : ''}">
             <p class="num">${String(i + 1).padStart(2, '0')}</p>
             <div class="pic"><span class="glow"></span>${art(ev.art || 'chapel')}</div>
           </div>
@@ -308,7 +370,7 @@
 
     { id: 'goodtoknow', label: 'Good to Know', html: (() => {
       const I = C.info || {}, w = I.weather || {};
-      const notes = (I.notes || []).filter(n => n.text);
+      const notes = (I.notes || []).filter(n => n.text || (n.items && n.items.length));
       const fill = txt => t(txt).replace('{hashtag}', `<b class="hashtag">${esc(C.hashtag)}</b>`);
       return `
       <header class="vhead layer-text">
@@ -329,10 +391,10 @@
         <div class="emblem rb">${LEAF('l')}<div class="ring"><i class="stop" data-stop data-swing="r"></i></div>${LEAF('r')}</div>
       </div>
       <div class="beat">
-        <article class="note note-list rise rb">
+        <article class="note note-list rise rb"><i class="mid-stop" data-stop data-swing="r" aria-hidden="true"></i>
           ${notes.map(n => `
           <div class="row">${ICON[n.icon] || ICON.chat}<div>
-            <h3>${esc(n.title)}</h3><p>${fill(n.text)}</p>
+            <h3>${esc(n.title)}</h3>${n.text ? `<p>${fill(n.text)}</p>` : ''}${n.items ? `<ul class="nl">${n.items.map(([k, v]) => `<li><b>${esc(k)}</b>${v ? `: ${t(v)}` : ''}</li>`).join('')}</ul>` : ''}${n.after ? `<p class="after">${fill(n.after)}</p>` : ''}
             ${n.icon === 'camera' ? `<button type="button" class="pill pill-line copy-tag">Copy ${esc(C.hashtag)}</button>` : ''}
             ${n.icon === 'chat' ? '<a class="pill pill-gold wa" target="_blank" rel="noopener" hidden></a>' : ''}
           </div></div>`).join('')}
@@ -363,6 +425,8 @@
       </div>` },
 
     { id: 'blessing', label: 'Leave a Blessing', fixed: true, cls: 'formscene', html: `
+      <div class="fcorner tl drop rv">${art('corner')}</div>
+      <div class="fcorner bl drop rv" style="--d:.3s">${art('corner')}</div>
       <header class="vhead layer-text">
         <p class="eyebrow track rv" style="--tr:.3em">For the couple</p>
         <h2 class="script" style="font-size:min(15cqw,7cqh)"><span class="ink rv" style="--d:.3s">Leave a Blessing</span></h2>
@@ -382,6 +446,8 @@
       <p class="preview-note fade rv" style="--d:1s">${C.sheetUrl ? '' : 'Preview: blessings stay on this device until the Sheet is connected'}</p>` },
 
     { id: 'wishes', label: 'Warm Blessings', fixed: true, html: `
+      <div class="fcorner tl drop rv">${art('corner')}</div>
+      <div class="fcorner bl drop rv" style="--d:.3s">${art('corner')}</div>
       <header class="vhead layer-text">
         <p class="eyebrow track rv" style="--tr:.3em">From the people we love</p>
         <h2 class="script" style="font-size:min(16cqw,7.4cqh)"><span class="ink rv" style="--d:.3s">Warm Blessings</span></h2>
@@ -717,7 +783,7 @@
 
   let started = false;
   function next() {
-    if (moving) return;
+    if (moving || folioUp) return;
     if (!started) { started = true; startMusic(); }
     if (HOOKS[SCENES[stops[cur]?.scene]?.id]?.next?.()) return;
     go(cur + 1);
@@ -743,6 +809,74 @@
     },
     arrive(s) { $('.calendar', s).classList.add('is-marked'); }
   };
+
+  /* cover: a gold scratch card hides the date */
+  HOOKS.opening = (() => {
+    let card, cv, ctx, w = 0, h = 0, done = false, last = null, moves = 0;
+    function paint() {
+      if (!card) return;
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      w = card.offsetWidth; h = card.offsetHeight;
+      if (!w || !h) return;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (done) return;
+      ctx.globalCompositeOperation = 'source-over';
+      const r = Math.min(12, h * .14);
+      const g = ctx.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, '#e9d08e'); g.addColorStop(.28, '#c9a254'); g.addColorStop(.5, '#f3e1a6');
+      g.addColorStop(.72, '#bf9446'); g.addColorStop(1, '#dcbc72');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(0, 0, w, h, r); ctx.fill();
+      // foil grain
+      for (let i = 0; i < w * h / 18; i++) {
+        ctx.fillStyle = Math.random() < .5 ? 'rgba(255,248,222,.28)' : 'rgba(120,84,30,.12)';
+        ctx.fillRect(Math.random() * w, Math.random() * h, 1.2, 1.2);
+      }
+      ctx.strokeStyle = 'rgba(255,247,222,.75)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.roundRect(5, 5, w - 10, h - 10, Math.max(2, r - 4)); ctx.stroke();
+      ctx.fillStyle = '#6a4716'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `600 ${Math.round(h * .17)}px Cinzel, serif`;
+      try { ctx.letterSpacing = `${(h * .05).toFixed(1)}px`; } catch (e) {}
+      ctx.fillText('SCRATCH HERE', w / 2, h * .42);
+      try { ctx.letterSpacing = '0px'; } catch (e) {}
+      ctx.font = `italic 500 ${Math.round(h * .17)}px "Cormorant Garamond", serif`;
+      ctx.fillText('to reveal the date', w / 2, h * .68);
+    }
+    function pos(e) { const b = cv.getBoundingClientRect(); return [(e.clientX - b.left) * w / b.width, (e.clientY - b.top) * h / b.height]; }
+    function scratch(p) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineCap = ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(22, h * .3);
+      ctx.beginPath(); ctx.moveTo(...(last || p)); ctx.lineTo(...p); ctx.stroke();
+      last = p;
+      if (++moves % 6 === 0 && cleared() > .48) reveal();
+    }
+    function cleared() {
+      const d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+      let n = 0, z = 0;
+      for (let i = 3; i < d.length; i += 4 * 7) { n++; if (d[i] < 40) z++; }
+      return z / n;
+    }
+    function reveal(quiet) {
+      if (done || !card) return;
+      done = true; card.classList.add('is-revealed');
+      $('.date', card.parentNode).classList.add('is-revealed');
+      if (!quiet) { const [x, y] = stagePoint(card); Petals.burst(x, y, 70, .75); }
+    }
+    return {
+      init(s) {
+        card = $('.scratch', s); if (!card) return;
+        cv = $('canvas', card); ctx = cv.getContext('2d', { willReadFrequently: true });
+        paint();
+        document.fonts?.ready.then(paint);
+        addEventListener('resize', () => setTimeout(paint, 200));
+        cv.addEventListener('pointerdown', e => { if (done) return; e.preventDefault(); cv.setPointerCapture(e.pointerId); last = null; scratch(pos(e)); });
+        cv.addEventListener('pointermove', e => { if (!done && cv.hasPointerCapture(e.pointerId)) scratch(pos(e)); });
+        cv.addEventListener('pointerup', () => { last = null; if (!done && cleared() > .3) reveal(); });
+      },
+      // guests who skip it still see the date when they come back
+      leave() { reveal(true); }
+    };
+  })();
 
   HOOKS.ceremonies = {
     init(s) { $$('[data-cal]', s).forEach(b => b.addEventListener('click', () => addToCalendar(C.events[+b.dataset.cal]))); }
@@ -893,7 +1027,8 @@
       const extra = track.scrollHeight - track.parentElement.clientHeight;
       if (extra > 10 && !reduce) marquee = gsap.to(track, { y: -extra, duration: extra / 16, ease: 'none', repeat: -1, yoyo: true, repeatDelay: 2 });
     }
-    function render(list) { track.innerHTML = ''; list.forEach((b, i) => track.append(noteEl(b, i))); empty.hidden = list.length > 0; loop(); }
+    const isTest = b => /^\s*test\b/i.test(b.message || '') || /^\s*test\s*$/i.test(b.name || '');
+    function render(list) { list = list.filter(b => b && !isTest(b)).concat(C.wallSeed || []); track.innerHTML = ''; list.forEach((b, i) => track.append(noteEl(b, i))); empty.hidden = list.length > 0; loop(); }
     return {
       async init(s) {
         track = $('.wall-track', s); empty = $('.wall-empty', s);
@@ -931,7 +1066,7 @@
   $('#menuList').innerHTML = SCENES.map((s, i) => `<li><button data-go="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span>${esc(s.label)}<span class="here">♥</span></button></li>`).join('');
   function toggleMenu(on) {
     menu.hidden = !on; menuBtn.setAttribute('aria-expanded', String(on));
-    if (on) gsap.fromTo('.menu-card', { opacity: 0, scale: .92 }, { opacity: 1, scale: 1, duration: .35, ease: 'back.out(1.6)' });
+    if (on) gsap.fromTo('.menu-card', { opacity: 0, scale: .92 }, { opacity: 1, scale: 1, duration: .35, ease: 'power2.out' });
   }
   menuBtn.addEventListener('click', () => toggleMenu(menu.hidden));
   menu.addEventListener('click', e => {
@@ -944,14 +1079,14 @@
   nextBtn.addEventListener('click', next);
   backBtn.addEventListener('click', back);
   addEventListener('keydown', e => {
-    if (e.target.closest('input, textarea, button, a')) return;
+    if (e.target.closest('input, textarea, button, a') || folioUp) return;
     if (['ArrowRight', 'ArrowDown', ' ', 'PageDown', 'Enter'].includes(e.key)) { e.preventDefault(); next(); }
     if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); back(); }
     if (e.key === 'Escape') toggleMenu(false);
   });
   let sw = null;
   stage.addEventListener('pointerdown', e => {
-    if (e.target.closest('form, .map, .menu, .wall, a, button')) return;
+    if (e.target.closest('form, .map, .menu, .wall, a, button, .scratch, .folio-wrap')) return;
     sw = [e.clientX, e.clientY, Date.now()];
   });
   stage.addEventListener('pointerup', e => {
@@ -964,8 +1099,10 @@
   /* ── music ───────────────────────────────────────────── */
   const music = $('#music'), musicBtn = $('#musicBtn');
   if (C.music) { music.src = C.music; musicBtn.hidden = false; }
+  let musicOn = false;
   function startMusic() {
-    if (!C.music) return;
+    if (!C.music || musicOn) return;
+    musicOn = true;
     music.volume = 0; music.play().then(() => gsap.to(music, { volume: .55, duration: 2.5 })).catch(() => musicBtn.classList.add('is-muted'));
   }
   musicBtn.addEventListener('click', () => {
@@ -1016,9 +1153,8 @@
     if (jump > 0) { started = true; sceneEls.forEach((s, i) => { if (i <= jump) live(i); }); go(firstStopOf(jump), { instant: true }); return; }
     // intro: the heart flies in and comes to rest under the arch
     state.len = 0; state.camX = 0; state.camY = 0; render();
-    live(0);
     moving = true; updateCtrl(); $('span', nextBtn).textContent = 'Open invitation'; nextBtn.classList.add('is-moving');
-    gsap.to(state, { len: stops[0].len, duration: reduce ? 0 : 2.6, delay: reduce ? 0 : .7, ease: 'power2.inOut', onUpdate: render,
-      onComplete() { cur = 0; moving = false; arrive(0); updateCtrl(); if (pending) relayout(); } });
+    folioDone.then(() => { live(0); gsap.to(state, { len: stops[0].len, duration: reduce ? 0 : 2.6, delay: reduce ? 0 : .7, ease: 'power2.inOut', onUpdate: render,
+      onComplete() { cur = 0; moving = false; arrive(0); updateCtrl(); if (pending) relayout(); } }); });
   });
 })();
