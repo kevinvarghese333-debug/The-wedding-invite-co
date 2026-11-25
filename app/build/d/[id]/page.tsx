@@ -39,7 +39,7 @@ export default async function DesignPage({ params, searchParams }: Props) {
   const d = design ?? template;
   if (!d) notFound();
   const base = await getBase();
-  const pr = prices();
+  const pr = prices(d.id);
   const sup = support();
   const preview = `${base}/thumb/${d.id}?full=1${palette ? `&p=${encodeURIComponent(palette)}` : ""}`;
   const share = `https://wa.me/?text=${encodeURIComponent(`Look at this wedding invitation design: ${d.name}\n${builderUrl()}/d/${d.id}`)}`;

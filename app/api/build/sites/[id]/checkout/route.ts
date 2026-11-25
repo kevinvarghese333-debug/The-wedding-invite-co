@@ -45,7 +45,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!site.lead_id || emailChanged) after(() => onContactSaved(fresh));
 
   const names = siteSummary(fresh).names;
-  const amount = totalFor(prices(), addons);
+  const amount = totalFor(prices(site.template), addons);
   const extras = addons.map((a) => ADDONS.find((x) => x.id === a)!.title);
 
   if (!razorpayReady()) {

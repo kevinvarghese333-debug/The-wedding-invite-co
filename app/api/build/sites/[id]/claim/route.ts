@@ -1,7 +1,8 @@
+import { parseAddons, totalFor } from "@/lib/builder/addons";
 import { after } from "next/server";
 import { clean, editable, json } from "@/lib/builder/api";
 import { claimPayment, siteSummary } from "@/lib/builder/sites";
-import { builderPrice, liveUrl } from "@/lib/builder/server";
+import { liveUrl, prices } from "@/lib/builder/server";
 import { notifyStudio } from "@/lib/notify";
 import { siteUrl } from "@/lib/config";
 import { rupees } from "@/lib/format";
@@ -22,11 +23,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!/^[A-Za-z0-9-]{6,40}$/.test(ref)) return json({ ok: false, error: "Please enter the UPI transaction ID (UTR) from your payment app. It's usually 12 digits." }, 422);
   claimPayment(site.id, ref);
   const names = siteSummary(site).names;
+  const due = totalFor(prices(site.template), parseAddons(site.addons));
   after(() =>
     notifyStudio(
-      `Paid by UPI? ${names} · ${rupees(builderPrice())}`,
+      `Paid by UPI? ${names} · ${rupees(due)}`,
       [
-        `${site.contact_name || names} says they paid ${rupees(builderPrice())} by UPI.`,
+        `${site.contact_name || names} says they paid ${rupees(due)} by UPI.`,
         `Transaction ID: ${ref}`,
         site.slug ? `Their link: ${liveUrl(site.slug)}` : "",
         `Check your bank, then press "Mark paid and publish": ${siteUrl()}/admin/sites/${site.id}`,

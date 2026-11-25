@@ -33,7 +33,7 @@ import { StickyCta, TrustStrip, InlineCta } from "@/components/landing/funnel";
 import { WhatsAppMoment } from "@/components/landing/whatsapp-chat";
 import { CoupleWords } from "@/components/landing/couple-words";
 import { builderUrl, publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
-import { prices } from "@/lib/builder/server";
+import { prices, storyPrice } from "@/lib/builder/server";
 import { DESIGNS, findDesign } from "@/lib/builder/designs";
 import { TEMPLATES } from "@/lib/builder/templates";
 import { sampleHref } from "@/lib/samples";
@@ -95,7 +95,7 @@ function IconBox({ children }: { children: React.ReactNode }) {
 /* The three packages. Prices and extras come from Admin → Settings; nothing here is promised that isn't delivered today. */
 const PICKER = ["hill-station", "lotus-pond", "floral-seal", "sea-lanterns"];
 
-function packageList(st: ReturnType<typeof getSettings>, pr: ReturnType<typeof prices>, designCount: number, studioCount: number): PackageInfo[] {
+function packageList(st: ReturnType<typeof getSettings>, pr: ReturnType<typeof prices>, story: number, designCount: number, studioCount: number): PackageInfo[] {
   const ask = (v?: string) => v?.trim() || "Ask us";
   const domain = ask(st.addon_domain);
   const live = "Live until a week after your last function";
@@ -104,11 +104,11 @@ function packageList(st: ReturnType<typeof getSettings>, pr: ReturnType<typeof p
       id: "collection",
       name: "The Collection",
       label: "Personalise it yourself",
-      price: rupeesPlain(pr.base),
-      priceNote: "one-time, when you publish",
+      price: `From ${rupeesPlain(pr.base)}`,
+      priceNote: `one-time, when you publish; ${rupeesPlain(story)} for a design with a story line`,
       description: `Choose one of our ${designCount} designs and make it yours in the builder, watching every change as you type.`,
       includes: [
-        `${designCount} designs, each with its own opening; ${studioCount} are adapted from invitations we made for couples`,
+        `${designCount} designs, each with its own opening: ${studioCount} studio designs with a story line, adapted from invitations we made for couples (${rupeesPlain(story)}), and ${designCount - studioCount} simpler ones (${rupeesPlain(pr.base)})`,
         "Names, families, wording, functions and venue map links, all edited by you",
         "Photos where the design has room, and music: one of our tracks or your own song",
         "Story sections only where the design already has them, in your own words",
@@ -190,7 +190,7 @@ export default function Home() {
   const wrap = "mx-auto w-full max-w-[1200px] px-[clamp(16px,5vw,40px)]";
   const st = getSettings();
   const designCount = DESIGNS.length + TEMPLATES.length;
-  const packages = packageList(st, prices(), designCount, DESIGNS.length);
+  const packages = packageList(st, prices(), storyPrice(), designCount, DESIGNS.length);
   const founderLabel = /&| and /i.test(st.founder_name || "") ? "Founders" : "Founder";
   const goodToKnow = ([["Turnaround", st.turnaround], ["Payment", st.payment_terms], ["Changes", st.revisions], ["If it's not right", st.refund_policy]] as [string, string | undefined][]).filter(([, v]) => v);
   const faqLd = {

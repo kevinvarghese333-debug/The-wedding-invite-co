@@ -118,7 +118,8 @@ Couples design their own invitation from our templates, for a lower price than a
    Until it resolves, the builder still works at `https://<domain>/build`.
 2. In `.env` set `BUILDER_DOMAIN=build.theweddinginviteco.xyz` and `BUILDER_URL=https://build.theweddinginviteco.xyz`,
    then `docker compose up -d`. Traefik gets a separate certificate for the subdomain.
-3. Set the price in **Admin → Settings → Prices** (default ₹1,999).
+3. Set the prices in **Admin → Settings → Builder payments**: ₹2,999 by default for our studio designs with a story line,
+   ₹1,999 for the 5 simpler designs ("Or keep it simple").
 
 **Payments (Razorpay)**
 
@@ -144,7 +145,7 @@ If no UPI ID is set, couples are asked to message you on WhatsApp for payment de
 
 **Prices, add-ons and guest links**
 
-Every design card shows the price (₹1,999). A crossed-out "original price" only appears if you set one in Admin,
+Every design card shows its price (₹2,999 for studio designs, ₹1,999 for the simpler ones). A crossed-out "original price" only appears if you set one in Admin,
 and should only be a real earlier price. Tapping a design opens its page (`build.<domain>/d/<design>`): the sample in a phone, the price, the add-ons, a demo of
 guest links, what every plan includes, what happens next, "book a free call" and the support section.
 
@@ -170,7 +171,7 @@ guest links, what every plan includes, what happens next, "book a free call" and
 
 | Package | Price | Who makes it | Button |
 | --- | --- | --- | --- |
-| The Collection | builder price (₹1,999) | The couple, in the builder | Opens the chosen design's page in the builder |
+| The Collection | ₹1,999 simpler designs, ₹2,999 studio designs | The couple, in the builder | Opens the chosen design's page in the builder |
 | The Studio | ₹4,999 | Our team, on one of our designs | Enquiry form "Set it up with our team", with the design noted on the lead |
 | The Signature | from ₹8,490 | Our team, around their story | Enquiry form "Start your creative brief", with a box for their story |
 
@@ -190,6 +191,11 @@ those settings and puts the couple's version in its place. The sample settings a
 and the list (names, descriptions, which settings hold the names and date) is `lib/builder/designs.ts`. Real
 clients' names, families, phone numbers and photos were replaced with sample ones on import, and any song was
 swapped for one of our own tracks. Gallery pictures are `public/builder/designs/_thumbs/<id>.jpg`.
+
+**Refreshing a studio design.** When a couple's site is finished after it was imported, import it again from its
+live version, with the same cleaning rules (sample names, placeholder photos, our own song). Bougainvillea Arch was
+re-imported from Jithin & Christina's finished site: the ribboned card opening with the couple's initials, an
+editable opening line, and a route map that shows the couple's own town.
 
 **Adding or changing designs**
 

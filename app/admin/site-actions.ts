@@ -27,7 +27,7 @@ export async function markPaidAction(fd: FormData) {
   if (problem) back(id, "?error=" + encodeURIComponent(`Web address: ${problem}`));
   setSlug(s.id, slug);
   const method = fd.get("method") === "free" ? "free" : "manual";
-  const amount = method === "free" ? 0 : Math.max(0, Number.parseInt(str(fd, "amount", 10), 10) || totalFor(prices(), parseAddons(s.addons)));
+  const amount = method === "free" ? 0 : Math.max(0, Number.parseInt(str(fd, "amount", 10), 10) || totalFor(prices(s.template), parseAddons(s.addons)));
   await completePayment(s.id, { amount, ref: str(fd, "ref", 80), method });
   back(id, "?saved=" + encodeURIComponent("Marked paid and published."));
 }

@@ -100,7 +100,8 @@ export async function getBase() {
 export const liveUrl = (slug: string) => `${siteUrl()}/i/${slug}`;
 
 /* ---------- money ---------- */
-export function prices(): Prices {
+/** Prices for one design (its own publish price), or the simpler designs' price when no design is given. */
+export function prices(template?: string): Prices {
   const s = getSettings();
   const num = (v: string | undefined, d: number) => {
     const n = Number(String(v || "").replace(/[^\d]/g, ""));
@@ -108,7 +109,7 @@ export function prices(): Prices {
   };
   const wasRaw = String(s.builder_price_was ?? "").trim();
   // A crossed-out "original" price only shows when one is set in Admin.
-  const p = { base: builderPrice(), was: wasRaw ? num(wasRaw, 0) : 0 } as Prices;
+  const p = { base: builderPrice(template), was: wasRaw ? num(wasRaw, 0) : 0 } as Prices;
   for (const a of ADDONS) p[a.id] = num(s[a.setting], a.price);
   return p;
 }
@@ -128,9 +129,16 @@ export function callLink(phone = (getSettings().support_phone || "").replace(/\D
   return l && /^https?:\/\//.test(l) ? l : `https://wa.me/${phone}?text=${encodeURIComponent("Hi! I'd like to book a free 15-minute call about the invitation builder.")}`;
 }
 
-export function builderPrice() {
-  const n = Number(String(getSettings().builder_price || "").replace(/[^\d]/g, ""));
-  return Number.isFinite(n) && n > 0 ? n : 1999;
+/* Two prices: our studio designs, which carry a story line (₹2,999), and the simpler designs (₹1,999). */
+const rupeesSetting = (v: string | undefined, d: number) => {
+  const n = Number(String(v || "").replace(/[^\d]/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : d;
+};
+export const simplePrice = () => rupeesSetting(getSettings().builder_price, 1999);
+export const storyPrice = () => rupeesSetting(getSettings().builder_price_story, 2999);
+/** What publishing a design costs. Without a design: the lowest price ("from ₹1,999"). */
+export function builderPrice(template?: string) {
+  return template && findDesign(template) ? storyPrice() : simplePrice();
 }
 
 /* ---------- music ---------- */

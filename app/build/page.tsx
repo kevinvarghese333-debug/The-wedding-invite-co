@@ -8,9 +8,8 @@ import { TemplateCard } from "@/components/builder/template-card";
 import { StudioCard } from "@/components/builder/studio-card";
 import { DESIGNS, designThumb } from "@/lib/builder/designs";
 import { TEMPLATES } from "@/lib/builder/templates";
-import { builderPrice, getBase, prices, support } from "@/lib/builder/server";
+import { getBase, simplePrice, storyPrice, support } from "@/lib/builder/server";
 import { SupportSection } from "@/components/builder/support";
-import { PriceTag } from "@/components/builder/price-tag";
 import { publicWhatsApp, siteUrl } from "@/lib/config";
 import { whatsappHref } from "@/lib/whatsapp";
 import { rupees } from "@/lib/format";
@@ -39,8 +38,8 @@ const FAQ: [string, string][] = [
 
 export default async function BuilderHome({ searchParams }: { searchParams: Promise<{ busy?: string }> }) {
   const base = await getBase();
-  const price = builderPrice();
-  const pr = prices();
+  const price = simplePrice();
+  const story = storyPrice();
   const sup = support();
   const sp = await searchParams;
   const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
@@ -51,12 +50,12 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
         <section className="border-b py-[clamp(48px,7vw,96px)]">
           <div className={`${wrap} grid items-center gap-10 text-center`}>
             <div className="mx-auto max-w-3xl">
-              <Badge variant="clay">Do it yourself · {pr.was > price ? `${Math.round((1 - price / pr.was) * 100)}% off, now ${rupees(price)}` : rupees(price)}</Badge>
+              <Badge variant="clay">Do it yourself · from {rupees(price)}</Badge>
               <h1 className="heading mt-5 text-[clamp(42px,6.4vw,80px)] leading-[0.98] text-balance">
                 Make your wedding invitation website, <em className="text-clay-ink font-normal">yourself.</em>
               </h1>
               <p className="text-muted-foreground mx-auto mt-5 max-w-2xl text-[17px] text-pretty">
-                Pick a design, type your names, events and story, add photos and music, and watch it change as you go. Designing is free. Pay {rupees(price)} only when you&apos;re ready to send it.
+                Pick a design, type your names, events and story, add photos and music, and watch it change as you go. Designing is free. You pay once, only when you&apos;re ready to send it: {rupees(story)} for our studio designs with a story line, {rupees(price)} for the simpler ones.
               </p>
               <div className="mt-7 flex flex-wrap justify-center gap-3">
                 <Button size="lg" asChild>
@@ -85,7 +84,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
               {[
                 ["Pick a design", `${DESIGNS.length + TEMPLATES.length} designs, most of them real invitations from our studio. Open any of them before you choose.`],
                 ["Make it yours", "Names, celebrations, venues, story, photos, music, fonts and text size. The phone preview updates as you type."],
-                [`Pay ${rupees(price)} and share`, "Choose your link, pay once, and send it on WhatsApp. RSVPs come straight to you."],
+                ["Pay once and share", `Choose your link, pay once (from ${rupees(price)}), and send it on WhatsApp. RSVPs come straight to you.`],
               ].map(([t, d], i) => (
                 <li key={t} className="bg-card flex gap-4 rounded-xl border p-5">
                   <span className="bg-primary text-primary-foreground heading grid size-10 flex-none place-items-center rounded-full text-xl">{i + 1}</span>
@@ -115,7 +114,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
             ) : null}
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {DESIGNS.map((d) => (
-                <StudioCard key={d.id} id={d.id} name={d.name} blurb={d.blurb} tags={d.tags} thumb={designThumb(d.id)} base={base} price={pr.base} was={pr.was} />
+                <StudioCard key={d.id} id={d.id} name={d.name} blurb={d.blurb} tags={d.tags} thumb={designThumb(d.id)} base={base} price={story} was={0} />
               ))}
             </div>
             <div className="mx-auto mt-20 max-w-2xl text-center">
@@ -124,7 +123,7 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {TEMPLATES.map((t) => (
-                <TemplateCard key={t.id} id={t.id} name={t.name} blurb={t.blurb} tags={t.tags} palettes={t.palettes.map(({ id, label, bg, accent, ink }) => ({ id, label, bg, accent, ink }))} price={pr.base} was={pr.was} />
+                <TemplateCard key={t.id} id={t.id} name={t.name} blurb={t.blurb} tags={t.tags} palettes={t.palettes.map(({ id, label, bg, accent, ink }) => ({ id, label, bg, accent, ink }))} price={price} was={0} />
               ))}
             </div>
           </div>
@@ -151,8 +150,13 @@ export default async function BuilderHome({ searchParams }: { searchParams: Prom
               <h3 className="text-lg font-semibold">Do it yourself</h3>
               <p className="text-muted-foreground mt-1 text-sm">You design it, we host it.</p>
               <div className="mt-5">
-                <PriceTag base={pr.base} was={pr.was} size="lg" />
-                <p className="text-muted-foreground mt-1 text-sm">one-time, when you publish</p>
+                <p className="flex items-baseline gap-2">
+                  <span className="text-muted-foreground text-sm">from</span>
+                  <span className="heading text-[52px] leading-none font-semibold lining-nums">{rupees(price)}</span>
+                </p>
+                <p className="text-muted-foreground mt-2 text-sm">
+                  One-time, when you publish: {rupees(price)} for the simpler designs, {rupees(story)} for our studio designs with a story line.
+                </p>
               </div>
               <Button className="mt-6 w-full" size="lg" asChild>
                 <a href="#designs">Choose a design</a>

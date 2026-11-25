@@ -6,7 +6,7 @@
    "name": "Joel",
    "full": "Joel Mathew",
    "parents": "Mr. Mathew George & Mrs. Annie Mathew",
-   "house": "Puthenpurackal",
+   "house": "Puthenpurackal House",
    "line": "Son of grace and laughter, stepping forward with love and devotion."
   },
   "bride": {
@@ -14,12 +14,16 @@
    "full": "Maria Thomas",
    "parents": "Mr. Thomas Varghese & Mrs. Elizabeth Thomas",
    "house": "The Thomas family",
-   "line": "Daughter of faith and warmth, carrying her family’s love into a new dawn."
+   "line": "Daughter of faith and warmth, embracing a new chapter of togetherness."
   },
   "initials": [
    "J",
    "M"
   ],
+  "verse": {
+   "text": "Grant that we may grow old together.",
+   "ref": "Tobit 8:7"
+  },
   "hashtag": "#JoelWedsMaria",
   "date": "2027-04-19T17:00:00+05:30",
   "tagline": "Two hearts, one beautiful day.",
@@ -28,6 +32,7 @@
    "With joy, Joel & Maria invite you to celebrate their wedding."
   ],
   "welcomePlace": "St. Mary’s Church, Kottayam",
+  "welcomePhoto": "assets/img/welcome-tea.jpg",
   "lines": {
    "ceremonies": "Join us as we begin our forever.",
    "rsvp": "We’d love to know you’re coming. RSVP here.",
@@ -104,7 +109,7 @@
     "end": "2027-04-19T22:00:00+05:30",
     "venue": "The Lake Lawns",
     "address": "Kottayam",
-    "dress": "Traditional / Formals",
+    "dress": "Same outfits, more dancing",
     "maps": ""
    }
   ],
@@ -130,17 +135,45 @@
     {
      "icon": "camera",
      "title": "Share your photos",
-     "text": "Post your pictures from the celebrations with {hashtag} so we can find them all."
-    },
-    {
-     "icon": "bed",
-     "title": "Stay",
-     "text": "[Where outstation guests can stay]"
+     "text": "Please hold off on posting until after the reception. Then share your photos with {hashtag}!"
     },
     {
      "icon": "car",
      "title": "Parking",
-     "text": "[Parking details]"
+     "items": [
+      [
+       "Holy Mass",
+       "parking is available at St. Mary's Church, Kudamaloor."
+      ],
+      [
+       "Reception",
+       "free parking at The Lake Lawns."
+      ]
+     ]
+    },
+    {
+     "icon": "bed",
+     "title": "Stay",
+     "text": "Coming from out of town? Here are a few comfortable places close to the celebrations:",
+     "items": [
+      [
+       "The Lake Lawns, Kottayam",
+       "the reception venue itself, so there's no travel after the party"
+      ],
+      [
+       "Centur Apartments",
+       "private apartments opposite the railway station, good for families and groups"
+      ],
+      [
+       "Taj Residency Rooms",
+       "simple, central rooms by the KSRTC bus stand"
+      ],
+      [
+       "Club 7 / Hotel KGA Elite, Thiruvalla (~12 km)",
+       "full-service hotels"
+      ]
+     ],
+     "after": "Let us know if you need assistance with stay and transport."
     },
     {
      "icon": "chat",
@@ -154,8 +187,13 @@
     "display": ""
    }
   },
-  "rsvpBy": "2027-03-20",
+  "rsvpBy": "2027-02-19",
   "sheetUrl": "",
-  "music": "/builder/music/canon.mp3"
+  "wallSeed": [],
+  "music": "/builder/music/canon.mp3",
+  "opening": {
+   "line1": "Two hearts,",
+   "line2": "one promise"
+  }
  }
 }

@@ -4,6 +4,7 @@
   --wine-2: #8c2d40;
   --rose: #b0475a;
   --gold: #b48a42;
+  --plum: #6b2a4c;
   --gold-l: #d8bb78;
   --ink: #3b2a24;
   --muted: #7b665a;
@@ -197,14 +198,14 @@ img { display: block; max-width: none; height: auto; user-select: none; -webkit-
 .opening .date .sub { display: block; margin-top: 7px; font: italic 500 min(4.2cqw, 2cqh)/1.3 var(--serif); color: var(--muted); }
 
 /* ═════════ 1 · WELCOME ═════════ */
-.welcome .copy { position: absolute; left: 9cqw; right: 9cqw; top: 15cqh; text-align: center; }
-.welcome .hello { font-size: min(21cqw, 9.6cqh); }
+.welcome .copy { position: absolute; left: 9cqw; right: 9cqw; top: 13cqh; text-align: center; }
+.welcome .hello { font-size: min(19cqw, 8.6cqh); }
 .welcome .dear { margin-top: 1.6cqh; font: italic 500 min(5cqw, 2.4cqh)/1.2 var(--serif); color: var(--wine-2); }
 .welcome .dear b { font: 700 min(7.4cqw, 3.4cqh)/1 var(--script); color: var(--wine); margin-left: .15em; }
-.welcome .fullnames { margin-top: 1.4cqh; font: 600 min(6.4cqw, 3cqh)/1.18 var(--serif); color: var(--ink); }
+.welcome .fullnames { margin-top: 1.1cqh; font: 600 min(6.4cqw, 3cqh)/1.18 var(--serif); color: var(--ink); }
 .welcome .fullnames .amp { display: block; font: 700 min(9cqw, 4.2cqh)/1 var(--script); color: var(--wine); margin: .05em 0; }
-.welcome .body { margin-top: 1.6cqh; font: 500 min(4.1cqw, 2cqh)/1.45 var(--serif); color: var(--muted); }
-.welcome .when { margin-top: 1.8cqh; }
+.welcome .body { margin-top: 1.2cqh; font: 500 min(4.1cqw, 2cqh)/1.45 var(--serif); color: var(--muted); }
+.welcome .when { margin-top: 1.4cqh; }
 .welcome .when strong { display: block; font: 600 min(4.6cqw, 2.2cqh)/1.2 var(--serif); color: var(--ink); }
 .welcome .when .caps { display: block; margin-top: 5px; font-size: min(3cqw, 1.45cqh); color: var(--muted); }
 .welcome .col { position: absolute; bottom: -1cqh; width: min(31cqw, 17cqh); z-index: 1; }
@@ -317,16 +318,17 @@ img { display: block; max-width: none; height: auto; user-select: none; -webkit-
 .print-frame.wide .mount.br { right: 6.3%; top: auto; bottom: 7.8%; }
 
 /* ceremonies */
-.ceremonies .corner { position: absolute; left: 0; top: 0; width: min(48cqw, 24cqh); z-index: 3; pointer-events: none; }
+.ceremonies .corner { position: absolute; left: 0; top: 0; width: min(34cqw, 17cqh); z-index: 3; pointer-events: none; }
 .ceremonies .corner img { width: 100%; }
-.ceremonies .bells { position: absolute; right: 13cqw; top: 0; width: min(26cqw, 13cqh); z-index: 3; pointer-events: none; transform-origin: 50% 0; }
+.ceremonies .bells { position: absolute; right: 4cqw; top: 0; width: min(19cqw, 9.5cqh); z-index: 3; pointer-events: none; transform-origin: 50% 0; }
 .ceremonies .bells img { width: 100%; }
 .scene.is-live.ceremonies .bells { animation: bellSwing 4s ease-in-out infinite alternate; }
 @keyframes bellSwing { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
-.ceremonies .vhead { padding-top: 17cqh; }
+.ceremonies .vhead { padding-top: 20cqh; }
 /* one ceremony per view */
 .evc { position: relative; z-index: 6; text-align: center; padding: 4cqh 9cqw 0; }
 .evc .ev-art { width: min(44cqw, 22cqh); margin: 0 auto; }
+.evc .ev-art.wide { width: min(88cqw, 44cqh); }
 .evc h3 { margin-top: 1.6cqh; font: 600 min(6.4cqw, 3cqh)/1.1 var(--caps); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
 .evc .when { margin-top: 1.1cqh; font: 600 min(3.3cqw, 1.55cqh)/1.35 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--wine); }
 .evc .where { margin-top: 1.3cqh; font: 500 min(4.8cqw, 2.25cqh)/1.25 var(--serif); color: var(--ink); }
@@ -457,8 +459,9 @@ img { display: block; max-width: none; height: auto; user-select: none; -webkit-
 .wall { position: relative; z-index: 6; margin: 2.4cqh auto 0; width: 92cqw; height: 56cqh; overflow: hidden;
   -webkit-mask-image: linear-gradient(transparent, #000 8%, #000 88%, transparent); mask-image: linear-gradient(transparent, #000 8%, #000 88%, transparent); }
 .wall-track { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; padding: 2.4cqh 2cqw; align-items: start; }
-.wnote { position: relative; padding: 18px 14px 16px; background: url(../img/torn-card.webp) center / 100% 100% no-repeat; filter: drop-shadow(0 8px 10px rgba(74, 36, 28, .16)); rotate: var(--r, 0deg); }
-.wnote::before { content: ''; position: absolute; left: 50%; top: 4px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #e86a7d, #a3122b); box-shadow: 0 2px 3px rgba(80, 10, 20, .35); }
+.wnote { position: relative; isolation: isolate; padding: 18px 14px 16px; rotate: var(--r, 0deg); }
+.wnote::after { content: ''; position: absolute; inset: 0; z-index: -1; background: url(../img/torn-card.webp) center / 100% 100% no-repeat; filter: drop-shadow(0 8px 10px rgba(74, 36, 28, .16)); }
+.wnote::before { content: ''; z-index: 1; position: absolute; left: 50%; top: 4px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #e86a7d, #a3122b); box-shadow: 0 2px 3px rgba(80, 10, 20, .35); }
 .wnote p { font: italic 500 15px/1.35 var(--serif); color: var(--ink); }
 .wnote cite { display: block; margin-top: 8px; font: 700 22px/1 var(--script); color: var(--wine); font-style: normal; }
 .wall-empty { text-align: center; padding-top: 14cqh; font: italic 500 17px/1.4 var(--serif); color: var(--muted); }
@@ -466,14 +469,14 @@ img { display: block; max-width: none; height: auto; user-select: none; -webkit-
 
 /* ═════════ thank you ═════════ */
 /* the couple's watercolour: feet near the bottom edge, the tree softened behind the text */
-.thanks { --wc: min(100cqw, 60cqh); }
-.thanks .watercolour { position: absolute; left: 50%; width: var(--wc); margin-left: calc(var(--wc) / -2); top: calc(94cqh - var(--wc) * 1.34 * .8); pointer-events: none; }
+.thanks { --wc: min(118cqw, 66cqh); }
+.thanks .watercolour { position: absolute; left: 50%; width: var(--wc); margin-left: calc(var(--wc) * -.576); top: calc(94cqh - var(--wc) * 1.34 * .8); pointer-events: none; }
 .thanks .watercolour img { width: 100%; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.32) 0%, rgba(0,0,0,.32) 47%, #000 57%); mask-image: linear-gradient(to bottom, rgba(0,0,0,.32) 0%, rgba(0,0,0,.32) 47%, #000 57%); }
-.thanks .corner-a { position: absolute; left: 0; top: 0; width: min(46cqw, 23cqh); }
+.thanks .corner-a { position: absolute; left: 0; top: 0; width: min(32cqw, 16cqh); }
 .thanks .corner-b { position: absolute; right: 0; bottom: 0; width: min(46cqw, 23cqh); }
 .thanks .corner-a img, .thanks .corner-b img { width: 100%; }
 .thanks .corner-b img { transform: rotate(180deg); }
-.thanks .copy { position: absolute; left: 8cqw; right: 8cqw; top: 20cqh; text-align: center; z-index: 6; }
+.thanks .copy { position: absolute; left: 8cqw; right: 8cqw; top: 22cqh; text-align: center; z-index: 6; }
 .thanks .big { font-size: min(24cqw, 11cqh); }
 .thanks .line { margin-top: 2cqh; font: italic 500 min(4.8cqw, 2.3cqh)/1.4 var(--serif); color: var(--muted); }
 .thanks .heartstop { position: relative; height: 9cqh; }
@@ -506,6 +509,13 @@ img { display: block; max-width: none; height: auto; user-select: none; -webkit-
 .note-list h3 { font: 500 min(3.2cqw, 1.5cqh)/1.2 var(--caps); letter-spacing: .2em; text-transform: uppercase; color: #4f6a4d; }
 .note-list p { margin-top: 5px; font: 500 min(4.1cqw, 1.95cqh)/1.4 var(--serif); color: var(--ink); }
 .note-list .hashtag { font-weight: 600; color: var(--wine); }
+/* a pause halfway down the long card, so its top half is read before the camera moves on */
+.note-list .mid-stop { position: absolute; right: 1.5cqw; top: 52%; width: 1px; height: 1px; }
+.note-list .nl { list-style: none; margin: 6px 0 0; padding: 0; }
+.note-list .nl li { position: relative; padding-left: 14px; margin-top: 6px; font: 500 min(4.1cqw, 1.95cqh)/1.4 var(--serif); color: var(--muted); }
+.note-list .nl li::before { content: ''; position: absolute; left: 1px; top: .62em; width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.note-list .nl b { font-weight: 600; color: var(--ink); }
+.note-list .after { margin-top: 8px; font-style: italic; color: var(--muted); }
 .note-list .pill { margin-top: 9px; height: 30px; }
 .note-list .pill[hidden] { display: none; }
 .forecast[hidden] { display: none; }
@@ -536,5 +546,157 @@ img { display: block; max-width: none; height: auto; user-select: none; -webkit-
 .pill-dir { text-transform: none; letter-spacing: .03em; font-size: min(3.4cqw, 13px); height: 38px; padding: 0 18px; }
 /* short phones: keep the couple photo clear of the welcome text */
 @container (max-height: 720px) {
-  .welcome .couple { width: min(62cqw, 25cqh); margin-left: calc(min(62cqw, 25cqh) / -2); }
+  .welcome .couple.church { bottom: 0; }
 }
+
+/* their church (watercolour) sits at the foot of the Welcome card, behind the columns */
+.welcome .couple.church { width: min(104cqw, 50cqh); margin-left: calc(min(104cqw, 50cqh) / -2); bottom: 1cqh; z-index: 0; }
+@container (max-height: 720px) {
+  .ceremonies .vhead { padding-top: 17cqh; }
+  .evc .ev-art.wide { width: min(84cqw, 36cqh); }
+}
+
+/* ═════════ THE FOLIO (before the invite) ═════════
+   A navy-bound card tied with a ribbon. Tap: the bow slips, the
+   curved flap swings open, two pens draw one heart. Tap again: in. */
+.folio-wrap { position: absolute; inset: 0; z-index: 70; display: grid; place-items: center;
+  background: radial-gradient(120% 80% at 50% 36%, rgba(250, 244, 230, .55) 0%, rgba(236, 222, 194, .6) 62%, rgba(214, 192, 156, .72) 100%), url(../img/paper.jpg) 0 0 / 420px auto, var(--paper);
+  transition: opacity .85s ease; }
+.folio-wrap.is-leaving { opacity: 0; pointer-events: none; }
+.folio { position: relative; width: min(86cqw, 44cqh); aspect-ratio: .7; container-type: inline-size;
+  perspective: 1800px; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent;
+  transition: transform .9s cubic-bezier(.55, 0, .3, 1); }
+.folio-wrap.is-leaving .folio { transform: scale(1.12); }
+/* the leather cover peeking out around the card */
+.folio::before { content: ''; position: absolute; z-index: -2; inset: -3.4% -4%; border-radius: 3.2cqi;
+  background: radial-gradient(130% 90% at 30% 20%, #8c2d40 0%, #6e1a2d 45%, #4a0f1d 100%);
+  box-shadow: 0 4.5cqi 9cqi -3cqi rgba(40, 26, 14, .55), 0 1.5cqi 3cqi rgba(40, 26, 14, .25), inset 0 0 0 1px rgba(255, 255, 255, .07); }
+.folio-page { position: absolute; inset: 0; border-radius: 1cqi; overflow: hidden;
+  background: linear-gradient(rgba(242, 233, 215, .62), rgba(236, 225, 204, .62)), url(../img/paper.jpg) 0 0 / 70cqi auto;
+  box-shadow: inset 0 0 6cqi rgba(150, 118, 74, .16), 0 .3cqi .5cqi rgba(40, 26, 14, .18), 0 2cqi 4cqi -1cqi rgba(40, 26, 14, .22); }
+/* soft window light from the top left, a hint of the sheet beneath */
+.folio-page::before { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(128deg, rgba(255, 250, 238, .38) 0%, rgba(255, 250, 238, 0) 38%, rgba(90, 60, 30, 0) 62%, rgba(90, 60, 30, .09) 100%); }
+.folio::after { content: ''; position: absolute; inset: .7cqi -.6cqi -.9cqi .6cqi; z-index: -1; border-radius: 1cqi;
+  background: #e9dcc2; box-shadow: 0 .4cqi .8cqi rgba(40, 26, 14, .25); }
+.folio-page::after { content: ''; position: absolute; inset: 3.2%; border: .5px solid rgba(180, 138, 66, .62); border-radius: .5cqi; pointer-events: none; }
+
+/* front: the pen writing its heart, the tap hint */
+.folio .front { position: absolute; inset: 0; transition: opacity .6s ease; }
+.folio.is-open .front, .is-open .folio .front { opacity: 0; }
+.folio .pen { position: absolute; left: 29%; top: 25%; width: 72%; }
+.folio .pen img, .folio .hands img { width: 100%; }
+.folio .pen svg, .folio .hands svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.folio .g { fill: none; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+.folio .pen .g { stroke: url(#gd1); stroke-dasharray: 9999; stroke-dashoffset: 9999; }
+.folio .hands .g { stroke: url(#gd2); stroke-dasharray: 9999; stroke-dashoffset: 9999; }
+.folio .hint { position: absolute; left: 46%; right: 4%; bottom: 13%; text-align: center;
+  font: 500 2.7cqi/1.7 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--wine-2); }
+.folio .hint svg { display: block; width: 9cqi; margin: 2.2cqi auto 0; fill: none; stroke: var(--wine-2); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateX(-1.6cqi); } }
+
+/* the curved flap, hinged on the left edge */
+.folio .flap { position: absolute; left: 0; top: 0; bottom: 0; width: 44%; transform-origin: 0 50%;
+  border-radius: 0 70% 70% 0 / 0 50% 50% 0;
+  background: linear-gradient(135deg, rgba(252, 246, 233, .92) 0%, rgba(242, 232, 213, .9) 55%, rgba(232, 219, 196, .92) 100%), url(../img/paper.jpg) 0 0 / 70cqi auto;
+  box-shadow: .5cqi 0 .8cqi -.3cqi rgba(70, 50, 26, .22), 2cqi .6cqi 4cqi -1.4cqi rgba(70, 50, 26, .3), inset -1px 0 0 rgba(255, 255, 255, .7);
+  transition: transform 1.9s cubic-bezier(.45, 0, .2, 1) .55s, opacity .7s ease 1.75s; }
+.folio .flap::after { content: ''; position: absolute; inset: 2.4cqi 2.4cqi 2.4cqi 0; border: .5px solid rgba(180, 138, 66, .6); border-left: 0; border-radius: inherit; }
+.folio.is-open .flap, .is-open .folio .flap { transform: rotateY(-150deg); opacity: 0; }
+@keyframes spark { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+.folio .bow .rays { fill: none; stroke: #b8893a; stroke-width: 1.6; stroke-linecap: round; animation: spark 1.8s ease-in-out infinite; }
+.is-open .folio .bow .rays { display: none; }
+
+/* the ribbon: wine velvet across the flap, tied in a bow */
+.folio .band { position: absolute; left: -4.6%; width: calc(4.6% + 34.6%); top: 53.7%; height: 3.8%;
+  background: linear-gradient(180deg, #8f2536 0%, #6a1424 38%, #4d0b18 72%, #6e1828 100%);
+  box-shadow: 0 .5cqi 1cqi rgba(40, 8, 14, .32), inset 0 1px 0 rgba(255, 190, 190, .12); transition: transform 1s cubic-bezier(.4, 0, .2, 1) .15s, opacity .8s ease .3s; transform-origin: 0 50%; }
+.folio .bow { position: absolute; left: 35%; top: 55.6%; width: 46%; transform: translate(-50%, -30.3%); overflow: visible;
+  filter: drop-shadow(0 .7cqi .9cqi rgba(50, 10, 18, .38)); }
+.folio .bow :is(.loops path:not(.sheen):not(.fold), .tails path:not(.fold)) { fill: url(#sat); }
+.folio .bow .knot { fill: url(#velvet); }
+.folio .bow .sheen { fill: none; stroke: rgba(255, 196, 190, .16); stroke-width: 5; stroke-linecap: round; filter: blur(1.5px); }
+.folio .bow .fold { fill: none; stroke: rgba(40, 4, 10, .35); stroke-width: 1.4; stroke-linecap: round; }
+.folio .bow .loops, .folio .bow .tails, .folio .bow .knot { transform-box: view-box; transform-origin: 100px 56px; transition: transform .9s cubic-bezier(.4, 0, .2, 1), opacity .7s ease; }
+.is-open .folio .bow .loops { transform: scale(.62); opacity: 0; }
+.is-open .folio .bow .knot { transform: scale(.7); opacity: 0; transition-delay: .15s; }
+.is-open .folio .bow .tails { transform: translateY(14px); opacity: 0; transition: transform 1.1s cubic-bezier(.4, 0, .2, 1) .1s, opacity .8s ease .2s; }
+.is-open .folio .band { transform: scaleX(0); opacity: 0; }
+
+/* inside: florals, the two pens, the monogram */
+.folio .inside { position: absolute; inset: 0; }
+.folio .fl { position: absolute; opacity: 0; transform: scale(.94); transition: opacity 1.2s ease, transform 1.6s var(--ease-out); }
+.folio img.fl { filter: hue-rotate(125deg) saturate(1.6); } /* slate-blue line florals → dusty rose to sit with the bougainvillea */
+.folio .fl-tl { left: 4.2%; top: 4%; width: 19%; }
+.folio .fl-tr { right: 4.2%; top: 4%; width: 24%; transform-origin: 100% 0; }
+.folio .fl-bl { left: 4.2%; bottom: 4%; width: 24%; transform-origin: 0 100%; }
+.folio .fl-br { right: 4%; bottom: 4%; width: 30%; transform-origin: 100% 100%; }
+.is-open .folio .fl { opacity: 1; transform: none; }
+.is-open .folio .fl-tl { transition-delay: 1.1s; } .is-open .folio .fl-tr { transition-delay: 1.3s; }
+.is-open .folio .fl-bl { transition-delay: 1.5s; } .is-open .folio .fl-br { transition-delay: 1.7s; }
+.folio .in-copy { position: absolute; left: 10%; right: 10%; top: 12%; bottom: 8%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.folio .hands { position: relative; width: 84%; opacity: 0; transition: opacity 1s ease 1s; }
+.is-open .folio .hands { opacity: 1; }
+.folio .mono { margin-top: 2cqi; font: 700 27cqi/.9 var(--script); color: var(--wine); white-space: nowrap; letter-spacing: .01em; }
+.folio .mono span { font-size: .6em; margin: 0 .08em; vertical-align: .26em; color: #a87a30; }
+.folio .mono, .folio .tag, .folio .rule, .folio .go { opacity: 0; transform: translateY(2cqi); transition: opacity 1.1s ease, transform 1.4s var(--ease-out); }
+.is-open .folio .mono { opacity: 1; transform: none; transition-delay: 2.1s; }
+.folio .rule { display: flex; align-items: center; justify-content: center; gap: 2cqi; width: 70%; margin-top: 4cqi; }
+.folio .rule i { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(180, 138, 66, 0), #b48a42); }
+.folio .rule i:last-child { background: linear-gradient(90deg, #b48a42, rgba(180, 138, 66, 0)); }
+.folio .rule b { width: 1.6cqi; height: 1.6cqi; background: #b48a42; transform: rotate(45deg); }
+.folio .rule svg { width: 4.4cqi; fill: none; stroke: #b48a42; stroke-width: 1.6; }
+.is-open .folio .rule { opacity: 1; transform: none; transition-delay: 2.4s; }
+.folio .tag { margin-top: 3.4cqi; font: 500 7.4cqi/1.22 var(--serif); color: var(--ink); }
+.folio .tag em { font: 700 11.6cqi/.9 var(--script); font-style: normal; color: #a87a30; padding: 0 .06em; }
+.is-open .folio .tag { opacity: 1; transform: none; transition-delay: 2.6s; }
+.is-open .folio .rule.hr { transition-delay: 2.9s; }
+.folio .go { margin-top: auto; font: 500 2.5cqi/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: #6d6253; }
+.is-ready .folio .go { opacity: 1; transform: none; transition-delay: .9s; animation: spark 2s ease-in-out 2s infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .folio *, .folio-wrap { transition-duration: .01s !important; transition-delay: 0s !important; animation: none !important; }
+}
+
+/* ═════════ cover: scratch card for the date ═════════ */
+.opening .copy { top: calc(var(--t) + var(--a) * .372); }
+.opening .names { margin-top: calc(var(--a) * .052); }
+.opening .names .script { font-size: calc(var(--a) * .128); }
+.opening .names .weds { margin: .45em 0 .55em; }
+.opening .tagline { margin-top: calc(var(--a) * .05); }
+.opening .scratch { position: absolute; left: 50%; z-index: 7; top: calc(var(--t) + var(--a) * .935); width: calc(var(--a) * .37); height: calc(var(--a) * .145);
+  margin-left: calc(var(--a) * -.185); border-radius: calc(var(--a) * .018); touch-action: none; }
+.opening .scratch .sc-under { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; border-radius: inherit;
+  background: rgba(252, 247, 236, .96); box-shadow: inset 0 0 0 1px rgba(180, 138, 66, .55), inset 0 0 0 4px rgba(252, 247, 236, 1), inset 0 0 0 5px rgba(180, 138, 66, .3); }
+.opening .sc-date { font: 600 calc(var(--a) * .042)/1 var(--caps); letter-spacing: .12em; color: var(--wine); white-space: nowrap; }
+.opening .sc-day { margin-top: calc(var(--a) * .012); font: italic 500 calc(var(--a) * .03)/1 var(--serif); color: var(--muted); }
+.opening .scratch canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; cursor: grab; touch-action: none;
+  box-shadow: 0 6px 14px -8px rgba(110, 70, 20, .55); transition: opacity .8s ease; }
+.opening .scratch.is-revealed canvas { opacity: 0; pointer-events: none; }
+.opening .date .hint { display: block; font: italic 500 min(4.2cqw, 2cqh)/1.3 var(--serif); color: var(--muted); transition: opacity .6s ease; }
+.opening .date { display: grid; }
+.opening .date > span { grid-area: 1 / 1; }
+.opening .date .sub { margin-top: 0; opacity: 0; transition: opacity .8s ease .3s; }
+.opening .date.is-revealed .hint { opacity: 0 !important; }
+.opening .date.is-revealed .sub { opacity: 1; }
+
+/* ═════════ welcome: their tea by the lake, painted across the foot of the page ═════════ */
+.welcome .tea { position: absolute; left: 0; right: 0; bottom: 0; z-index: 0; pointer-events: none; }
+.welcome .tea img { display: block; width: 100%; height: auto; height: clamp(26cqh, 87cqh - 100cqw, 40cqh); object-fit: cover; object-position: 50% 78%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 20%, rgba(0,0,0,.85) 40%, #000 55%);
+          mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 20%, rgba(0,0,0,.85) 40%, #000 55%);
+  opacity: .88; mix-blend-mode: multiply; }
+.welcome .copy { z-index: 2; }
+
+/* small gold cross above Welcome */
+.welcome .cross { display:block; width:min(11cqw,5.2cqh); margin:0 auto; position:relative; filter:drop-shadow(0 0 6px var(--paper)) drop-shadow(0 0 3px var(--paper)); color:var(--plum); fill:currentColor; }
+.welcome .cross .ln { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
+.welcome .cross .st { fill:none; stroke:currentColor; stroke-width:1; stroke-linecap:round; }
+.welcome .verse { margin:.6cqh auto .2cqh; max-width:70cqw; font:italic 500 min(3.9cqw,1.85cqh)/1.35 var(--serif); color:var(--plum); }
+.welcome .verse cite { display:block; margin-top:.5cqh; font:500 min(2.5cqw,1.2cqh)/1 var(--caps); letter-spacing:.24em; text-transform:uppercase; font-style:normal; color:var(--muted); }
+/* bougainvillea corners on the two blessing pages, kept behind the cards */
+:is(.blessing, .wishes) .fcorner { position: absolute; left: 0; width: min(25cqw, 12.5cqh); z-index: 0; pointer-events: none; }
+:is(.blessing, .wishes) .fcorner img { width: 100%; }
+:is(.blessing, .wishes) .fcorner.tl { top: -2.5cqh; }
+:is(.blessing, .wishes) :is(.vhead, .paper-card) { position: relative; z-index: 2; }
+:is(.blessing, .wishes) .fcorner.bl { bottom: 0; }
+:is(.blessing, .wishes) .fcorner.bl img { transform: scaleY(-1); }

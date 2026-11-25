@@ -50,7 +50,7 @@ export default async function EditPage({ params }: { params: Promise<{ id: strin
   };
   const design = findDesign(site.template);
   if (design)
-    return <StudioEditor site={editorSite} design={design} initial={studioConfig(site) ?? design.sample} html={designHtml(design.id)} library={library()} price={builderPrice()} />;
+    return <StudioEditor site={editorSite} design={design} initial={studioConfig(site) ?? design.sample} html={designHtml(design.id)} library={library()} price={builderPrice(site.template)} />;
   return (
     <Editor
       site={{
@@ -66,7 +66,7 @@ export default async function EditPage({ params }: { params: Promise<{ id: strin
       }}
       initial={siteData(site)}
       library={library()}
-      price={builderPrice()}
+      price={builderPrice(site.template)}
       siteUrl={siteUrl()}
       builderUrl={builderUrl()}
     />
