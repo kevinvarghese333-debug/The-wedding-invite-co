@@ -7,11 +7,11 @@ const siteUrl = process.env.SITE_URL || "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Wedding Invitation Website in Kerala | WhatsApp Invites with RSVP · The Wedding Invite Co.",
+    default: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",
     template: "%s · The Wedding Invite Co.",
   },
   description:
-    "Custom wedding invitation websites from Kerala, sent on WhatsApp. RSVP for every function, maps, your story and photos in one link. From ₹4,999, designed for you.",
+    "Kerala wedding invitation websites sent on WhatsApp: every function, maps, RSVP and your story in one link. Make your own from ₹1,999, or let us design it.",
   alternates: { canonical: siteUrl },
   openGraph: {
     title: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",

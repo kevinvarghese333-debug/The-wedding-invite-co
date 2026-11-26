@@ -8,7 +8,7 @@ type Msg =
   | { from: "out"; link: "malavika" | "ishani" | "nila"; time: string };
 
 const LINKS = {
-  malavika: { title: "Malavika & Hari", sub: "21 · 02 · 2027 · Guruvayur", url: "theweddinginviteco.xyz", art: "pc-lotus-art", img: "/media/cut/lotus.webp" },
+  malavika: { title: "Malavika & Hari", sub: "21 · 02 · 2027 · Guruvayur", url: "theweddinginviteco.xyz", art: "pc-lotus-art", img: "/media/opt/lotus-200.webp" },
   ishani: { title: "Ishani & Rudra", sub: "24 · 04 · 2027 · Rudraprayag", url: "theweddinginviteco.xyz", art: "pc-temple-art", img: "" },
   nila: { title: "Nila & Aaron", sub: "New Year's Eve · Kochi", url: "theweddinginviteco.xyz", art: "pc-night", img: "" },
 };
@@ -42,7 +42,7 @@ function LinkCard({ k }: { k: keyof typeof LINKS }) {
   return (
     <div className="overflow-hidden rounded-md bg-[#cfeec7]">
       <div className={`art relative aspect-[16/9] overflow-hidden ${l.art}`}>
-        {l.img ? <img src={l.img} alt="" className="absolute bottom-[4%] left-[36%] w-[28%]" /> : null}
+        {l.img ? <img src={l.img} alt="" loading="lazy" decoding="async" className="absolute bottom-[4%] left-[36%] w-[28%]" /> : null}
         <div className="lbl !top-[18%]">
           <b className="!text-[22px]">{l.title}</b>
         </div>

@@ -5,6 +5,10 @@ import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { EnquireButton } from "@/components/landing/enquiry";
 import { CtaText, WhatsAppButton } from "@/components/landing/cta";
+import { afterLoadOrScroll } from "@/components/landing/motion-gate";
+
+/** a 1×1 transparent image: what phones get instead of decorations they don't show */
+const NO_IMAGE = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
 const HEADLINE = "People don't remember boring invitation cards. They remember experiences.";
 const LINES_WIDE = ["PEOPLE DON'T REMEMBER", "BORING INVITATION CARDS.", "THEY REMEMBER", "EXPERIENCES."];
@@ -22,6 +26,7 @@ function DotHeadline() {
     const ctx = cv.getContext("2d")!;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let dots: { x: number; y: number }[] = [];
+    let rows: number[][] = []; // dot x positions per row, left to right, so a frame only visits dots near the glow
     let base: HTMLCanvasElement | null = null;
     let W = 0, H = 0, gap = 6, r = 1.7, R = 150;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -31,6 +36,9 @@ function DotHeadline() {
     let raf = 0;
     let t0 = performance.now();
     let visible = true;
+    let live = false; // the wandering glow starts once the page has loaded (or on the first scroll or touch)
+    let lastFrame = 0;
+    const coarse = window.matchMedia("(pointer: coarse)").matches; // phones: 30 frames a second is plenty
 
     const build = () => {
       W = el.clientWidth;
@@ -60,8 +68,12 @@ function DotHeadline() {
       lines.forEach((l, i) => o.fillText(l, W / 2, size * 0.9 + i * lh));
       const data = o.getImageData(0, 0, W, H).data;
       dots = [];
-      for (let y = gap / 2; y < H; y += gap)
-        for (let x = gap / 2; x < W; x += gap) if (data[((y | 0) * W + (x | 0)) * 4 + 3] > 120) dots.push({ x, y });
+      rows = [];
+      for (let y = gap / 2; y < H; y += gap) {
+        const xs: number[] = [];
+        for (let x = gap / 2; x < W; x += gap) if (data[((y | 0) * W + (x | 0)) * 4 + 3] > 120) { dots.push({ x, y }); xs.push(x); }
+        rows.push(xs);
+      }
 
       base = document.createElement("canvas");
       base.width = W * dpr; base.height = H * dpr;
@@ -74,6 +86,11 @@ function DotHeadline() {
     const draw = (now: number) => {
       raf = 0;
       if (!base) return;
+      if (coarse && now - lastFrame < 33) {
+        if (visible && !reduce) raf = requestAnimationFrame(draw);
+        return;
+      }
+      lastFrame = now;
       if (!hovering) {
         const t = (now - t0) / 1000;
         target.x = W * (0.5 + 0.38 * Math.sin(t * 0.45));
@@ -87,7 +104,15 @@ function DotHeadline() {
       ctx.drawImage(base, 0, 0);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const t = now / 1000;
-      for (const d of dots) {
+      const r0 = Math.max(0, Math.floor((pos.y - R - gap / 2) / gap));
+      const r1 = Math.min(rows.length - 1, Math.ceil((pos.y + R - gap / 2) / gap));
+      for (let ri = r0; ri <= r1; ri++) {
+        const y = gap / 2 + ri * gap, xs = rows[ri];
+        for (let j = 0; j < xs.length; j++) {
+        const x = xs[j];
+        if (x < pos.x - R) continue;
+        if (x > pos.x + R) break;
+        const d = { x, y };
         const dx = d.x - pos.x, dy = d.y - pos.y;
         const dist = Math.hypot(dx, dy);
         if (dist > R) continue;
@@ -103,11 +128,12 @@ function DotHeadline() {
         ctx.beginPath();
         ctx.arc(d.x, d.y, r * (1 + glow * 0.7), 0, 6.2832);
         ctx.fill();
+        }
       }
       if (visible && !reduce) raf = requestAnimationFrame(draw);
     };
 
-    const kick = () => { if (!raf && visible && !reduce) raf = requestAnimationFrame(draw); };
+    const kick = () => { if (!raf && visible && !reduce && (live || hovering)) raf = requestAnimationFrame(draw); };
     const onMove = (e: PointerEvent) => {
       const b = cv.getBoundingClientRect();
       target.x = e.clientX - b.left; target.y = e.clientY - b.top;
@@ -117,10 +143,14 @@ function DotHeadline() {
     const onLeave = () => { hovering = false; t0 = performance.now() - 2000; };
 
     let ro: ResizeObserver | undefined;
+    let stopWaiting = () => {};
     const start = () => {
       build();
-      if (reduce) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(base!, 0, 0); return; }
-      kick();
+      // the still dots straight away; the moving glow once the page has loaded
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(base!, 0, 0);
+      if (reduce) return;
+      stopWaiting = afterLoadOrScroll(() => { live = true; kick(); });
       let lastW = W;
       ro = new ResizeObserver(() => { if (el.clientWidth !== lastW) { lastW = el.clientWidth; build(); kick(); } });
       ro.observe(el);
@@ -134,6 +164,7 @@ function DotHeadline() {
 
     return () => {
       cancelAnimationFrame(raf);
+      stopWaiting();
       ro?.disconnect();
       io.disconnect();
       host.removeEventListener("pointermove", onMove as EventListener);
@@ -187,7 +218,8 @@ export function PaperHero({ chat }: { chat: string }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let ctx: { revert: () => void } | undefined;
     let cancelled = false;
-    (async () => {
+    // the scroll animations load after the page has (or on the first scroll), so they don't delay the first paint
+    const stopWaiting = afterLoadOrScroll(() => void (async () => {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       if (cancelled || !stage.current) return;
@@ -240,24 +272,33 @@ export function PaperHero({ chat }: { chat: string }) {
           });
         }
       });
-      window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
-    })();
+      if (document.readyState === "complete") ScrollTrigger.refresh();
+      else window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
+    })());
     return () => {
       cancelled = true;
+      stopWaiting();
       ctx?.revert();
     };
   }, []);
 
   return (
-    <section id="top" ref={stage} aria-labelledby="hero-h" className="pc-stage">
+    <section id="top" ref={stage} aria-labelledby="hero-h" className="pc-stage" data-motion="off">
       <div className="pc-velvet" aria-hidden />
 
       <FairyLights className="pc-cut pc-lights l" />
       <FairyLights className="pc-cut pc-lights r" />
-      <img className="pc-cut pc-float" id="pc-couple" src="/media/cut/couple.webp" alt="" aria-hidden />
-      <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/cut/lotus.webp" alt="" aria-hidden />
-      <img className="pc-cut pc-float d3" id="pc-camera" src="/media/cut/camera.webp" alt="" aria-hidden />
-      <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/cut/ringbox.webp" alt="" aria-hidden />
+      {/* hidden on phones, so phones don't download them */}
+      <picture>
+        <source media="(max-width: 640px)" srcSet={NO_IMAGE} />
+        <img className="pc-cut pc-float" id="pc-couple" src="/media/opt/couple-460.webp" alt="" aria-hidden />
+      </picture>
+      <picture>
+        <source media="(max-width: 640px)" srcSet={NO_IMAGE} />
+        <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/opt/lotus-380.webp" alt="" aria-hidden />
+      </picture>
+      <img className="pc-cut pc-float d3" id="pc-camera" src="/media/opt/camera-360.webp" srcSet="/media/opt/camera-240.webp 240w, /media/opt/camera-360.webp 360w" sizes="(max-width: 640px) 82px, 180px" alt="" aria-hidden />
+      <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/opt/ringbox-320.webp" srcSet="/media/opt/ringbox-210.webp 210w, /media/opt/ringbox-320.webp 320w" sizes="(max-width: 640px) 70px, 160px" alt="" aria-hidden />
 
       <div className="pc-copy">
         <h1 id="hero-h" className="pc-eyebrow"><span className="sr-only">Wedding invitation websites in Kerala: </span>The future of wedding invitations</h1>
@@ -283,7 +324,7 @@ export function PaperHero({ chat }: { chat: string }) {
           </div>
           <div className="pc-env-front" />
           <div className="pc-flap" />
-          <div className="pc-seal"><img src="/media/seal.webp" alt="" width={480} height={480} /></div>
+          <div className="pc-seal"><img src="/media/opt/seal-300.webp" alt="" width={300} height={300} /></div>
         </div>
       </div>
       <div className="pc-dawn" aria-hidden />
@@ -299,15 +340,15 @@ export function PaperOrigin({ studio, founder }: { studio: string; founder?: Rea
       <div className="pc-wrap pc-story-grid">
         <div className="pc-collage">
           <div className="pc-cut pc-photo" id="pc-s-photo">
-            <img src="/media/sc-altar.jpg" alt="Watercolour church aisle from a Kerala wedding invitation website" />
+            <img src="/media/opt/sc-altar-800.webp" srcSet="/media/opt/sc-altar-440.webp 440w, /media/opt/sc-altar-800.webp 800w" sizes="(max-width: 640px) 62vw, 340px" loading="lazy" decoding="async" alt="Watercolour church aisle from a Kerala wedding invitation website" />
           </div>
-          <img className="pc-cut" id="pc-s-bouquet" src="/media/cut/bouquet.webp" alt="" aria-hidden />
+          <img className="pc-cut" id="pc-s-bouquet" src="/media/opt/bouquet-330.webp" loading="lazy" decoding="async" alt="" aria-hidden />
           <figure className="pc-cut pc-polaroid" id="pc-s-pol">
             <span className="pc-tape" aria-hidden />
-            <img src="/media/ph-poster.jpg" alt="Couple dancing at their Kerala wedding reception" style={{ objectPosition: "50% 70%" }} />
+            <img src="/media/opt/ph-poster-560.webp" srcSet="/media/opt/ph-poster-360.webp 360w, /media/opt/ph-poster-560.webp 560w" sizes="(max-width: 640px) 44vw, 250px" loading="lazy" decoding="async" alt="Couple dancing at their Kerala wedding reception" style={{ objectPosition: "50% 70%" }} />
             <figcaption>the first dance</figcaption>
           </figure>
-          <img className="pc-cut" id="pc-s-player" src="/media/cut/player.webp" alt="" aria-hidden />
+          <img className="pc-cut" id="pc-s-player" src="/media/opt/player-720.webp" srcSet="/media/opt/player-420.webp 420w, /media/opt/player-720.webp 720w" sizes="(max-width: 640px) 58vw, 320px" loading="lazy" decoding="async" alt="" aria-hidden />
         </div>
         <div className="pc-story">
           <p className="pc-eyebrow">Where it started</p>
@@ -413,7 +454,7 @@ export function PaperSamples() {
         <div className="pc-cards many" id="pc-cards">
           <a className="pc-card" id="pc-card1" href="/i/keerthy-rosheel" target="_blank" rel="noopener">
             <div className="art">
-              <img src="/media/sc-church.jpg" alt="Kerala Christian wedding invitation website with a watercolour church cover" style={{ objectPosition: "50% 40%" }} />
+              <img src="/media/opt/sc-church-800.webp" srcSet="/media/opt/sc-church-480.webp 480w, /media/opt/sc-church-560.webp 560w, /media/opt/sc-church-800.webp 800w" sizes="(max-width: 640px) 70vw, 420px" loading="lazy" decoding="async" alt="Kerala Christian wedding invitation website with a watercolour church cover" style={{ objectPosition: "50% 40%" }} />
             </div>
             <div className="meta">
               <div>
@@ -454,7 +495,7 @@ export function PaperSamples() {
           </a>
           <a className="pc-card" id="pc-card3" href="/i/malavika-hari" target="_blank" rel="noopener">
             <div className="art pc-lotus-art">
-              <img src="/media/cut/lotus.webp" alt="" aria-hidden />
+              <img src="/media/opt/lotus-380.webp" srcSet="/media/opt/lotus-200.webp 200w, /media/opt/lotus-380.webp 380w" sizes="(max-width: 640px) 132px, 180px" loading="lazy" decoding="async" alt="" aria-hidden />
               <div className="lbl"><b>Malavika &amp; Hari</b><span>Some things open slowly</span></div>
             </div>
             <div className="meta">
@@ -487,7 +528,7 @@ export function PaperSamples() {
           </a>
           <a className="pc-card" id="pc-card5" href="/i/ross-rachel" target="_blank" rel="noopener">
             <div className="art pc-bloom-art">
-              <img src="/media/cut/tulips.webp" alt="" aria-hidden />
+              <img src="/media/opt/tulips-322.webp" srcSet="/media/opt/tulips-200.webp 200w, /media/opt/tulips-322.webp 322w" sizes="(max-width: 640px) 106px, 186px" loading="lazy" decoding="async" alt="" aria-hidden />
               <div className="lbl"><b>Ross &amp; Rachel</b><span>You are invited</span></div>
             </div>
             <div className="meta">

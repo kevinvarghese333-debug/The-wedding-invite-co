@@ -20,9 +20,9 @@ export const AUDIENCES: Audience[] = [
     slug: "kerala-christian-wedding-invitation",
     nav: "Kerala Christian wedding invitations",
     tag: "christian",
-    title: "Kerala Christian Wedding Invitation Website | Church Wedding E-Invite with RSVP",
+    title: "Kerala Christian Wedding Invitation Website with RSVP",
     description:
-      "Custom Kerala Christian wedding invitation websites: Holy Mass, Manasammatham and reception in one link, with church maps, RSVP and WhatsApp sharing. From ₹4,999.",
+      "Kerala Christian wedding invitation websites: Holy Mass, Manasammatham and reception in one link, with church maps, RSVP and WhatsApp sharing. From ₹4,999.",
     h1: "Kerala Christian wedding invitations,",
     h1Accent: "in one link.",
     intro:
@@ -43,9 +43,9 @@ export const AUDIENCES: Audience[] = [
     slug: "hindu-wedding-invitation-kerala",
     nav: "Kerala Hindu wedding invitations",
     tag: "hindu",
-    title: "Hindu Wedding Invitation Website in Kerala | Temple Wedding E-Invite with RSVP",
+    title: "Hindu Wedding Invitation Website in Kerala with RSVP",
     description:
-      "Custom Hindu wedding invitation websites from Kerala: muhurtham, temple venue, reception and every function in one link, with maps, RSVP and WhatsApp sharing. From ₹4,999.",
+      "Hindu wedding invitation websites from Kerala: muhurtham, temple, reception and every function in one link, with maps, RSVP and WhatsApp. From ₹4,999.",
     h1: "Hindu wedding invitations from Kerala,",
     h1Accent: "made for every function.",
     intro:
@@ -66,9 +66,9 @@ export const AUDIENCES: Audience[] = [
     slug: "nri-wedding-invitation",
     nav: "NRI wedding invitations",
     tag: "nri",
-    title: "NRI Wedding Invitation Website | Kerala Wedding E-Invite for Guests Abroad",
+    title: "Kerala NRI Wedding Invitation Website for Guests Abroad",
     description:
-      "Wedding invitation websites for NRI families: one WhatsApp link for guests in the Gulf, UK and beyond, with every function, maps, RSVP and time zones. From ₹4,999.",
+      "Wedding invitation websites for NRI families: one WhatsApp link for guests in the Gulf, UK and beyond, with every function, maps, RSVP and time zones.",
     h1: "Half your guests live abroad.",
     h1Accent: "Give them one link with everything.",
     intro:
@@ -89,7 +89,7 @@ export const AUDIENCES: Audience[] = [
     slug: "malayalam-wedding-invitation",
     nav: "Malayalam wedding invitations",
     tag: "malayalam",
-    title: "Malayalam Wedding Invitation Website | വിവാഹ ക്ഷണം, Bilingual E-Invite with RSVP",
+    title: "Malayalam Wedding Invitation Website · വിവാഹ ക്ഷണം",
     description:
       "Malayalam and bilingual wedding invitation websites from Kerala, with your family's wording, every function, maps and RSVP, sent on WhatsApp. From ₹4,999.",
     h1: "Malayalam wedding invitations,",
