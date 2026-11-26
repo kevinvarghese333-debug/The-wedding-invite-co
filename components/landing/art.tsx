@@ -35,7 +35,7 @@ export function Logo({ name }: { name: string }) {
   return (
     <span className="flex items-center gap-2.5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/media/seal.webp" alt="" aria-hidden width={40} height={40} className="size-10 flex-none drop-shadow-[0_2px_3px_rgba(74,15,22,0.25)]" />
+      <img src="/media/opt/seal-96.webp" alt="" aria-hidden width={40} height={40} className="size-10 flex-none drop-shadow-[0_2px_3px_rgba(74,15,22,0.25)]" />
       <span className="heading text-[19px] font-semibold tracking-normal whitespace-nowrap sm:text-[22px]">{name}</span>
     </span>
   );

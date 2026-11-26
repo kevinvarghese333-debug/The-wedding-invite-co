@@ -3,7 +3,7 @@ import { KindWordsForm } from "@/components/landing/kind-words-form";
 import { STUDIO } from "@/lib/config";
 
 export const metadata = {
-  title: `Share your words · ${STUDIO}`,
+  title: "Share your words", // the site adds " · The Wedding Invite Co."
   description: "Tell us how your invitation went. We'd love to share it with couples who are planning theirs.",
   robots: { index: false },
 };

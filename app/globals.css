@@ -322,3 +322,7 @@
   .pc-marquee-track { animation: none; }
   .pc-marquee-track > ul[aria-hidden] { display: none; }
 }
+
+/* Looping decorations only run while their section is on screen (see components/landing/motion-gate.tsx). */
+[data-motion]:not([data-motion="on"]),
+[data-motion]:not([data-motion="on"]) * { animation-play-state: paused !important; }

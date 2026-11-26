@@ -40,6 +40,7 @@ import { sampleHref } from "@/lib/samples";
 import { Packages, type PackageInfo } from "@/components/landing/packages";
 import { getSettings } from "@/lib/settings";
 import { LivePreview } from "@/components/landing/live-preview";
+import { MotionGate } from "@/components/landing/motion-gate";
 import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { AUDIENCES } from "@/lib/audiences";
 
@@ -268,6 +269,7 @@ export default function Home() {
 
       <main>
         <PaperHero chat={chat} />
+        <MotionGate />
         <LivePreview />
         <PaperSamples />
         <TrustStrip />
@@ -475,7 +477,7 @@ export default function Home() {
                 <div className="bg-muted min-w-0 flex-[1_1_300px] rounded-xl border p-4">
                   <div className="ml-auto max-w-[360px] rounded-[12px_4px_12px_12px] bg-[#FFFDF9] p-1.5 pb-2 shadow-[0_1px_2px_rgba(74,15,22,0.12)]">
                     <div className="flex gap-2.5 rounded-lg bg-[#F2EFE7] p-1.5">
-                      <img src="/media/cover-floral.jpg" alt="WhatsApp link preview of a wedding invitation website" className="size-[72px] flex-none rounded-md object-cover object-[center_30%]" />
+                      <img src="/media/opt/cover-floral-160.webp" loading="lazy" decoding="async" alt="WhatsApp link preview of a wedding invitation website" className="size-[72px] flex-none rounded-md object-cover object-[center_30%]" />
                       <div className="min-w-0">
                         <p className="text-[13px] font-semibold">Anna &amp; Joel · 6 February 2027</p>
                         <p className="text-muted-foreground mt-1 text-xs leading-snug">Together with their families, Anna and Joel invite you to their wedding. Tap to open your invitation.</p>
@@ -576,7 +578,7 @@ export default function Home() {
           <div className={wrap}>
             <Card className="bg-primary text-primary-foreground border-primary relative flex-row flex-wrap items-center gap-[clamp(28px,5vw,56px)] p-[clamp(26px,5vw,60px)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/media/cut/tulips.webp" alt="" aria-hidden className="pointer-events-none absolute -top-14 right-[2%] w-[clamp(92px,11vw,140px)] rotate-[14deg] drop-shadow-[0_14px_18px_rgba(0,0,0,0.3)] max-sm:-top-10 max-sm:w-20" />
+              <img src="/media/opt/tulips-322.webp" srcSet="/media/opt/tulips-200.webp 200w, /media/opt/tulips-322.webp 322w" sizes="140px" loading="lazy" decoding="async" alt="" aria-hidden className="pointer-events-none absolute -top-14 right-[2%] w-[clamp(92px,11vw,140px)] rotate-[14deg] drop-shadow-[0_14px_18px_rgba(0,0,0,0.3)] max-sm:-top-10 max-sm:w-20" />
               <div className="relative min-w-0 flex-[1_1_440px]">
                 <Badge className="bg-clay text-clay-foreground">Your preview</Badge>
                 <h2 id="journey-h" className="heading mt-4 text-[clamp(38px,4.6vw,58px)] leading-[1.02]">

@@ -74,7 +74,7 @@ export function CoupleWords() {
   const rowB = twoRows ? words.slice(half) : [];
 
   return (
-    <section id="couples" aria-labelledby="couples-h" className="pc-section overflow-hidden py-[clamp(64px,8vw,110px)]">
+    <section id="couples" aria-labelledby="couples-h" className="pc-section overflow-hidden py-[clamp(64px,8vw,110px)]" data-motion="off">
       <div className="pc-wrap">
         <div className="pc-head">
           <p className="pc-eyebrow">Happily ever after</p>
