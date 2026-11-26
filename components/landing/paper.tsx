@@ -390,6 +390,32 @@ const MORE: { names: string; url: string; line: string; sub: string; motif: Moti
   { names: "Veer & Naina", url: "/i/veer-naina", line: "Take the drive", sub: "A palace at dusk · cinematic scroll", motif: "palace", bg: "#162252", bg2: "#2E4290", ink: "#E9C98A" },
 ];
 
+/* Recent invitations, shown as a picture of their opening screen (public/media/opt/work-<key>-480/800.webp). */
+const SHOTS: Record<"jc" | "dolly" | "amala" | "meera", { names: string; url: string; sub: string; alt: string }> = {
+  jc: { names: "Jithin & Christina", url: "/i/jithin-christina", sub: "Bougainvillea arch · scratch to reveal the date", alt: "Jithin and Christina's wedding invitation website on a phone: their names under a bougainvillea arch" },
+  dolly: { names: "Dolly & Kapil", url: "/i/dolly-kapil", sub: "A thread to forever · two days of celebrations", alt: "Dolly and Kapil's wedding invitation website: a gold D&K wax seal on wine red, tap the seal to open" },
+  amala: { names: "Amala & Lino", url: "/i/amala-lino", sub: "Engagement · open the envelope", alt: "Amala and Lino's engagement invitation website: a powder-blue envelope sealed in gold" },
+  meera: { names: "Meera & Aarav", url: "/i/meera-aarav", sub: "A lakeside forever · follow the swans", alt: "Meera and Aarav's wedding invitation website: two swans on a lake in Udaipur, painted in watercolour" },
+};
+
+function ShotCard({ id }: { id: keyof typeof SHOTS }) {
+  const c = SHOTS[id];
+  return (
+    <a className="pc-card" href={c.url} target="_blank" rel="noopener">
+      <div className="art">
+        <img src={`/media/opt/work-${id}-800.webp`} srcSet={`/media/opt/work-${id}-480.webp 480w, /media/opt/work-${id}-800.webp 800w`} sizes="(max-width: 640px) 82vw, 400px" width={800} height={600} loading="lazy" decoding="async" alt={c.alt} />
+      </div>
+      <div className="meta">
+        <div>
+          <h3>{c.names}</h3>
+          <p className="sub">{c.sub}</p>
+        </div>
+        <span className="go">Open invite</span>
+      </div>
+    </a>
+  );
+}
+
 function Motif({ kind, ink }: { kind: MotifKind; ink: string }) {
   const line = { fill: "none", stroke: ink, strokeWidth: 2.4, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   if (kind === "bell")
@@ -464,6 +490,8 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
+          <ShotCard id="jc" />
+          <ShotCard id="dolly" />
           <a className="pc-card" id="pc-card2" href="/i/nila-aaron" target="_blank" rel="noopener">
             <div className="art pc-night">
               <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden>
@@ -506,6 +534,8 @@ export function PaperSamples() {
               <span className="go">Open invite</span>
             </div>
           </a>
+          <ShotCard id="amala" />
+          <ShotCard id="meera" />
           <a className="pc-card" id="pc-card4" href="/i/ishani-rudra" target="_blank" rel="noopener">
             <div className="art pc-temple-art">
               <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden>
@@ -557,7 +587,7 @@ export function PaperSamples() {
             </a>
           ))}
         </div>
-        <p className="pc-swipe" aria-hidden>Swipe to see all {5 + MORE.length} →</p>
+        <p className="pc-swipe" aria-hidden>Swipe to see all {5 + Object.keys(SHOTS).length + MORE.length} →</p>
       </div>
     </section>
   );
