@@ -40,6 +40,7 @@ import { sampleHref } from "@/lib/samples";
 import { Packages, type PackageInfo } from "@/components/landing/packages";
 import { getSettings } from "@/lib/settings";
 import { LivePreview } from "@/components/landing/live-preview";
+import { Celebrations } from "@/components/landing/celebrations";
 import { MotionGate } from "@/components/landing/motion-gate";
 import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { AUDIENCES } from "@/lib/audiences";
@@ -74,6 +75,7 @@ const FAQ = [
   ["What if something changes after we send it?", "Tell us and we update it. Guests keep the same link, so they always see the latest time and venue."],
   ["What do you need from us?", "Your names and your parents' names, each function with its time and venue, your photos or a video, and the song you love. For The Signature, a few lines on how you met."],
   ["Where are our guests' names and replies stored?", "On our own server in a private database, never in a public spreadsheet. Only the two of you (and we, to help you) can see the guest list and RSVPs. We never sell or share them, and we delete them on request after the wedding."],
+  ["Do you make invitations for birthdays and other occasions?", "Yes. Engagements, birthdays, baby showers, housewarmings, anniversaries and baptisms too: the same one-link invitation with the date, the venue map and RSVP, designed for the occasion. Message us what you're celebrating and we'll send a free preview."],
   ["How early should we start?", "As soon as your dates and venues are fixed. Message us your first function date and we'll tell you honestly what we can do in that time."],
 ];
 
@@ -206,7 +208,7 @@ export default function Home() {
     url: siteUrl(),
     logo: `${siteUrl()}/media/seal.webp`,
     image: `${siteUrl()}/og.jpg`,
-    description: "Custom wedding invitation websites from Kerala, sent on WhatsApp, with RSVP for every function.",
+    description: "Custom wedding invitation websites from Kerala, sent on WhatsApp, with RSVP for every function. We also make invitations for engagements, birthdays and baby showers.",
     areaServed: ["Kerala", "India", "United Arab Emirates", "United Kingdom"],
     priceRange: `${rupeesPlain(prices().base)} to ₹8,490+`,
     sameAs: st.instagram_url ? [st.instagram_url] : undefined,
@@ -241,11 +243,12 @@ export default function Home() {
             <a href="#top" aria-label={`${STUDIO} home`}>
               <Logo name={STUDIO} />
             </a>
-            <div className="hidden items-center gap-1 lg:flex">
+            {/* Shown from 1280px: below that the links don't fit beside the two buttons. Features stays in the footer. */}
+            <div className="hidden items-center gap-1 xl:flex">
               {[
                 ["#samples", "Samples"],
+                ["#celebrations", "Birthdays & more"],
                 ["#designs", "Designs"],
-                ["#features", "Features"],
                 ["#pricing", "Packages"],
                 ["#faq", "FAQ"],
                 [builderUrl(), "Make it yourself"],
@@ -285,6 +288,7 @@ export default function Home() {
             </dl>
           </div>
         ) : null}
+        <Celebrations />
         <WhatsAppMoment />
         <CoupleWords />
         <PaperOrigin
@@ -673,6 +677,7 @@ export default function Home() {
           <nav aria-label="Footer" className="flex flex-wrap gap-1">
             {[
               ["#designs", "Designs"],
+              ["#celebrations", "Birthdays & more"],
               ["#features", "Features"],
               ["#pricing", "Packages"],
               ["#faq", "FAQ"],

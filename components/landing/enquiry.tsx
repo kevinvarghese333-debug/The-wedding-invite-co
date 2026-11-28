@@ -16,7 +16,10 @@ import { CtaText, getCtaVariant } from "@/components/landing/cta";
 type Pkg = "classic" | "story" | "unsure";
 /* preview: the general "free preview" form. setup: The Studio, for a chosen design. brief: The Signature's creative brief. */
 export type EnquiryVariant = "preview" | "setup" | "brief";
-type Opts = { variant?: EnquiryVariant; design?: string };
+type Opts = { variant?: EnquiryVariant; design?: string; occasion?: Occasion };
+/* What they're celebrating. Only asked when the form is opened from "More celebrations"; it goes to the top of the message. */
+export const OCCASIONS = ["Wedding", "Engagement", "Birthday", "Baby shower", "Something else"] as const;
+export type Occasion = (typeof OCCASIONS)[number];
 type Ctx = { open: (pkg?: Pkg, origin?: string, opts?: Opts) => void; whatsapp: string };
 
 const HEAD: Record<EnquiryVariant, (design?: string) => [string, string]> = {
@@ -31,12 +34,15 @@ const EnquiryContext = React.createContext<Ctx>({ open: () => {}, whatsapp: "" }
 export const useEnquiry = () => React.useContext(EnquiryContext);
 
 export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; children: React.ReactNode }) {
-  const [state, setState] = React.useState<{ open: boolean; pkg: Pkg; origin: string; variant: EnquiryVariant; design?: string }>({ open: false, pkg: "unsure", origin: "", variant: "preview" });
+  const [state, setState] = React.useState<{ open: boolean; pkg: Pkg; origin: string; variant: EnquiryVariant; design?: string; occasion?: Occasion }>({ open: false, pkg: "unsure", origin: "", variant: "preview" });
   const open = React.useCallback((pkg: Pkg = "unsure", origin = "", opts: Opts = {}) => {
-    setState({ open: true, pkg, origin, variant: opts.variant ?? "preview", design: opts.design });
+    setState({ open: true, pkg, origin, variant: opts.variant ?? "preview", design: opts.design, occasion: opts.occasion });
     track("InitiateCheckout", { content_name: pkg, origin });
   }, []);
-  const [title, description] = HEAD[state.variant](state.design);
+  const [title, description] =
+    state.occasion && state.occasion !== "Wedding"
+      ? ["Tell us what you're celebrating", "Your name and WhatsApp number are enough to start. We reply with ideas and a free preview. No payment, no obligation."]
+      : HEAD[state.variant](state.design);
   return (
     <EnquiryContext.Provider value={{ open, whatsapp }}>
       {children}
@@ -47,12 +53,13 @@ export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; chil
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
           <EnquiryForm
-            key={`${state.pkg}-${state.origin}-${state.variant}-${state.design}-${state.open}`}
+            key={`${state.pkg}-${state.origin}-${state.variant}-${state.design}-${state.occasion}-${state.open}`}
             defaultPackage={state.pkg}
             origin={state.origin}
             whatsapp={whatsapp}
             variant={state.variant}
             design={state.design}
+            occasion={state.occasion}
             compact
           />
         </DialogContent>
@@ -85,6 +92,7 @@ export function EnquiryForm({
   compact = false,
   variant = "preview",
   design,
+  occasion: initialOccasion,
 }: {
   defaultPackage?: Pkg;
   origin?: string;
@@ -93,7 +101,11 @@ export function EnquiryForm({
   variant?: EnquiryVariant;
   /** the design they picked, kept with the enquiry so we know where to start */
   design?: string;
+  /** set when opened from "More celebrations": shows the occasion picker */
+  occasion?: Occasion;
 }) {
+  const [occasion, setOccasion] = React.useState<Occasion | undefined>(initialOccasion);
+  const wedding = !occasion || occasion === "Wedding";
   const [status, setStatus] = React.useState<"idle" | "sending" | "done">("idle");
   const [errors, setErrors] = React.useState<Errors>({});
   const [firstName, setFirstName] = React.useState("");
@@ -107,6 +119,7 @@ export function EnquiryForm({
     const utm = ["utm_source", "utm_medium", "utm_campaign"].map((k) => params.get(k)).filter(Boolean).join(" / ");
     data.source = [origin, variant === "preview" ? `cta-${getCtaVariant()}` : `form-${variant}`, utm, document.referrer ? `from ${document.referrer}` : ""].filter(Boolean).join(" · ");
     if (design) data.message = [`Design: ${design}`, data.message].filter(Boolean).join("\n\n");
+    if (occasion) data.message = [`Occasion: ${occasion}`, data.message].filter(Boolean).join("\n\n");
     setStatus("sending");
     setErrors({});
     try {
@@ -157,7 +170,7 @@ export function EnquiryForm({
       <div className={cn("grid gap-4", !compact && "sm:grid-cols-2")}>
         <div className="grid gap-2">
           <Label htmlFor={`${id}-name`}>Your name(s)</Label>
-          <Input id={`${id}-name`} name="name" autoComplete="name" placeholder="Anna & Joel" required {...field("name")} />
+          <Input id={`${id}-name`} name="name" autoComplete="name" placeholder={wedding ? "Anna & Joel" : "Anna"} required {...field("name")} />
           {err("name")}
         </div>
         <div className="grid gap-2">
@@ -166,6 +179,16 @@ export function EnquiryForm({
           {err("phone")}
         </div>
       </div>
+      {initialOccasion ? (
+        <div className="grid gap-2">
+          <Label htmlFor={`${id}-occasion`}>What are you celebrating?</Label>
+          <NativeSelect id={`${id}-occasion`} value={occasion} onChange={(e) => setOccasion(e.target.value as Occasion)}>
+            {OCCASIONS.map((o) => (
+              <option key={o}>{o}</option>
+            ))}
+          </NativeSelect>
+        </div>
+      ) : null}
       {design ? (
         <p className="bg-muted rounded-lg px-3 py-2 text-sm">
           Design: <strong className="font-semibold">{design}</strong> <span className="text-muted-foreground">· you can change it later</span>
@@ -187,22 +210,24 @@ export function EnquiryForm({
         <div className="mt-4 grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-2">
-          <Label htmlFor={`${id}-date`}>Wedding date <span className="text-muted-foreground font-normal">(optional)</span></Label>
+          <Label htmlFor={`${id}-date`}>{wedding ? "Wedding date" : "Date"} <span className="text-muted-foreground font-normal">(optional)</span></Label>
           <Input id={`${id}-date`} name="wedding_date" type="date" {...field("wedding_date")} />
           {err("wedding_date")}
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor={`${id}-pkg`}>Package</Label>
-          <NativeSelect id={`${id}-pkg`} name="package" defaultValue={defaultPackage}>
-            <option value="classic">The Studio</option>
-            <option value="story">The Signature</option>
-            <option value="unsure">Not sure yet</option>
-          </NativeSelect>
-        </div>
+        {wedding ? (
+          <div className="grid gap-2">
+            <Label htmlFor={`${id}-pkg`}>Package</Label>
+            <NativeSelect id={`${id}-pkg`} name="package" defaultValue={defaultPackage}>
+              <option value="classic">The Studio</option>
+              <option value="story">The Signature</option>
+              <option value="unsure">Not sure yet</option>
+            </NativeSelect>
+          </div>
+        ) : null}
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
-              <Label htmlFor={`${id}-fn`}>Number of functions</Label>
+              <Label htmlFor={`${id}-fn`}>{wedding ? "Number of functions" : "Number of events"}</Label>
               <NativeSelect id={`${id}-fn`} name="functions" defaultValue="">
                 <option value="">Choose</option>
                 <option>1</option>
@@ -230,7 +255,7 @@ export function EnquiryForm({
             <Label htmlFor={`${id}-msg`}>
               Anything else? <span className="text-muted-foreground font-normal">(optional)</span>
             </Label>
-            <Textarea id={`${id}-msg`} name="message" rows={3} placeholder="How you met, the look you like, questions for us" />
+            <Textarea id={`${id}-msg`} name="message" rows={3} placeholder={wedding ? "How you met, the look you like, questions for us" : "Whose day it is, the theme you like, questions for us"} />
           </div>}
         </div>
       </details>

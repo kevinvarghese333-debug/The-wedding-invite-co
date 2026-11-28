@@ -313,6 +313,9 @@ export function PaperHero({ chat }: { chat: string }) {
             or send your names here
           </EnquireButton>
         </div>
+        <p className="pc-also">
+          Also for engagements, birthdays and baby showers. <a href="#celebrations">See how</a>
+        </p>
       </div>
 
       <div className="pc-env-wrap">

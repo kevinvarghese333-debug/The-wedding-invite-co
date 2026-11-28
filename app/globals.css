@@ -326,3 +326,48 @@
 /* Looping decorations only run while their section is on screen (see components/landing/motion-gate.tsx). */
 [data-motion]:not([data-motion="on"]),
 [data-motion]:not([data-motion="on"]) * { animation-play-state: paused !important; }
+
+/* ---------- more celebrations ---------- */
+.pc-celebrate { padding: clamp(64px, 8vw, 110px) 0; border-top: 1px solid #EAD9CD; }
+.pc-cel-list { list-style: none; margin: 52px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.pc-cel { display: flex; flex-direction: column; background: var(--pc-paper); padding: 10px 10px 20px; filter: var(--pc-lift); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.pc-cel:nth-child(odd) { transform: rotate(-1deg); }
+.pc-cel:nth-child(even) { transform: rotate(.8deg); }
+@media (hover: hover) { .pc-cel:hover { transform: translateY(-6px) rotate(0deg); } }
+.pc-cel .art { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+.pc-cel .art img, .pc-cel .art svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pc-cel .art .tag { position: absolute; left: 10px; bottom: 10px; background: rgba(251,248,242,.92); color: #4A0F16; font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; }
+.pc-cel .body { padding: 16px 8px 0; display: flex; flex-direction: column; flex: 1; }
+.pc-cel h3 { margin: 0; font-family: var(--pc-display); font-weight: 500; font-size: 30px; line-height: 1; color: #4A0F16; }
+.pc-cel p { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--pc-ink); flex: 1; }
+.pc-cel .acts { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.pc-cel .go { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 14px; font-weight: 600; color: #4A0F16; text-decoration: underline; text-underline-offset: 4px; }
+.pc-cel .go svg { width: 15px; height: 15px; transition: transform .3s; }
+.pc-cel .go:hover svg { transform: translateX(3px); }
+.pc-cel .see { font-size: 13px; color: var(--pc-ink); text-decoration: underline; text-underline-offset: 3px; }
+.pc-cel-foot { margin: 40px 0 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 14px; font-size: 15px; color: var(--pc-ink); }
+.pc-cel-foot a { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; color: #4A0F16; text-decoration: underline; text-underline-offset: 4px; }
+.pc-cel-foot svg { width: 17px; height: 17px; }
+.pc-cel-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: pc-flicker 1.3s ease-in-out infinite alternate; }
+.pc-cel-twinkle { animation: pc-twinkle 2.4s ease-in-out infinite; }
+.pc-cel-sway { transform-origin: 200px 0; animation: pc-sway 5s ease-in-out infinite alternate; }
+.pc-cel-bob { animation: pc-bob 3.2s ease-in-out infinite alternate; }
+.pc-cel-fall { transform-box: fill-box; transform-origin: center; animation: pc-fall 6s linear infinite; }
+@keyframes pc-flicker { 0% { transform: scale(1, 1) rotate(-3deg); } 50% { transform: scale(.88, 1.1) rotate(2deg); } 100% { transform: scale(1.06, .94) rotate(-1deg); } }
+@keyframes pc-twinkle { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@keyframes pc-sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes pc-bob { from { transform: translateY(-4px); } to { transform: translateY(5px); } }
+@keyframes pc-fall { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(340px) rotate(540deg); } }
+@media (max-width: 1000px) { .pc-cel-list { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) {
+  .pc-cel-list { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin-left: -16px; margin-right: -16px; padding: 8px 16px 18px; scrollbar-width: none; }
+  .pc-cel-list::-webkit-scrollbar { display: none; }
+  .pc-cel { flex: 0 0 80%; scroll-snap-align: center; transform: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-cel-flame, .pc-cel-twinkle, .pc-cel-sway, .pc-cel-bob, .pc-cel-fall { animation: none; }
+  .pc-cel, .pc-cel .go svg { transition: none; }
+}
+.pc-also { margin: 14px 0 0; font-size: 13px; color: rgba(247,230,220,.75); }
+.pc-also a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 700px) { .pc-also { display: none; } }
