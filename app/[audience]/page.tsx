@@ -36,7 +36,7 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
   const a = findAudience((await params).audience);
   if (!a) notFound();
   const wa = publicWhatsApp();
-  const chat = whatsappHref(wa, "Hi! We'd like a free preview of our wedding invitation. Our names are ");
+  const chat = whatsappHref(wa, "Hi! We said yes. Now we need an invitation that says it beautifully. Our names are ");
   const samples = SAMPLES.filter((s) => s.tags.includes(a.tag)).slice(0, 6);
   const wrap = "mx-auto w-full max-w-[1100px] px-[clamp(16px,5vw,40px)]";
   const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: a.faq.map(([q, ans]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: ans } })) };
@@ -64,11 +64,8 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
             {a.malayalam ? <p className="mt-5 text-lg text-[#F4D9C8]" lang="ml">{a.malayalam}</p> : null}
             <p className="mx-auto mt-5 max-w-[640px] text-[17px] leading-relaxed text-[#F7E6DC]/85">{a.intro}</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <WhatsAppButton href={chat} origin={`${a.slug}-hero`} size="lg" variant="clay" className="rounded-full">
-                Get a free preview on WhatsApp
-              </WhatsAppButton>
-              <EnquireButton origin={`${a.slug}-hero`} variant="link" className="text-[#F4D9C8] underline underline-offset-4">
-                or send your names here
+              <EnquireButton origin={`${a.slug}-hero`} size="lg" variant="clay" className="h-auto min-h-10 rounded-full py-2.5 whitespace-normal">
+                Contact us to build your dream invite <ArrowRight />
               </EnquireButton>
             </div>
             <p className="mt-6 text-sm text-[#F7E6DC]/70">The Studio ₹4,999 · The Signature from ₹8,490 · one-time</p>

@@ -192,7 +192,7 @@ function packageList(st: ReturnType<typeof getSettings>, pr: ReturnType<typeof p
 
 export default function Home() {
   const wa = publicWhatsApp();
-  const chat = whatsappHref(wa, "Hi! We'd like a free preview of our wedding invitation. Our names are ");
+  const chat = whatsappHref(wa, "Hi! We said yes. Now we need an invitation that says it beautifully. Our names are ");
   const wrap = "mx-auto w-full max-w-[1200px] px-[clamp(16px,5vw,40px)]";
   const st = getSettings();
   const designCount = DESIGNS.length + TEMPLATES.length;
@@ -273,7 +273,7 @@ export default function Home() {
       </header>
 
       <main>
-        <PaperHero chat={chat} />
+        <PaperHero />
         <MotionGate />
         <LivePreview />
         <PaperSamples />

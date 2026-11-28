@@ -23,8 +23,12 @@ One Next.js app serves **two sites** from one Docker container on Kev's Hostinge
 - Builder: 16 studio designs (`lib/builder/designs/*.json`, list in `lib/builder/designs.ts`) plus 5 simpler
   templates (Thamara, Verse, Peony, Midnight, Edition in `lib/builder/templates.ts`). Free to design, no account;
   pay to publish via Razorpay or UPI QR. Add-ons: guest links ₹999, own domain ₹1,599, extra year ₹499.
-- Main CTA is WhatsApp ("Get a free preview on WhatsApp"); the form button is an A/B test
+- Hero button "Contact us to build your dream invite" opens the names form (main page and audience pages).
+  WhatsApp buttons (header, sticky bar, sections) open a chat with "Hi! We said yes. Now we need an invitation
+  that says it beautifully. Our names are ". The form button is an A/B test
   ("Check my date" vs "See my free preview", `components/landing/cta.tsx`). Meta Pixel events in `lib/track.ts`.
+- WhatsApp numbers live in the VPS `.env`: `PUBLIC_WHATSAPP` (919526287359) is the number couples chat with;
+  `NOTIFY_WHATSAPP` (919747351013) gets new-lead alerts. Admin → Settings support phone overrides the builder's.
 
 ## Data
 - SQLite at `DATA_DIR/leads.db` (Docker volume `leads-data`): leads, couple words (shown as

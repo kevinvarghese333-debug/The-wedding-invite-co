@@ -6,7 +6,7 @@ export function siteUrl() {
 
 /** The number couples chat with on WhatsApp (shown on the website). Digits only, with country code. */
 export function publicWhatsApp() {
-  return (process.env.PUBLIC_WHATSAPP || "919747351013").replace(/\D/g, "");
+  return (process.env.PUBLIC_WHATSAPP || "919526287359").replace(/\D/g, "");
 }
 
 export const PACKAGES = {

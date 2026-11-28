@@ -4,7 +4,6 @@
 import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { EnquireButton } from "@/components/landing/enquiry";
-import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { afterLoadOrScroll } from "@/components/landing/motion-gate";
 
 /** a 1×1 transparent image: what phones get instead of decorations they don't show */
@@ -214,7 +213,7 @@ function FairyLights({ className }: { className: string }) {
 
 /* ---------- hero: maroon stage, cutouts in the corners, envelope opens on scroll ---------- */
 
-export function PaperHero({ chat }: { chat: string }) {
+export function PaperHero() {
   const stage = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -309,11 +308,8 @@ export function PaperHero({ chat }: { chat: string }) {
         <DotHeadline />
         <p className="pc-lede">One link that invites, informs and counts your guests. Designed for the two of you, sent on WhatsApp.</p>
         <div className="pc-cta">
-          <WhatsAppButton href={chat} origin="hero" size="lg" variant="clay" className="rounded-full">
-            Get a free preview on WhatsApp
-          </WhatsAppButton>
-          <EnquireButton origin="hero" variant="link" className="pc-ghost h-auto p-0">
-            or send your names here
+          <EnquireButton origin="hero" size="lg" variant="clay" className="h-auto min-h-10 rounded-full py-2.5 whitespace-normal">
+            Contact us to build your dream invite <ArrowRight />
           </EnquireButton>
         </div>
       </div>
