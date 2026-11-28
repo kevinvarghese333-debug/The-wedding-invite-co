@@ -14,13 +14,13 @@ import { track } from "@/lib/track";
 import { CtaText, getCtaVariant } from "@/components/landing/cta";
 
 type Pkg = "classic" | "story" | "unsure";
-/* preview: the general "free preview" form. setup: The Studio, for a chosen design. brief: The Signature's creative brief. */
+/* preview: the general contact form (couples who want a preview first are sent to the builder). setup: The Studio, for a chosen design. brief: The Signature's creative brief. */
 export type EnquiryVariant = "preview" | "setup" | "brief";
 type Opts = { variant?: EnquiryVariant; design?: string };
 type Ctx = { open: (pkg?: Pkg, origin?: string, opts?: Opts) => void; whatsapp: string };
 
 const HEAD: Record<EnquiryVariant, (design?: string) => [string, string]> = {
-  preview: () => ["Your free preview", "Just your names and WhatsApp number. We reply with ideas and a preview of your invitation. No payment, no obligation."],
+  preview: () => ["Let's build your invite", "Your names and WhatsApp number are enough to start. We reply on WhatsApp and plan your invitation with you. No payment, no obligation."],
   setup: (design) => [
     "Set it up with our team",
     `Your names and WhatsApp number are enough to start. We reply with a private preview${design ? ` of ${design}` : ""} with your details. No payment, no obligation.`,
@@ -30,7 +30,7 @@ const HEAD: Record<EnquiryVariant, (design?: string) => [string, string]> = {
 const EnquiryContext = React.createContext<Ctx>({ open: () => {}, whatsapp: "" });
 export const useEnquiry = () => React.useContext(EnquiryContext);
 
-export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; children: React.ReactNode }) {
+export function EnquiryProvider({ whatsapp, builder, children }: { whatsapp: string; builder?: string; children: React.ReactNode }) {
   const [state, setState] = React.useState<{ open: boolean; pkg: Pkg; origin: string; variant: EnquiryVariant; design?: string }>({ open: false, pkg: "unsure", origin: "", variant: "preview" });
   const open = React.useCallback((pkg: Pkg = "unsure", origin = "", opts: Opts = {}) => {
     setState({ open: true, pkg, origin, variant: opts.variant ?? "preview", design: opts.design });
@@ -45,6 +45,15 @@ export function EnquiryProvider({ whatsapp, children }: { whatsapp: string; chil
           <DialogHeader>
             <DialogTitle className="heading text-3xl font-medium">{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
+            {state.variant === "preview" && builder ? (
+              <p className="text-muted-foreground text-sm">
+                Want to see it first?{" "}
+                <a href={builder} className="text-foreground font-medium underline underline-offset-4" onClick={() => track("ViewContent", { content_name: "builder", origin: `${state.origin}-form` })}>
+                  Try any design with your own names
+                </a>{" "}
+                in our builder, free.
+              </p>
+            ) : null}
           </DialogHeader>
           <EnquiryForm
             key={`${state.pkg}-${state.origin}-${state.variant}-${state.design}-${state.open}`}

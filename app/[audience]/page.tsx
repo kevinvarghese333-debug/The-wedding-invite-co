@@ -10,7 +10,7 @@ import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { StickyCta } from "@/components/landing/funnel";
 import { AUDIENCES, findAudience } from "@/lib/audiences";
 import { SAMPLES, sampleHref } from "@/lib/samples";
-import { publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
+import { builderUrl, publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
 import { whatsappHref } from "@/lib/whatsapp";
 
 // Rendered per request so canonical and share links use the live SITE_URL.
@@ -42,7 +42,7 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
   const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: a.faq.map(([q, ans]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: ans } })) };
 
   return (
-    <EnquiryProvider whatsapp={wa}>
+    <EnquiryProvider whatsapp={wa} builder={builderUrl()}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <header className="sticky top-0 z-40 border-b bg-[#F8F1EA]/90 backdrop-blur-md">
         <nav aria-label="Main" className={`${wrap} flex h-16 items-center justify-between gap-4`}>

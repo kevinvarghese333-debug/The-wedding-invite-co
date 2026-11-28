@@ -223,7 +223,7 @@ export default function Home() {
   };
 
   return (
-    <EnquiryProvider whatsapp={wa}>
+    <EnquiryProvider whatsapp={wa} builder={builderUrl()}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       {/* Announcement */}
@@ -307,7 +307,7 @@ export default function Home() {
             </div>
           }
         />
-        <InlineCta origin="after-origin" chat={chat} text="Send us your names. We'll build a preview." />
+        <InlineCta origin="after-origin" chat={chat} text="Send us your names. We'll plan it with you." />
 
         {/* Designs */}
         <section id="designs" aria-labelledby="designs-h" className="py-[clamp(72px,9vw,120px)]">
@@ -585,12 +585,13 @@ export default function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/media/opt/tulips-322.webp" srcSet="/media/opt/tulips-200.webp 200w, /media/opt/tulips-322.webp 322w" sizes="140px" loading="lazy" decoding="async" alt="" aria-hidden className="pointer-events-none absolute -top-14 right-[2%] w-[clamp(92px,11vw,140px)] rotate-[14deg] drop-shadow-[0_14px_18px_rgba(0,0,0,0.3)] max-sm:-top-10 max-sm:w-20" />
               <div className="relative min-w-0 flex-[1_1_440px]">
-                <Badge className="bg-clay text-clay-foreground">Your preview</Badge>
+                <Badge className="bg-clay text-clay-foreground">Start here</Badge>
                 <h2 id="journey-h" className="heading mt-4 text-[clamp(38px,4.6vw,58px)] leading-[1.02]">
-                  Send us your names. <em className="font-normal text-[#E9C29A]">We&apos;ll build a preview.</em>
+                  Send us your names. <em className="font-normal text-[#E9C29A]">We&apos;ll plan it with you.</em>
                 </h2>
                 <p className="mt-4 max-w-[540px] text-[17px] leading-[1.7] text-[#EAD9CD]">
-                  Your names and WhatsApp number are enough to start. We send you a preview on your phone, then add your functions, venues and photos once you love it.
+                  Your names and WhatsApp number are enough to start. We plan the wording, functions, venues and photos with you on WhatsApp. Want to see a design with your names first?{" "}
+                  <a href={builderUrl()} className="font-medium text-[#FBEFE6] underline underline-offset-4">Try it yourself in our builder.</a>
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-3">
                   <WhatsAppButton href={chat} origin="journey" variant="clay" size="lg">
@@ -650,11 +651,14 @@ export default function Home() {
           <Sprig className="absolute top-1/2 right-[3%] h-[266px] w-40 -translate-y-1/2 -scale-x-100 -rotate-[14deg] opacity-45 max-lg:hidden" />
           <div className={`${wrap} relative`}>
             <div className="mx-auto max-w-[620px] text-center">
-              <Badge variant="outline">Your free preview</Badge>
+              <Badge variant="outline">Let&apos;s begin</Badge>
               <h2 id="cta-h" className="heading mt-4 text-[clamp(48px,7vw,92px)] leading-[0.98] tracking-[-0.02em]">
                 Is your date <em className="text-clay-ink font-normal">free?</em>
               </h2>
-              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">Just your names and WhatsApp number. We&apos;ll reply on WhatsApp with ideas and a preview of your invitation. No payment, no obligation.</p>
+              <p className="text-muted-foreground mt-4 text-[17px] leading-relaxed">
+                Just your names and WhatsApp number. We&apos;ll reply on WhatsApp and plan your invitation with you. No payment, no obligation. Want to see it first?{" "}
+                <a href={builderUrl()} className="text-foreground font-medium underline underline-offset-4">Try any design with your own names in our builder.</a>
+              </p>
             </div>
             <Card className="mx-auto mt-10 max-w-[720px] gap-0 p-[clamp(20px,4vw,36px)]">
               <EnquiryForm origin="enquire-section" whatsapp={wa} />

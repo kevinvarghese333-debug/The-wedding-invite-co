@@ -13,6 +13,7 @@ import { CouplePanel, EventsPanel, MusicPanel, RsvpPanel, StoryPanel, StylePanel
 import type { InviteData } from "@/lib/builder/types";
 import { TEMPLATES, findTemplate, type Template } from "@/lib/builder/templates";
 import { renderDocument, renderParts } from "@/lib/builder/render";
+import { withWatermark } from "@/lib/builder/watermark";
 import { trackSrc, type Track } from "@/lib/builder/music";
 import { allFontsHref } from "@/lib/builder/fonts";
 
@@ -60,7 +61,10 @@ export function Editor({ site, initial, library, price, siteUrl, builderUrl }: {
 
   /* ---------- live preview ---------- */
   const frame = React.useRef<HTMLIFrameElement>(null);
-  const [srcDoc] = React.useState(() => renderDocument(t, data, opts));
+  const [srcDoc] = React.useState(() => {
+    const html = renderDocument(t, data, opts);
+    return site.paid ? html : withWatermark(html);
+  });
   const latest = React.useRef({ t, data, opts });
   latest.current = { t, data, opts };
   const post = React.useCallback((msg: Record<string, unknown>) => frame.current?.contentWindow?.postMessage(msg, "*"), []);

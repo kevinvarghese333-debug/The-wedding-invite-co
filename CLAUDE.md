@@ -26,7 +26,9 @@ One Next.js app serves **two sites** from one Docker container on Kev's Hostinge
 - Hero button "Contact us to build your dream invite" opens the names form (main page and audience pages).
   WhatsApp buttons (header, sticky bar, sections) open a chat with "Hi! We said yes. Now we need an invitation
   that says it beautifully. Our names are ". The form button is an A/B test
-  ("Check my date" vs "See my free preview", `components/landing/cta.tsx`). Meta Pixel events in `lib/track.ts`.
+  ("Check my date" vs "Start my invitation", `components/landing/cta.tsx`). Meta Pixel events in `lib/track.ts`.
+- No "free preview" from the team any more: the site sends couples who want a preview to the builder, where every
+  unpaid draft (editor, preview link, thumbnails) carries a watermark (`lib/builder/watermark.ts`) until it's paid.
 - WhatsApp numbers live in the VPS `.env`: `PUBLIC_WHATSAPP` (919526287359) is the number couples chat with;
   `NOTIFY_WHATSAPP` (919747351013) gets new-lead alerts. Admin → Settings support phone overrides the builder's.
 

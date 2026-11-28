@@ -15,6 +15,7 @@ import { ContactDialog, type EditorSite } from "@/components/builder/editor";
 import { uploadPhoto } from "@/components/builder/fields";
 import { designBase, type Config, type Design, type Json } from "@/lib/builder/designs";
 import { fieldKind, getPath, isHidden, renderStudio, samplePhotoCount, setPath, studioSummary } from "@/lib/builder/studio";
+import { withWatermark } from "@/lib/builder/watermark";
 import type { Track } from "@/lib/builder/music";
 
 /* ---------- labels ---------- */
@@ -110,11 +111,14 @@ export function StudioEditor({
   const names = [summary.one, summary.two].filter(Boolean).join(" & ") || "Your invitation";
   const samples = samplePhotoCount(design, config);
 
-  /* preview: the real design, reloaded a moment after typing stops */
+  /* preview: the real design, reloaded a moment after typing stops (watermarked until it's paid for) */
   const render = React.useCallback(
-    () => setSrcDoc(renderStudio(design, html, latest.current, { mode: "editor", title: names, description: "" })),
+    () => {
+      const doc = renderStudio(design, html, latest.current, { mode: "editor", title: names, description: "" });
+      setSrcDoc(site.paid ? doc : withWatermark(doc));
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [design, html]
+    [design, html, site.paid]
   );
   React.useEffect(() => {
     const id = setTimeout(render, srcDoc ? 900 : 0);

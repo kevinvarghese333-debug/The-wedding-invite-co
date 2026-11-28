@@ -16,6 +16,7 @@ import { dayMonth } from "@/lib/builder/render";
 import { templateOrDefault } from "@/lib/builder/templates";
 import { renderDocument, type RenderMode } from "@/lib/builder/render";
 import type { InviteData } from "@/lib/builder/types";
+import { withWatermark } from "@/lib/builder/watermark";
 
 /* ---------- ownership ----------
    No accounts: whoever holds a site's edit link may edit it. The link carries an HMAC of the site id,
@@ -180,8 +181,14 @@ export function designHtml(id: string) {
   return html;
 }
 
-/** A site as a full HTML page: its draft (previews) or its published copy (live). Empty when there's nothing to show. */
+/** A site as a full HTML page: its draft (previews) or its published copy (live). Empty when there's nothing to show.
+    Previews of a site that isn't paid for carry a watermark. */
 export function renderSite(s: Site, mode: RenderMode, link?: GuestLink) {
+  const html = siteHtml(s, mode, link);
+  return mode !== "live" && !s.paid_at ? withWatermark(html) : html;
+}
+
+function siteHtml(s: Site, mode: RenderMode, link?: GuestLink) {
   const which = mode === "live" ? "live" : "draft";
   const design = findDesign(s.template);
   const rsvpUrl = s.slug ? `/api/build/rsvp/${s.slug}${link ? `?via=${link.code}` : ""}` : "";

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { track } from "@/lib/track";
 
 /* A/B test for the main form button. Each visitor keeps one wording; it is saved with their enquiry ("cta-a" / "cta-b"). */
-export const CTA_TEXT = { a: "Check my date", b: "See my free preview" } as const;
+export const CTA_TEXT = { a: "Check my date", b: "Start my invitation" } as const;
 export type CtaVariant = keyof typeof CTA_TEXT;
 
 export function getCtaVariant(): CtaVariant {
