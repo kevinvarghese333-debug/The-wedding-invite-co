@@ -295,7 +295,7 @@ export function PaperHero({ chat }: { chat: string }) {
       </picture>
       <picture>
         <source media="(max-width: 640px)" srcSet={NO_IMAGE} />
-        <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/opt/lotus-380.webp" alt="" aria-hidden />
+        <img className="pc-cut pc-float d2" id="pc-lotus" src="/media/opt/lotus-380.webp" srcSet="/media/opt/lotus-200.webp 200w, /media/opt/lotus-380.webp 380w" sizes="(max-width: 640px) 90px, 180px" alt="" aria-hidden />
       </picture>
       <img className="pc-cut pc-float d3" id="pc-camera" src="/media/opt/camera-360.webp" srcSet="/media/opt/camera-240.webp 240w, /media/opt/camera-360.webp 360w" sizes="(max-width: 640px) 82px, 180px" alt="" aria-hidden />
       <img className="pc-cut pc-float d4" id="pc-ringbox" src="/media/opt/ringbox-320.webp" srcSet="/media/opt/ringbox-210.webp 210w, /media/opt/ringbox-320.webp 320w" sizes="(max-width: 640px) 70px, 160px" alt="" aria-hidden />
@@ -324,7 +324,7 @@ export function PaperHero({ chat }: { chat: string }) {
           </div>
           <div className="pc-env-front" />
           <div className="pc-flap" />
-          <div className="pc-seal"><img src="/media/opt/seal-300.webp" alt="" width={300} height={300} /></div>
+          <div className="pc-seal"><img src="/media/opt/seal-300.webp" srcSet="/media/opt/seal-160.webp 160w, /media/opt/seal-300.webp 300w" sizes="(max-width: 640px) 80px, 110px" alt="" width={300} height={300} /></div>
         </div>
       </div>
       <div className="pc-dawn" aria-hidden />

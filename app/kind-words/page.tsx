@@ -2,6 +2,9 @@ import { Logo } from "@/components/landing/art";
 import { KindWordsForm } from "@/components/landing/kind-words-form";
 import { STUDIO } from "@/lib/config";
 
+// Rendered per request so canonical and share links use the live SITE_URL.
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Share your words", // the site adds " · The Wedding Invite Co."
   description: "Tell us how your invitation went. We'd love to share it with couples who are planning theirs.",

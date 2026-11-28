@@ -27,7 +27,7 @@
   --clay: #e6bf96; /* Champagne */
   --clay-foreground: #3a0d12;
   --clay-soft: #f4dfd2;
-  --clay-ink: #9a6a2c;
+  --clay-ink: #805622; /* darkened from #9a6a2c so small gold text passes contrast */
   --forest-2: #55101a;
 }
 

@@ -1,18 +1,33 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+// Fonts are served from our own server (no render-blocking request to Google).
+import "@fontsource/cormorant-garamond/400.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/400-italic.css";
+import "@fontsource/cormorant-garamond/500-italic.css";
+import "@fontsource/dm-sans/400.css";
+import "@fontsource/dm-sans/500.css";
+import "@fontsource/dm-sans/600.css";
+import "@fontsource/dm-sans/400-italic.css";
+import "@fontsource/mrs-saint-delafield/400.css";
+import "@fontsource/anton/400.css";
+import "@fontsource/dm-serif-display/400.css";
+import "@fontsource/bodoni-moda/400.css";
+import "@fontsource/pinyon-script/400.css";
 import "./globals.css";
 
-const siteUrl = process.env.SITE_URL || "http://localhost:3000";
-
-export const metadata: Metadata = {
+/* Built per request, so the real SITE_URL from .env is used (not the build-time default). */
+export async function generateMetadata(): Promise<Metadata> {
+  const siteUrl = (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  return {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",
+    default: "Kerala Wedding Invitation Websites · The Wedding Invite Co.",
     template: "%s · The Wedding Invite Co.",
   },
   description:
     "Kerala wedding invitation websites sent on WhatsApp: every function, maps, RSVP and your story in one link. Make your own from ₹1,999, or let us design it.",
-  alternates: { canonical: siteUrl },
   openGraph: {
     title: "Wedding Invitation Websites in Kerala · The Wedding Invite Co.",
     description: "Custom wedding invitation websites sent on WhatsApp: every function, maps and RSVP in one link. From ₹4,999.",
@@ -27,7 +42,8 @@ export const metadata: Metadata = {
     description: "Custom wedding invitation websites sent on WhatsApp: every function, maps and RSVP in one link. From ₹4,999.",
     images: ["/og.jpg"],
   },
-};
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#F8F1EA",
@@ -36,15 +52,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display&family=Bodoni+Moda:opsz,wght@6..96,400&family=Pinyon+Script&family=Mrs+Saint+Delafield&family=Anton&display=swap"
-        />
-      </head>
       <body>
         {children}
         {process.env.META_PIXEL_ID ? (

@@ -49,8 +49,8 @@ function LinkCard({ k }: { k: keyof typeof LINKS }) {
       </div>
       <div className="px-2.5 py-2">
         <p className="text-[13px] font-semibold text-[#111b21]">{l.title}</p>
-        <p className="text-[11.5px] text-[#54656f]">{l.sub}</p>
-        <p className="text-[11px] text-[#54656f]/80">{l.url}</p>
+        <p className="text-[11.5px] text-[#3f4d54]">{l.sub}</p>
+        <p className="text-[11px] text-[#4a5960]">{l.url}</p>
       </div>
     </div>
   );
@@ -74,7 +74,7 @@ function Chat({ chat }: { chat: (typeof CHATS)[number] }) {
           return (
             <div key={i} className={`relative max-w-[82%] rounded-lg px-2 pt-1.5 pb-1 text-[14px] leading-snug text-[#111b21] shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] ${out ? "self-end bg-[#d9fdd3]" : "self-start bg-white"} ${"react" in m && m.react ? "mb-3" : ""}`}>
               {"link" in m ? <LinkCard k={m.link} /> : <p className="px-1">{m.text}</p>}
-              <p className="mt-0.5 flex items-center justify-end gap-1 text-[10.5px] text-[#667781]">
+              <p className="mt-0.5 flex items-center justify-end gap-1 text-[10.5px] text-[#4f5f66]">
                 {m.time}
                 {out ? <CheckCheck className="size-3.5 text-[#53bdeb]" aria-hidden /> : null}
               </p>

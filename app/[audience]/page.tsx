@@ -13,6 +13,9 @@ import { SAMPLES, sampleHref } from "@/lib/samples";
 import { publicWhatsApp, siteUrl, STUDIO } from "@/lib/config";
 import { whatsappHref } from "@/lib/whatsapp";
 
+// Rendered per request so canonical and share links use the live SITE_URL.
+export const dynamic = "force-dynamic";
+
 export const dynamicParams = false;
 export function generateStaticParams() {
   return AUDIENCES.map((a) => ({ audience: a.slug }));

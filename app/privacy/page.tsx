@@ -1,7 +1,10 @@
 import { Logo } from "@/components/landing/art";
 import { STUDIO } from "@/lib/config";
 
-export const metadata = { title: { absolute: `Privacy · ${STUDIO}` }, description: "How The Wedding Invite Co. stores, protects and deletes couples' details and their guests' names, phone numbers and RSVPs." };
+// Rendered per request so canonical and share links use the live SITE_URL.
+export const dynamic = "force-dynamic";
+
+export const metadata = { title: { absolute: `Privacy · ${STUDIO}` }, alternates: { canonical: "/privacy" }, description: "How The Wedding Invite Co. stores, protects and deletes couples' details and their guests' names, phone numbers and RSVPs." };
 
 export default function Privacy() {
   const sections: [string, string[]][] = [

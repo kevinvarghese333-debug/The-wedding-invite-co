@@ -18,7 +18,11 @@ type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ p?: stri
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const d = findDesign(id) ?? findTemplate(id);
-  return { title: d ? `${d.name} wedding invitation` : "Design", description: d?.blurb };
+  if (!d) return { title: "Design" };
+  // Search results show about 155 characters: trim long blurbs at a word, and give short ones a reason to click.
+  let description = d.blurb.length > 155 ? d.blurb.slice(0, 152).replace(/\s+\S*$/, "") + "…" : d.blurb;
+  if (description.length < 70) description += " Design it yourself for free, pay only to publish.";
+  return { title: `${d.name} wedding invitation`, description, alternates: { canonical: `${builderUrl()}/d/${d.id}` } };
 }
 
 const PLAN: [React.ReactNode, string][] = [

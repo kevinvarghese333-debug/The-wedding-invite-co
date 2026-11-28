@@ -11,7 +11,7 @@ export function BuilderHeader({ base, active }: { base: string; active?: "design
   return (
     <header className="bg-background/90 sticky top-0 z-30 border-b backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <Link href={`${base}/`} aria-label="Invitation builder home" className="flex min-w-0 items-center gap-2">
+        <Link href={`${base}/`} className="flex min-w-0 items-center gap-2">
           <Logo name={STUDIO} />
           <span className="bg-clay-soft text-clay-ink hidden rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-wide uppercase sm:inline">Builder</span>
         </Link>

@@ -10,11 +10,16 @@ import { DESIGNS, designThumb } from "@/lib/builder/designs";
 import { TEMPLATES } from "@/lib/builder/templates";
 import { getBase, simplePrice, storyPrice, support } from "@/lib/builder/server";
 import { SupportSection } from "@/components/builder/support";
-import { publicWhatsApp, siteUrl } from "@/lib/config";
+import { builderUrl, publicWhatsApp, siteUrl } from "@/lib/config";
 import { whatsappHref } from "@/lib/whatsapp";
 import { rupees } from "@/lib/format";
 
-export const metadata = { title: { absolute: "Wedding Invitation Website Maker · Design It Yourself · The Wedding Invite Co." } };
+export function generateMetadata() {
+  return {
+    title: { absolute: "Wedding Invitation Website Maker · The Wedding Invite Co." },
+    alternates: { canonical: builderUrl() },
+  };
+}
 
 const INCLUDED: [React.ReactNode, string, string][] = [
   [<Sparkles key="a" />, "An opening guests tap", "Temple doors, a sealed envelope or a night sky, before the invitation unfolds."],

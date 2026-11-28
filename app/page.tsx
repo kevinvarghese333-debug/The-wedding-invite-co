@@ -44,6 +44,11 @@ import { MotionGate } from "@/components/landing/motion-gate";
 import { CtaText, WhatsAppButton } from "@/components/landing/cta";
 import { AUDIENCES } from "@/lib/audiences";
 
+// The home page names itself as the canonical address (other pages set their own).
+export function generateMetadata() {
+  return { alternates: { canonical: `${(process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "")}/` } };
+}
+
 const rupeesPlain = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 export const dynamic = "force-dynamic";
@@ -297,7 +302,7 @@ export default function Home() {
               ) : null}
               <div>
                 <span className="heading block text-[22px] leading-tight font-normal text-[#4A0F16] italic">{st.founder_name}</span>
-                <span className="mt-1 block text-[10.5px] tracking-[0.28em] text-[#9A6A2C] uppercase">{founderLabel}</span>
+                <span className="mt-1 block text-[10.5px] tracking-[0.28em] text-[#805622] uppercase">{founderLabel}</span>
               </div>
             </div>
           }
@@ -693,7 +698,7 @@ export default function Home() {
             ) : null}
             <p className="text-clay-ink text-[34px] leading-none" style={{ fontFamily: "'Mrs Saint Delafield', cursive" }}>Made with love</p>
             <p className="heading text-[19px] leading-tight font-normal text-[#4A0F16] italic">{st.founder_name}</p>
-            <p className="-mt-1 text-[10.5px] tracking-[0.28em] text-[#9A6A2C] uppercase">{founderLabel}</p>
+            <p className="-mt-1 text-[10.5px] tracking-[0.28em] text-[#805622] uppercase">{founderLabel}</p>
             {st.instagram_url ? (
               <a href={st.instagram_url} target="_blank" rel="noopener" className="text-foreground mt-1 inline-flex items-center gap-1.5 text-sm font-medium underline underline-offset-4">
                 <Instagram className="size-4" aria-hidden /> Follow our invitations on Instagram
