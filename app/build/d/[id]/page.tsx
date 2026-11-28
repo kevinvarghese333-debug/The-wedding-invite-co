@@ -6,7 +6,8 @@ import { BuilderFooter, BuilderHeader } from "@/components/builder/header";
 import { PriceTag } from "@/components/builder/price-tag";
 import { AddonPicker, LinksDemo } from "@/components/builder/funnel";
 import { SupportSection } from "@/components/builder/support";
-import { findDesign } from "@/lib/builder/designs";
+import { designThumb, findDesign } from "@/lib/builder/designs";
+import { LivePreview } from "@/components/builder/live-preview";
 import { findTemplate } from "@/lib/builder/templates";
 import { getBase, prices, support } from "@/lib/builder/server";
 import { startDesign } from "@/app/build/actions";
@@ -53,7 +54,7 @@ export default async function DesignPage({ params, searchParams }: Props) {
       <main className="mx-auto grid max-w-6xl gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[400px_1fr] lg:py-12">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div className="mx-auto h-[740px] max-h-[calc(100dvh-160px)] w-full max-w-[380px] overflow-hidden rounded-[42px] border-[10px] border-[#2a0a0e] bg-white shadow-[0_30px_60px_rgba(74,15,22,0.2)]">
-            <iframe src={preview} title={`${d.name}: sample invitation`} className="size-full border-0" allow="autoplay" />
+            <LivePreview src={preview} poster={design ? designThumb(design.id) : undefined} title={`${d.name}: sample invitation`} />
           </div>
           <p className="mt-3 text-center">
             <a href={preview} target="_blank" rel="noopener" className="text-muted-foreground inline-flex items-center gap-1.5 text-sm font-medium hover:underline">

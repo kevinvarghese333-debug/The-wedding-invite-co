@@ -38,6 +38,7 @@ function DotHeadline() {
     let visible = true;
     let live = false; // the wandering glow starts once the page has loaded (or on the first scroll or touch)
     let lastFrame = 0;
+    let liveAt = 0;
     const coarse = window.matchMedia("(pointer: coarse)").matches; // phones: 30 frames a second is plenty
 
     const build = () => {
@@ -130,6 +131,8 @@ function DotHeadline() {
         ctx.fill();
         }
       }
+      // phones: the glow makes one pass after the page loads, then rests until a finger touches the headline
+      if (coarse && !hovering && (!live || now - liveAt > 6000)) { live = false; return; }
       if (visible && !reduce) raf = requestAnimationFrame(draw);
     };
 
@@ -150,7 +153,7 @@ function DotHeadline() {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(base!, 0, 0);
       if (reduce) return;
-      stopWaiting = afterLoadOrScroll(() => { live = true; kick(); });
+      stopWaiting = afterLoadOrScroll(() => { live = true; liveAt = performance.now(); kick(); });
       let lastW = W;
       ro = new ResizeObserver(() => { if (el.clientWidth !== lastW) { lastW = el.clientWidth; build(); kick(); } });
       ro.observe(el);

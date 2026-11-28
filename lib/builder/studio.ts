@@ -179,6 +179,8 @@ export type StudioOpts = {
   image?: string;
   pageUrl?: string;
   rsvpUrl?: string;
+  /** where the design's own "Made by The Wedding Invite Co." line should link, on published invitations */
+  brandUrl?: string;
 };
 
 const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
@@ -278,6 +280,13 @@ export function renderStudio(design: Design, html: string, config: Config, o: St
   const tag = new RegExp(`<script([^>]*)\\ssrc="(?:\\./)?${file}(?:\\?[^"]*)?"([^>]*)>\\s*</script>`, "i");
   const inline = `<script>window.${design.var} = ${json};</script>`;
   out = tag.test(out) ? out.replace(tag, inline) : out.replace(/<\/head>/i, `${inline}\n</head>`);
+
+  // The design's own credit line becomes a link, so guests who like it can find us.
+  if (o.brandUrl)
+    out = out.replace(
+      /(Made (?:with love )?by |Made with love · )The Wedding Invite Co\./,
+      `$1<a href="${h(o.brandUrl)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">The Wedding Invite Co.</a>`
+    );
 
   if (o.mode === "preview")
     out = out.replace(

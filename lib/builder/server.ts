@@ -198,6 +198,7 @@ export function renderSite(s: Site, mode: RenderMode, link?: GuestLink) {
       image: `${siteUrl()}${designThumb(design.id).replace(".jpg", "-og.jpg")}`,
       pageUrl: s.slug ? liveUrl(s.slug) + (link ? `/${link.code}` : "") : undefined,
       rsvpUrl,
+      brandUrl: mode === "live" ? `${siteUrl()}/?utm_source=invite&utm_medium=credit&utm_campaign=${design.id}` : undefined,
     }).replace(/<\/body>/i, `${link?.greeting ? greetingBanner(link.greeting) : ""}</body>`);
   }
   let data = which === "live" ? liveData(s) : siteData(s);
